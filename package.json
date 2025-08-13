@@ -19,7 +19,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "prisma:reset": "prisma migrate reset",
-    "prisma:prod:deploy": "dotenv -e .env.production -- prisma migrate deploy"
+    "prisma:prod:deploy": "dotenv -e .env.production -- prisma migrate deploy",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.15",
