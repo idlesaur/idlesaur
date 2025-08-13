@@ -6,6 +6,9 @@ const meta = {
     component: Home,
     title: 'Pages/Home',
     decorators: [],
+    args: {
+        posts: [],
+    },
 } satisfies Meta<typeof Home>;
 
 export default meta;

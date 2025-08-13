@@ -11,4 +11,5 @@ export const GAME_SAVE_KEY: string = 'gamesave';
 export enum Routes {
     HOME = '/',
     GAME = '/game',
+    POST = '/post/:id',
 }

@@ -44,3 +44,5 @@ next-env.d.ts
 .eslintcache
 *storybook.log
 storybook-static
+
+/src/generated/prisma

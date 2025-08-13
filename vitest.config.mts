@@ -8,7 +8,14 @@ export default defineConfig({
         coverage: {
             enabled: true,
             include: ['src/**'],
-            exclude: ['**/*.stories.*', '**/*.test.*', 'src/app/**'],
+            exclude: [
+                '**/*.stories.*',
+                '**/*.test.*',
+                'src/app/**',
+                'src/generated/**',
+                'src/types.ts',
+                'src/prisma.ts',
+            ],
             thresholds: {
                 functions: 95,
                 branches: 93,

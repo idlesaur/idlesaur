@@ -13,6 +13,9 @@ const config: StorybookConfig = {
         name: '@storybook/nextjs',
         options: {},
     },
+    core: {
+        disableTelemetry: true,
+    },
     webpackFinal: async (config) => {
         if (config.resolve) {
             config.resolve.alias = {
