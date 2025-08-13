@@ -34,7 +34,7 @@ describe('Home page', () => {
         render(Home);
 
         expect(
-            screen.getByRole('heading', { level: 1, name: 'Idle Game' }),
+            screen.getByRole('heading', { level: 1, name: 'Idlesaur' }),
         ).toBeDefined();
         expect(prisma.post.findMany).toHaveBeenCalledWith({
             orderBy: { createdAt: 'desc' },

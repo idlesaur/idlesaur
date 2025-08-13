@@ -26,7 +26,7 @@ export interface HomePageComponentProps {
 export const Home = ({ posts }: HomePageComponentProps) => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-            <Heading>Idle Game</Heading>
+            <Heading>Idlesaur</Heading>
             <LinkButton href={Routes.GAME}>Play</LinkButton>
             <div className="mt-40 flex flex-col items-center justify-center gap-3">
                 <Heading level={2}>News</Heading>

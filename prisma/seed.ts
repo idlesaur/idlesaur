@@ -4,12 +4,12 @@ const prisma = new PrismaClient();
 
 const userData: Prisma.UserCreateInput[] = [
     {
-        name: 'IdleSaur',
+        name: 'Idlesaur',
         email: 'idlesaurgame@gmail.com',
         posts: {
             create: [
                 {
-                    title: 'Welcome to IdleSaur!',
+                    title: 'Welcome to Idlesaur!',
                     content:
                         'Welcome to the future place of an online idle game.  More to come soon!',
                     published: true,
