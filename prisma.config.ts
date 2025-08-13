@@ -1,7 +1,8 @@
-import { defineConfig } from 'prisma/config';
+import 'dotenv/config';
+import { PrismaConfig } from 'prisma';
 
-export default defineConfig({
+export default {
     migrations: {
         seed: `tsx prisma/seed.ts`,
     },
-});
+} satisfies PrismaConfig;

@@ -15,16 +15,17 @@
     "prepush": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prisma:generate": "npx prisma generate",
-    "prisma:migrate": "npx prisma migrate dev",
-    "prisma:studio": "npx prisma studio",
-    "prisma:reset": "npx prisma migrate reset"
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "prisma:reset": "prisma migrate reset"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.15",
     "@prisma/adapter-pg": "^6.14.0",
     "@prisma/client": "^6.14.0",
     "@prisma/extension-accelerate": "^2.0.2",
+    "dotenv": "^17.2.1",
     "next": "15.4.3",
     "next-auth": "^4.24.11",
     "pg": "^8.16.3",
