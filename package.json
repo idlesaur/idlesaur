@@ -18,7 +18,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:reset": "prisma migrate reset"
+    "prisma:reset": "prisma migrate reset",
+    "prisma:prod:deploy": "dotenv -e .env.production -- prisma migrate deploy"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.15",
@@ -57,6 +58,7 @@
     "@vitest/browser": "3.2.4",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.33.0",
     "eslint-config-next": "15.4.3",
     "eslint-plugin-storybook": "^9.1.2",
