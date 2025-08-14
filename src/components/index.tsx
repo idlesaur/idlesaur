@@ -5,4 +5,3 @@ export * from './LoadingIndicator';
 export * from './SignInButton';
 export * from './SignOutButton';
 export * from './TopBar';
-export * from './UserButton';

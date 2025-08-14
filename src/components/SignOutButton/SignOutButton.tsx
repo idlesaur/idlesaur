@@ -10,7 +10,6 @@ export const SignOutButton = (
     return (
         <Button
             variant="secondary"
-            className="w-full p-0"
             {...props}
             onClick={async () => await signOut()}
         >

@@ -30,6 +30,6 @@ describe('<SignInButton />', () => {
         fireEvent.click(button);
 
         expect(signIn).toHaveBeenCalledTimes(1);
-        expect(signIn).toHaveBeenCalledWith('github');
+        expect(signIn).toHaveBeenCalledWith();
     });
 });

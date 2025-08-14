@@ -3,7 +3,7 @@
 import { Post } from '@/generated/prisma';
 import { Routes } from '@/constants';
 import { LinkButton, Heading } from '@/components/ui';
-import { UserButton } from '@/components';
+import { SignInButton, SignOutButton } from '@/components';
 import { useSession } from 'next-auth/react';
 
 export interface PostPreviewProps {
@@ -30,10 +30,11 @@ export const Home = ({ posts }: HomePageComponentProps) => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-3">
             <Heading>Idlesaur</Heading>
-            {status !== 'authenticated' && <UserButton isLoggedIn={false} />}
+            {status !== 'authenticated' && <SignInButton />}
             {status === 'authenticated' && (
                 <>
                     <div>Logged in as: {data.user?.name}</div>
+                    <SignOutButton />
                     <LinkButton href={Routes.GAME}>Play</LinkButton>
                 </>
             )}

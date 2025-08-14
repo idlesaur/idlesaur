@@ -5,5 +5,5 @@ import React from 'react';
 import { Button } from '@/components/ui';
 
 export const SignInButton = () => {
-    return <Button onClick={() => signIn('github')}>Sign In</Button>;
+    return <Button onClick={() => signIn()}>Sign In</Button>;
 };
