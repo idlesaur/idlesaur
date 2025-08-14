@@ -4,6 +4,7 @@ import { Post } from '@/generated/prisma';
 import { Routes } from '@/constants';
 import { LinkButton, Heading } from '@/components/ui';
 import { UserButton } from '@/components';
+import { useSession } from 'next-auth/react';
 
 export interface PostPreviewProps {
     post: Post;
@@ -25,10 +26,18 @@ export interface HomePageComponentProps {
 }
 
 export const Home = ({ posts }: HomePageComponentProps) => {
+    const { status, data } = useSession();
     return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-3">
             <Heading>Idlesaur</Heading>
-            <UserButton isLoggedIn={false} />
+            {status !== 'authenticated' && <UserButton isLoggedIn={false} />}
+            {status === 'authenticated' && (
+                <>
+                    <div>Logged in as: {data.user?.name}</div>
+                    <LinkButton href={Routes.GAME}>Play</LinkButton>
+                </>
+            )}
+
             <div className="mt-40 flex flex-col items-center justify-center gap-3">
                 <Heading level={2}>News</Heading>
                 <div className="flex flex-row items-center justify-start gap-3">
