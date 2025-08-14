@@ -3,6 +3,7 @@
 import { Post } from '@/generated/prisma';
 import { Routes } from '@/constants';
 import { LinkButton, Heading } from '@/components/ui';
+import { UserButton } from '@/components';
 
 export interface PostPreviewProps {
     post: Post;
@@ -27,7 +28,7 @@ export const Home = ({ posts }: HomePageComponentProps) => {
     return (
         <div className="flex min-h-screen flex-col items-center justify-center gap-3">
             <Heading>Idlesaur</Heading>
-            <LinkButton href={Routes.GAME}>Play</LinkButton>
+            <UserButton isLoggedIn={false} />
             <div className="mt-40 flex flex-col items-center justify-center gap-3">
                 <Heading level={2}>News</Heading>
                 <div className="flex flex-row items-center justify-start gap-3">
