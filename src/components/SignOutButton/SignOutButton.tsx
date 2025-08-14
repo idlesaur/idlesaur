@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react';
 import React from 'react';
 import { Button } from '@/components/ui';
 
-export const SignOutButton = async (
+export const SignOutButton = (
     props: React.ComponentPropsWithRef<typeof Button>,
 ) => {
     return (
