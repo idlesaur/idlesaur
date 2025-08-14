@@ -1,6 +1,6 @@
 import { expect, describe, vi, beforeEach, it } from 'vitest';
 import { screen } from '@testing-library/react';
-import { render } from '@/test/util';
+import { getRender } from '@/test/util';
 import { prisma } from '@/prisma';
 
 import Page from './page';
@@ -19,6 +19,8 @@ describe('Home page', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
+
+    const render = getRender();
 
     it('fetches posts ordered by createdAt desc', async () => {
         const mockPosts = [
