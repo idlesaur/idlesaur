@@ -1,4 +1,4 @@
-# Idle Game
+# Idlesaur
 
 A free and open-source idle/incremental game that runs in your browser.
 

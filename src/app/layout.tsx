@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: 'Idle Game',
-    description: 'Game.',
+    title: 'Idlesaur',
+    description: 'Idle Dinosaur Game.',
 };
 
 export default function RootLayout({

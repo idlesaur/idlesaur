@@ -13,7 +13,6 @@ const userData: Prisma.UserCreateInput[] = [
                     content:
                         'Welcome to the future place of an online idle game.  More to come soon!',
                     published: true,
-                    createdAt: new Date(1755100047238),
                 },
             ],
         },
