@@ -5,5 +5,9 @@ import React from 'react';
 import { Button } from '@/components/ui';
 
 export const SignInButton = () => {
-    return <Button onClick={() => signIn()}>Sign In</Button>;
+    return (
+        <Button onClick={() => signIn(undefined, { redirectTo: '/game' })}>
+            Sign In
+        </Button>
+    );
 };

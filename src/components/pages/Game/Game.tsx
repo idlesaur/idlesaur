@@ -1,7 +1,16 @@
+'use client';
+
 import { AutoSave, Game as GameContent, GameTick, TopBar } from '@/components';
 import { GameStateProvider } from '@/state/providers';
+import { useSession } from 'next-auth/react';
 
 export const Game = () => {
+    const { data } = useSession();
+
+    if (!data?.user) {
+        return null;
+    }
+
     return (
         <GameStateProvider>
             <AutoSave />
