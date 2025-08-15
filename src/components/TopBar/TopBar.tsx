@@ -5,6 +5,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { PiBone } from 'react-icons/pi';
 import { formatNumber } from '@/util';
 import { useCurrency } from '@/hooks/useCurrency';
+import { SignOutButton } from '@/components';
 
 interface ResourceDisplayProps {
     value: number;
@@ -32,6 +33,9 @@ export const TopBar = () => {
             <ResourceDisplay value={bones}>
                 <PiBone />
             </ResourceDisplay>
+            <div>
+                <SignOutButton />
+            </div>
         </div>
     );
 };

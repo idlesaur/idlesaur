@@ -12,6 +12,7 @@ export const SignOutButton = (
             variant="secondary"
             {...props}
             onClick={async () => await signOut()}
+            className="w-24 p-0"
         >
             Sign Out
         </Button>
