@@ -3,17 +3,9 @@
 import React from 'react';
 import { PiBone } from 'react-icons/pi';
 import { PriceButton } from '@/components/Game';
-import { useGameState, useGameStateDispatch } from '@/state/hooks';
-import { addBones } from '@/state/actions';
-import { getBonesPerClick } from '@/util';
 
 export const BoneButton = () => {
-    const gameState = useGameState();
-    const dispatch = useGameStateDispatch();
-
-    const handleOnClick = (): void => {
-        dispatch(addBones(getBonesPerClick(gameState)));
-    };
+    const handleOnClick = (): void => {};
 
     return (
         <PriceButton

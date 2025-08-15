@@ -7,7 +7,7 @@ import { Heading, Tooltip } from '@/components/ui';
 import { useGameState, useGameStateDispatch } from '@/state/hooks';
 import { buildDino, purchaseDinoCapacity } from '@/state/actions';
 import { GameCard } from '@/components/Game/GameCard';
-import { formatNumber, getDinoCapacityUpgradeCost, getDinoCost } from '@/util';
+import { formatNumber } from '@/util';
 import { Dino } from '@/state/types';
 import { PiBone } from 'react-icons/pi';
 import { DinoStats, PriceButton } from '@/components';
@@ -30,10 +30,12 @@ export const DinoIcon = ({ dino }: DinoIconProps) => {
 export const DinoSystemCard = () => {
     const dispatch = useGameStateDispatch();
     const gameState = useGameState();
-    const { bones, maxDinos, dinos } = gameState;
+    const maxDinos = 0;
+    const dinos: Dino[] = [];
+    const { bones } = gameState;
 
-    const dinoCost = getDinoCost(gameState);
-    const capacityCost = getDinoCapacityUpgradeCost(gameState);
+    const dinoCost = 9001;
+    const capacityCost = 0;
     const canAffordDino = bones >= dinoCost;
     const hasDinoCapacity = maxDinos > dinos.length;
     const canBuildDino = canAffordDino && hasDinoCapacity;

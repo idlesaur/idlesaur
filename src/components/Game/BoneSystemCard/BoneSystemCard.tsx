@@ -3,36 +3,30 @@
 import React, { useCallback } from 'react';
 import { PiBone } from 'react-icons/pi';
 
-import { BoneButton } from '@/components/Game';
-import { PriceButton } from '@/components/Game';
-import { useGameState, useGameStateDispatch } from '@/state/hooks';
-import { formatNumber, getBoneDiggerCost } from '@/util';
-import { purchaseBoneDiggers } from '@/state/actions';
-import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-import { GameCard } from '@/components/Game/GameCard';
+import { BoneButton, GameCard, PriceButton } from '@/components/Game';
+import { formatNumber } from '@/util';
+import { useCurrency } from '@/hooks/useCurrency';
 
 export const BoneSystemCard = () => {
-    const gameState = useGameState();
-    const { bones, boneDiggers } = gameState;
-    const dispatch = useGameStateDispatch();
+    const { bones } = useCurrency();
 
-    const boneDiggerCost = getBoneDiggerCost(gameState);
+    const boneDiggerCost = 123;
     const canAffordBoneDigger = bones >= boneDiggerCost;
-    const bonesPerSecondFromDiggers =
-        boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER;
+    // const bonesPerSecondFromDiggers =
+    //     boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER;
 
     const handlePurchaseBoneDiggers = useCallback(() => {
-        dispatch(purchaseBoneDiggers());
-    }, [dispatch]);
+        // dispatch(purchaseBoneDiggers());
+    }, []);
 
     return (
         <GameCard icon={<PiBone />} title="Dino-bones">
             <div className="">Bones: {formatNumber(bones)}</div>
-            <div className="">
-                Bone-diggers: {boneDiggers} (
-                {formatNumber(bonesPerSecondFromDiggers)} bones/ sec)
-            </div>
             <BoneButton />
+            {/*<div className="">*/}
+            {/*    Bone-diggers: {boneDiggers} (*/}
+            {/*    {formatNumber(bonesPerSecondFromDiggers)} bones/ sec)*/}
+            {/*</div>*/}
             <PriceButton
                 icon={<PiBone />}
                 price={formatNumber(boneDiggerCost)}

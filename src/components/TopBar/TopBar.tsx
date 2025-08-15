@@ -3,8 +3,8 @@
 import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { PiBone } from 'react-icons/pi';
-import { useGameState } from '@/state/hooks';
 import { formatNumber } from '@/util';
+import { useCurrency } from '@/hooks/useCurrency';
 
 interface ResourceDisplayProps {
     value: number;
@@ -21,7 +21,7 @@ const ResourceDisplay = ({ value, children }: ResourceDisplayProps) => {
 };
 
 export const TopBar = () => {
-    const { bones } = useGameState();
+    const { bones } = useCurrency();
 
     return (
         <div

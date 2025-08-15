@@ -3,18 +3,26 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/prisma';
+import { getFullUserData } from '@/server/util';
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
     providers: [GitHub, Google],
     callbacks: {
         async session({ session, user }) {
-            // Merge custom DB fields into the session
-            if (session.user) {
-                session.user.id = user.id;
-                // session.user.role = (user as any).role;
-                // session.user.theme = (user as any).theme;
+            if (!user?.id) return session;
+
+            const dbUser = await getFullUserData(user.id);
+
+            if (dbUser) {
+                session.user = {
+                    ...session.user,
+                    id: dbUser.id,
+                    profile: dbUser.profile,
+                    currency: dbUser.currency,
+                };
             }
+
             return session;
         },
     },
