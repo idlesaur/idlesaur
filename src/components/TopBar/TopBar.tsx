@@ -33,7 +33,7 @@ export const TopBar = () => {
             <ResourceDisplay value={bones}>
                 <PiBone />
             </ResourceDisplay>
-            <div>
+            <div className="ml-auto">
                 <SignOutButton />
             </div>
         </div>

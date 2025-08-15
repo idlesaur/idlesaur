@@ -27,7 +27,11 @@ export const GameStateProvider = ({
     );
 
     if (status === 'loading') {
-        return <LoadingIndicator />;
+        return (
+            <div className="flex min-h-screen w-screen flex-col items-center justify-center">
+                <LoadingIndicator />
+            </div>
+        );
     }
 
     return (
