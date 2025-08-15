@@ -5,7 +5,7 @@ import { GiDinosaurRex } from 'react-icons/gi';
 
 import { Heading, Tooltip } from '@/components/ui';
 import { useGameState, useGameStateDispatch } from '@/state/hooks';
-import { buildDino, purchaseDinoCapacity } from '@/state/actions';
+// import { buildDino, purchaseDinoCapacity } from '@/state/actions';
 import { GameCard } from '@/components/Game/GameCard';
 import { formatNumber } from '@/util';
 import { Dino } from '@/state/types';
@@ -41,11 +41,11 @@ export const DinoSystemCard = () => {
     const canBuildDino = canAffordDino && hasDinoCapacity;
 
     const handleGrowDinosaurClicked = useCallback(() => {
-        dispatch(buildDino());
+        // dispatch(buildDino());
     }, [dispatch]);
 
     const handleIncreaseCapacityClicked = useCallback(() => {
-        dispatch(purchaseDinoCapacity());
+        // dispatch(purchaseDinoCapacity());
     }, [dispatch]);
     const canIncreaseCapacity = bones >= capacityCost;
 

@@ -1,17 +1,26 @@
 'use client';
 
-// import React from 'react';
-import React, { useActionState, startTransition } from 'react';
+import React, { useActionState, startTransition, useEffect } from 'react';
 import { PiBone } from 'react-icons/pi';
 import { PriceButton } from '@/components/Game';
 import { dig } from '@/app/actions';
+import { useGameStateDispatch } from '@/state/hooks';
+import { setBones } from '@/state/actions';
 
 export const BoneButton = () => {
     const [state, action, pending] = useActionState(dig, null);
-    console.log('state', state);
+    const dispatch = useGameStateDispatch();
+
+    useEffect(() => {
+        if (!state?.totalBones) {
+            return;
+        }
+        dispatch(setBones(state.totalBones));
+    }, [dispatch, state?.totalBones]);
+
     return (
         <PriceButton
-            onClick={async () => startTransition(action)}
+            onClick={() => startTransition(action)}
             icon={<PiBone />}
             text="Dig for bones"
             disabled={pending}

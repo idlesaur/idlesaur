@@ -5,10 +5,10 @@ import { PiBone } from 'react-icons/pi';
 
 import { BoneButton, GameCard, PriceButton } from '@/components/Game';
 import { formatNumber } from '@/util';
-import { useCurrency } from '@/hooks/useCurrency';
+import { useGameState } from '@/state/hooks';
 
 export const BoneSystemCard = () => {
-    const { bones } = useCurrency();
+    const { bones } = useGameState();
 
     const boneDiggerCost = 123;
     const canAffordBoneDigger = bones >= boneDiggerCost;

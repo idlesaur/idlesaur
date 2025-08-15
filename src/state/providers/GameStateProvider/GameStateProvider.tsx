@@ -1,15 +1,12 @@
 'use client';
 
 import React, { ReactNode, useReducer } from 'react';
-import { GAME_SAVE_KEY } from '@/constants';
-import { useLocalStorageState } from '@/hooks/useLocalStorageState';
 import { LoadingIndicator } from '@/components';
 import { gameStateReducer } from '@/state/reducers';
 import { GameStateContext, GameStateDispatchContext } from '@/state/context';
 import { GameState } from '@/state/types';
 import { createGameState } from '@/state/util';
-
-const DEFAULT_STATE: GameState = createGameState();
+import { useSession } from 'next-auth/react';
 
 export interface GameStateProviderProps {
     initialState?: Partial<GameState>;
@@ -20,17 +17,16 @@ export const GameStateProvider = ({
     children,
     initialState,
 }: GameStateProviderProps) => {
-    const [localStorageState, , isHydrated] = useLocalStorageState<GameState>(
-        GAME_SAVE_KEY,
-        DEFAULT_STATE,
-    );
+    const { data: session, status } = useSession();
+
+    const bones = session?.user?.currency?.bones ?? 123;
 
     const [gameState, dispatch] = useReducer(
         gameStateReducer,
-        createGameState(initialState ?? localStorageState),
+        createGameState(initialState ?? { bones }),
     );
 
-    if (!isHydrated) {
+    if (status === 'loading') {
         return <LoadingIndicator />;
     }
 
