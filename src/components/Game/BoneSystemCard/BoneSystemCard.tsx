@@ -10,7 +10,7 @@ import { useGameState } from '@/state/hooks';
 export const BoneSystemCard = () => {
     const { bones } = useGameState();
 
-    const boneDiggerCost = 123;
+    // const boneDiggerCost = 123;
     // const canAffordBoneDigger = bones >= boneDiggerCost;
     // const bonesPerSecondFromDiggers =
     //     boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER;
