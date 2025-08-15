@@ -1,15 +1,15 @@
-import { NextResponse } from 'next/server';
+'use server';
+
 import { auth } from '@/auth';
 import { prisma } from '@/prisma';
+import { revalidatePath } from 'next/cache';
+import { Routes } from '@/constants';
 
-export async function POST() {
+export async function dig() {
     const session = await auth();
 
     if (!session?.user?.id) {
-        return NextResponse.json(
-            { success: false, message: 'Unauthorized' },
-            { status: 401 },
-        );
+        return { success: false, message: 'Unauthorized' };
     }
 
     try {
@@ -21,16 +21,15 @@ export async function POST() {
             data: { bones: { increment: bonesGained } },
         });
 
-        return NextResponse.json({
+        revalidatePath(Routes.GAME);
+
+        return {
             success: true,
             bonesGained,
             totalBones: updatedCurrency.bones,
-        });
+        };
     } catch (error) {
         console.error(error);
-        return NextResponse.json(
-            { success: false, message: 'Server error' },
-            { status: 500 },
-        );
+        return { success: false, message: 'Server error' };
     }
 }
