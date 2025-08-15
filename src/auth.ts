@@ -18,4 +18,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return session;
         },
     },
+    events: {
+        createUser: async ({ user }) => {
+            await prisma.profile.create({
+                data: {
+                    userId: user.id!,
+                    bio: '',
+                },
+            });
+
+            await prisma.currency.create({
+                data: {
+                    userId: user.id!,
+                    bones: 0,
+                },
+            });
+        },
+    },
 });
