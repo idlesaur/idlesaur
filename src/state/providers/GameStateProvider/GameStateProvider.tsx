@@ -36,9 +36,9 @@ export const GameStateProvider = ({
 
     return (
         <GameStateContext.Provider value={gameState}>
-            <GameStateDispatchContext value={dispatch}>
+            <GameStateDispatchContext.Provider value={dispatch}>
                 {children}
-            </GameStateDispatchContext>
+            </GameStateDispatchContext.Provider>
         </GameStateContext.Provider>
     );
 };

@@ -1,15 +1,30 @@
 import React, { useContext } from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { useLocalStorageState } from '@/hooks';
 import { GameStateProvider } from '@/state/providers';
 import { GameStateContext } from '@/state/context';
+import { render } from '@/test/util';
+import * as nextAuth from 'next-auth/react';
 
 vi.mock('@/hooks/useLocalStorageState', { spy: true });
 
 vi.mock('@/components', () => ({
     LoadingIndicator: () => <div data-testid="loading" />,
 }));
+
+// Partial mock
+vi.mock('next-auth/react', async () => {
+    const original: typeof nextAuth = await vi.importActual('next-auth/react');
+    return {
+        ...original, // keep everything else, including SessionProvider
+        useSession: () => ({
+            // mock useSession
+            data: null,
+            status: 'loading',
+        }),
+    };
+});
 
 describe('GameStateProvider', () => {
     const TestConsumer = () => {
