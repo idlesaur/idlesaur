@@ -11,7 +11,10 @@ export const gameStateReducer = (
         case 'game_state/set_bones': {
             return {
                 ...prevState,
-                bones: action.payload ?? 0,
+                bones:
+                    action.payload !== undefined
+                        ? action.payload
+                        : prevState.bones,
             };
         }
         case 'game_state/purchase_bone_digger': {
