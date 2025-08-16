@@ -5,6 +5,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
     plugins: [tsconfigPaths(), react()],
     test: {
+        server: {
+            deps: {
+                inline: ['next'],
+            },
+        },
         coverage: {
             enabled: true,
             include: ['src/**'],

@@ -19,7 +19,7 @@ export const GameStateProvider = ({
 }: GameStateProviderProps) => {
     const { data: session, status } = useSession();
 
-    const bones = session?.user?.currency?.bones ?? 123;
+    const bones = session?.user?.currency?.bones ?? 0;
 
     const [gameState, dispatch] = useReducer(
         gameStateReducer,

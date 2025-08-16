@@ -23,13 +23,13 @@ describe('<SignInButton />', () => {
         ).toBeInTheDocument();
     });
 
-    it('calls signIn with "github" when clicked', () => {
+    it('calls signIn with redirect when clicked', () => {
         render(<SignInButton />);
         const button = screen.getByRole('button', { name: /sign in/i });
 
         fireEvent.click(button);
 
         expect(signIn).toHaveBeenCalledTimes(1);
-        expect(signIn).toHaveBeenCalledWith();
+        expect(signIn).toHaveBeenCalledWith(undefined, { redirectTo: '/game' });
     });
 });

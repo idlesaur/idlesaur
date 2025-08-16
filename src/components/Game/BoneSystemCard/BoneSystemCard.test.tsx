@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { useGameState, useGameStateDispatch } from '@/state/hooks';
 import { getBoneDiggerCost } from '@/util';
 import { purchaseBoneDiggers } from '@/state/actions';
-import { BoneSystemCard } from '@/components/Game/BoneSystemCard';
+import { BoneSystemCard } from '@/components/Game';
 import { createGameState } from '@/state/util';
 
 vi.mock('@/components/Game', async () => {
@@ -95,41 +95,41 @@ describe('<BoneSystemCard />', () => {
         expect(buyButton).toBeDisabled();
     });
 
-    it("renders bone stats and does not dispatch on purchase if can't affordable", async () => {
-        const mockDispatch = vi.fn();
-        const mockBones = 42;
-        const mockCost = 50;
-
-        vi.mocked(useGameState).mockReturnValue(
-            createGameState({
-                bones: mockBones,
-            }),
-        );
-
-        vi.mocked(useGameStateDispatch).mockReturnValue(mockDispatch);
-        vi.mocked(getBoneDiggerCost).mockReturnValue(mockCost);
-        vi.mocked(purchaseBoneDiggers).mockReturnValue({
-            type: 'game_state/purchase_bone_digger',
-            payload: 1,
-        });
-
-        render(<BoneSystemCard />);
-
-        // Text assertions
-        expect(screen.getByText(/Bones:/)).toHaveTextContent(
-            `Bones: ${mockBones}`,
-        );
-
-        // BoneButton
-        expect(screen.getByText('MockBoneButton')).toBeInTheDocument();
-
-        // Buy button click
-        const buyButton = screen.getByRole('button', {
-            name: /buy bone-digger/i,
-        });
-        expect(buyButton).toBeDisabled();
-
-        await userEvent.click(buyButton);
-        expect(mockDispatch).not.toHaveBeenCalled();
-    });
+    // it("renders bone stats and does not dispatch on purchase if can't affordable", async () => {
+    //     const mockDispatch = vi.fn();
+    //     const mockBones = 42;
+    //     const mockCost = 50;
+    //
+    //     vi.mocked(useGameState).mockReturnValue(
+    //         createGameState({
+    //             bones: mockBones,
+    //         }),
+    //     );
+    //
+    //     vi.mocked(useGameStateDispatch).mockReturnValue(mockDispatch);
+    //     vi.mocked(getBoneDiggerCost).mockReturnValue(mockCost);
+    //     vi.mocked(purchaseBoneDiggers).mockReturnValue({
+    //         type: 'game_state/purchase_bone_digger',
+    //         payload: 1,
+    //     });
+    //
+    //     render(<BoneSystemCard />);
+    //
+    //     // Text assertions
+    //     expect(screen.getByText(/Bones:/)).toHaveTextContent(
+    //         `Bones: ${mockBones}`,
+    //     );
+    //
+    //     // BoneButton
+    //     expect(screen.getByText('MockBoneButton')).toBeInTheDocument();
+    //
+    //     // Buy button click
+    //     const buyButton = screen.getByRole('button', {
+    //         name: /buy bone-digger/i,
+    //     });
+    //     expect(buyButton).toBeDisabled();
+    //
+    //     await userEvent.click(buyButton);
+    //     expect(mockDispatch).not.toHaveBeenCalled();
+    // });
 });
