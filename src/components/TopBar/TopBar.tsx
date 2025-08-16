@@ -3,8 +3,9 @@
 import React from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { PiBone } from 'react-icons/pi';
-import { useGameState } from '@/state/hooks';
 import { formatNumber } from '@/util';
+import { SignOutButton } from '@/components';
+import { useGameState } from '@/state/hooks';
 
 interface ResourceDisplayProps {
     value: number;
@@ -32,6 +33,9 @@ export const TopBar = () => {
             <ResourceDisplay value={bones}>
                 <PiBone />
             </ResourceDisplay>
+            <div className="ml-auto">
+                <SignOutButton />
+            </div>
         </div>
     );
 };

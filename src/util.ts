@@ -23,18 +23,6 @@ export const getBonesPerClick = (
     return 1 + gameState.boneDiggers;
 };
 
-export const getDinoCost = (
-    gameState: RequireOnly<GameState, 'dinos'>,
-): number => {
-    return 5000 * gameState.dinos.length + 1000;
-};
-
-export const getDinoCapacityUpgradeCost = (
-    gameState: RequireOnly<GameState, 'maxDinos'>,
-): number => {
-    return 25000 * gameState.maxDinos + 15000;
-};
-
 export const formatNumber = (value: number): string => {
     return Math.floor(value).toLocaleString();
 };

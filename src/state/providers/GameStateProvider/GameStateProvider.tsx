@@ -1,15 +1,12 @@
 'use client';
 
 import React, { ReactNode, useReducer } from 'react';
-import { GAME_SAVE_KEY } from '@/constants';
-import { useLocalStorageState } from '@/hooks/useLocalStorageState';
 import { LoadingIndicator } from '@/components';
 import { gameStateReducer } from '@/state/reducers';
 import { GameStateContext, GameStateDispatchContext } from '@/state/context';
 import { GameState } from '@/state/types';
 import { createGameState } from '@/state/util';
-
-const DEFAULT_STATE: GameState = createGameState();
+import { useSession } from 'next-auth/react';
 
 export interface GameStateProviderProps {
     initialState?: Partial<GameState>;
@@ -20,25 +17,28 @@ export const GameStateProvider = ({
     children,
     initialState,
 }: GameStateProviderProps) => {
-    const [localStorageState, , isHydrated] = useLocalStorageState<GameState>(
-        GAME_SAVE_KEY,
-        DEFAULT_STATE,
-    );
+    const { data: session, status } = useSession();
+
+    const bones = session?.user?.currency?.bones ?? 0;
 
     const [gameState, dispatch] = useReducer(
         gameStateReducer,
-        createGameState(initialState ?? localStorageState),
+        createGameState(initialState ?? { bones }),
     );
 
-    if (!isHydrated) {
-        return <LoadingIndicator />;
+    if (status === 'loading') {
+        return (
+            <div className="flex min-h-screen w-screen flex-col items-center justify-center">
+                <LoadingIndicator />
+            </div>
+        );
     }
 
     return (
         <GameStateContext.Provider value={gameState}>
-            <GameStateDispatchContext value={dispatch}>
+            <GameStateDispatchContext.Provider value={dispatch}>
                 {children}
-            </GameStateDispatchContext>
+            </GameStateDispatchContext.Provider>
         </GameStateContext.Provider>
     );
 };

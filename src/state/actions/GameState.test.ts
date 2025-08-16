@@ -1,19 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import {
-    addBones,
+    setBones,
     purchaseBoneDiggers,
-    buildDino,
+    // buildDino,
 } from '@/state/actions/GameState';
 
-describe('addBones', () => {
+describe('setBones', () => {
     it('returns expected action', () => {
-        expect(addBones(42)).toEqual({
+        expect(setBones(42)).toEqual({
             payload: 42,
-            type: 'game_state/add_bones',
+            type: 'game_state/set_bones',
         });
-        expect(addBones(-1)).toEqual({
+        expect(setBones(-1)).toEqual({
             payload: -1,
-            type: 'game_state/add_bones',
+            type: 'game_state/set_bones',
         });
     });
 });
@@ -31,10 +31,10 @@ describe('purchaseBoneDiggers', () => {
     });
 });
 
-describe('buildDino', () => {
-    it('returns expected action', () => {
-        expect(buildDino()).toEqual({
-            type: 'game_state/build_dino',
-        });
-    });
-});
+// describe('buildDino', () => {
+//     it('returns expected action', () => {
+//         expect(buildDino()).toEqual({
+//             type: 'game_state/build_dino',
+//         });
+//     });
+// });

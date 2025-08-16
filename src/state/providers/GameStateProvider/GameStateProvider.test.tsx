@@ -1,15 +1,24 @@
 import React, { useContext } from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen, waitFor, render } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { useLocalStorageState } from '@/hooks';
 import { GameStateProvider } from '@/state/providers';
 import { GameStateContext } from '@/state/context';
-
-vi.mock('@/hooks/useLocalStorageState', { spy: true });
+import { useSession } from 'next-auth/react';
 
 vi.mock('@/components', () => ({
     LoadingIndicator: () => <div data-testid="loading" />,
 }));
+
+vi.mock('next-auth/react', async () => {
+    const original = await vi.importActual('next-auth/react');
+    return {
+        ...original,
+        useSession: vi.fn(() => ({
+            data: null,
+            status: 'loading',
+        })),
+    };
+});
 
 describe('GameStateProvider', () => {
     const TestConsumer = () => {
@@ -22,11 +31,6 @@ describe('GameStateProvider', () => {
     });
 
     it('shows loading if not hydrated', () => {
-        vi.mocked(useLocalStorageState).mockReturnValue([
-            { bones: 0 },
-            vi.fn(),
-            false,
-        ]);
         render(
             <GameStateProvider>
                 <div>Child content</div>
@@ -38,28 +42,26 @@ describe('GameStateProvider', () => {
     });
 
     it('renders children after hydration', () => {
-        vi.mocked(useLocalStorageState).mockReturnValue([
-            { bones: 0 },
-            vi.fn(),
-            true,
-        ]);
+        vi.mocked(useSession).mockReturnValue({
+            data: { user: { id: '1', name: 'Test' } },
+            status: 'authenticated',
+        } as never);
+
         render(
             <GameStateProvider>
                 <div>Child content</div>
             </GameStateProvider>,
         );
 
-        expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
         expect(screen.getByText('Child content')).toBeInTheDocument();
+        expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
     });
 
-    it('provides context to children', () => {
-        const setLocalStorageState = vi.fn();
-        vi.mocked(useLocalStorageState).mockReturnValue([
-            { bones: 123 },
-            setLocalStorageState,
-            true,
-        ]);
+    it('provides context to children', async () => {
+        vi.mocked(useSession).mockReturnValue({
+            data: { user: { id: '1', name: 'Test', currency: { bones: 123 } } },
+            status: 'authenticated',
+        } as never);
 
         render(
             <GameStateProvider>
@@ -67,6 +69,8 @@ describe('GameStateProvider', () => {
             </GameStateProvider>,
         );
 
-        expect(screen.getByText('bones: 123')).toBeInTheDocument();
+        await waitFor(() =>
+            expect(screen.getByText(/bones: 123/i)).toBeInTheDocument(),
+        );
     });
 });

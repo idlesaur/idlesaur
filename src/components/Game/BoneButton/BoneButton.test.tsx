@@ -1,45 +1,72 @@
-import { describe, it, vi, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import React, { useActionState, startTransition } from 'react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+
+import { render } from '@/test/util';
+
 import { BoneButton } from './BoneButton';
+import { dig } from '@/app/actions';
+import { setBones } from '@/state/actions';
+import { useGameStateDispatch } from '@/state/hooks';
 
-import { useGameState, useGameStateDispatch } from '@/state/hooks';
-import { getBonesPerClick } from '@/util';
-import { addBones } from '@/state/actions';
-import { createGameState } from '@/state/util';
+vi.mock('@/state/hooks', () => ({
+    useGameStateDispatch: vi.fn(),
+}));
 
-// Mock dependencies
-vi.mock('@/state/hooks', { spy: true });
+vi.mock(import('react'), async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+        ...actual,
+        useActionState: vi.fn(),
+        startTransition: vi.fn(),
+    };
+});
 
-vi.mock('@/util', { spy: true });
+vi.mock('@/app/actions', { spy: true });
 
-vi.mock('@/state/actions', { spy: true });
+describe('BoneButton', () => {
+    const mockDispatch = vi.fn();
+    const mockAction = vi.fn();
 
-describe('<BoneButton />', () => {
-    it('dispatches addBones with value from getBonesPerClick when clicked', async () => {
-        const mockDispatch = vi.fn();
-        const mockGameState = createGameState({ bones: 5 });
-        const mockBonesPerClick = 3;
-
-        // Setup mocks
-        vi.mocked(useGameState).mockReturnValue(mockGameState);
+    beforeEach(() => {
+        vi.clearAllMocks();
         vi.mocked(useGameStateDispatch).mockReturnValue(mockDispatch);
-        vi.mocked(getBonesPerClick).mockReturnValue(mockBonesPerClick);
-        vi.mocked(addBones).mockReturnValue({
-            type: 'game_state/add_bones',
-            payload: mockBonesPerClick,
-        });
+        vi.mocked(useActionState).mockReturnValue([null, mockAction, false]);
+    });
 
+    it('renders the BoneButton with correct text', () => {
         render(<BoneButton />);
+        expect(screen.getByText('Dig for bones')).toBeInTheDocument();
+    });
 
-        const button = screen.getByRole('button', { name: /dig for bones/i });
-        await userEvent.click(button);
+    it('calls startTransition with the action on click', async () => {
+        render(<BoneButton />);
+        await userEvent.click(screen.getByText('Dig for bones'));
+        expect(startTransition).toHaveBeenCalledWith(mockAction);
+    });
 
-        expect(getBonesPerClick).toHaveBeenCalledWith(mockGameState);
-        expect(addBones).toHaveBeenCalledWith(mockBonesPerClick);
-        expect(mockDispatch).toHaveBeenCalledWith({
-            type: 'game_state/add_bones',
-            payload: mockBonesPerClick,
-        });
+    it('dispatches setBones when state.totalBones changes', () => {
+        vi.mocked(useActionState).mockReturnValue([
+            { totalBones: 42 },
+            mockAction,
+            false,
+        ]);
+        render(<BoneButton />);
+        expect(mockDispatch).toHaveBeenCalledWith(setBones(42));
+    });
+
+    it('does not dispatch when state.totalBones is missing', () => {
+        vi.mocked(useActionState).mockReturnValue([{}, mockAction, false]);
+        render(<BoneButton />);
+        expect(mockDispatch).not.toHaveBeenCalled();
+    });
+
+    it('disables button when pending is true', () => {
+        vi.mocked(useActionState).mockReturnValue([null, mockAction, true]);
+        render(<BoneButton />);
+        expect(
+            screen.getByText('Dig for bones').parentNode?.parentNode,
+        ).toBeDisabled();
     });
 });

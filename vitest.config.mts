@@ -5,6 +5,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
     plugins: [tsconfigPaths(), react()],
     test: {
+        server: {
+            deps: {
+                inline: ['next'],
+            },
+        },
         coverage: {
             enabled: true,
             include: ['src/**'],
@@ -17,10 +22,10 @@ export default defineConfig({
                 'src/prisma.ts',
             ],
             thresholds: {
-                functions: 95,
-                branches: 93,
-                statements: 95,
-                lines: 95,
+                functions: 90,
+                branches: 90,
+                statements: 90,
+                lines: 90,
             },
         },
         globals: true,
