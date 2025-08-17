@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameStateReducer } from '@/state/reducers';
-import {
-    GameStateAction,
-    purchaseBoneDiggers,
-    setBones,
-} from '@/state/actions';
+import { GameStateAction, setBoneDiggers, setBones } from '@/state/actions';
 import { createGameState } from '@/state/util';
 
 describe('gameStateReducer', () => {
@@ -15,20 +11,11 @@ describe('gameStateReducer', () => {
         expect(newState.bones).toBe(5);
     });
 
-    it('purchases bone-digger correctly', () => {
-        const initialState = createGameState({ bones: 100 });
-        const action = purchaseBoneDiggers(1);
+    it('sets bone-diggers correctly', () => {
+        const initialState = createGameState({ boneDiggers: 1 });
+        const action = setBoneDiggers(3);
         const newState = gameStateReducer(initialState, action);
-        expect(newState.bones).toBe(85);
-        expect(newState.boneDiggers).toBe(1);
-    });
-
-    it('does not purchase bone-digger when cost is too high', () => {
-        const initialState = createGameState({ bones: 1 });
-        const action = purchaseBoneDiggers(1);
-        const newState = gameStateReducer(initialState, action);
-        expect(newState.bones).toBe(1);
-        expect(newState.boneDiggers).toBe(0);
+        expect(newState.boneDiggers).toBe(3);
     });
 
     it('uses 0 as fallback if payload is undefined', () => {
@@ -45,20 +32,4 @@ describe('gameStateReducer', () => {
             /Unknown action: unknown/,
         );
     });
-    //
-    // it('buildDino builds correctly', () => {
-    //     const initialState = createGameState({ bones: 10000 });
-    //     expect(initialState.dinos.length).toBe(0);
-    //     const action = buildDino();
-    //     const newState = gameStateReducer(initialState, action);
-    //     expect(newState.dinos.length).toBe(1);
-    // });
-    //
-    // it('buildDino fails when can not afford', () => {
-    //     const initialState = createGameState({ bones: 0 });
-    //     expect(initialState.dinos.length).toBe(0);
-    //     const action = buildDino();
-    //     const newState = gameStateReducer(initialState, action);
-    //     expect(newState.dinos.length).toBe(0);
-    // });
 });

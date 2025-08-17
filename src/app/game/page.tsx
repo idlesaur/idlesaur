@@ -10,9 +10,10 @@ export default async function Game() {
         redirect(Routes.HOME, RedirectType.replace);
     }
     const bones = session?.user?.currency?.bones ?? 0;
+    const boneDiggers = session?.user?.upgrades?.boneDiggers ?? 0;
 
     return (
-        <GameStateProvider initialState={{ bones }}>
+        <GameStateProvider initialState={{ bones, boneDiggers }}>
             <GamePageComponent />
         </GameStateProvider>
     );

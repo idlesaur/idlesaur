@@ -1,4 +1,4 @@
-import type { Profile, Currency } from '@/generated/prisma/client';
+import type { Profile, Currency, Upgrades } from '@/generated/prisma/client';
 
 export type RequireOnly<T, K extends keyof T> = Pick<T, K> &
     Partial<Omit<T, K>>;
@@ -10,4 +10,5 @@ export type SessionUser = {
     image?: string | null;
     profile: Profile | null;
     currency: Currency | null;
+    upgrades: Upgrades | null;
 };

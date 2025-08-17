@@ -37,6 +37,7 @@ model User {
   updatedAt     DateTime        @updatedAt
   profile       Profile?
   currency      Currency?
+  upgrades      Upgrades?
 }
 
 model Account {
@@ -103,8 +104,16 @@ model Profile {
 }
 
 model Currency {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String @unique
-  bones  Int    @default(0)
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String   @unique
+  bones         Int      @default(0)
+  lastBonesTick DateTime @default(now())
+}
+
+model Upgrades {
+  id          String @id @default(cuid())
+  user        User   @relation(fields: [userId], references: [id])
+  userId      String @unique
+  boneDiggers Int    @default(0)
 }

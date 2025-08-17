@@ -6,6 +6,7 @@ export const getFullUserData = async (userId: string) => {
         include: {
             profile: true,
             currency: true,
+            upgrades: true,
         },
     });
 };

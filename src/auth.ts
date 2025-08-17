@@ -20,6 +20,7 @@ export const { handlers, auth } = NextAuth({
                     id: dbUser.id,
                     profile: dbUser.profile,
                     currency: dbUser.currency,
+                    upgrades: dbUser.upgrades,
                 };
             }
 
@@ -28,19 +29,26 @@ export const { handlers, auth } = NextAuth({
     },
     events: {
         createUser: async ({ user }) => {
-            await prisma.profile.create({
-                data: {
-                    userId: user.id!,
-                    bio: '',
-                },
-            });
-
-            await prisma.currency.create({
-                data: {
-                    userId: user.id!,
-                    bones: 0,
-                },
-            });
+            await prisma.$transaction([
+                prisma.profile.create({
+                    data: {
+                        userId: user.id!,
+                        bio: '',
+                    },
+                }),
+                prisma.currency.create({
+                    data: {
+                        userId: user.id!,
+                        bones: 0,
+                    },
+                }),
+                prisma.upgrades.create({
+                    data: {
+                        userId: user.id!,
+                        boneDiggers: 0,
+                    },
+                }),
+            ]);
         },
     },
 });
