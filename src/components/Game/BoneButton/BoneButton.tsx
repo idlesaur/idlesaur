@@ -12,11 +12,11 @@ export const BoneButton = () => {
     const dispatch = useGameStateDispatch();
 
     useEffect(() => {
-        if (!state?.totalBones) {
+        if (!state?.bones) {
             return;
         }
-        dispatch(setBones(state.totalBones));
-    }, [dispatch, state?.totalBones]);
+        dispatch(setBones(state.bones));
+    }, [dispatch, state?.bones]);
 
     return (
         <PriceButton

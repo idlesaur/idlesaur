@@ -1,9 +1,9 @@
 'use client';
 
 import { useInterval } from '@/hooks';
-import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
 import { useGameState, useGameStateDispatch } from '@/state/hooks';
 import { setBones } from '@/state/actions';
+import { getBonesPerSecond } from '@/util';
 
 export const GameTick = () => {
     const { bones, boneDiggers } = useGameState();
@@ -12,7 +12,7 @@ export const GameTick = () => {
     useInterval((dt: number) => {
         const deltaSeconds: number = dt / 1000.0;
         const additionalBones: number =
-            boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER * deltaSeconds;
+            getBonesPerSecond(boneDiggers) * deltaSeconds;
 
         if (additionalBones > 0) {
             dispatch(setBones(bones + additionalBones));

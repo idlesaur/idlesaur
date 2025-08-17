@@ -15,13 +15,13 @@ export const BoneSystemCard = () => {
     const [state, action, pending] = useActionState(buyBoneDigger, null);
 
     useEffect(() => {
-        if (state?.totalBones) {
-            dispatch(setBones(state.totalBones));
+        if (state?.bones) {
+            dispatch(setBones(state.bones));
         }
         if (state?.boneDiggers) {
             dispatch(setBoneDiggers(state.boneDiggers));
         }
-    }, [dispatch, state?.boneDiggers, state?.totalBones]);
+    }, [dispatch, state?.boneDiggers, state?.bones]);
 
     const boneDiggerCost = getBoneDiggerCost(boneDiggers);
     const canAffordBoneDigger = bones >= boneDiggerCost;
