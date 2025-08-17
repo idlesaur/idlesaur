@@ -6,7 +6,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render } from '@/test/util';
 
 import { BoneButton } from './BoneButton';
-import { dig } from '@/app/actions';
 import { setBones } from '@/state/actions';
 import { useGameStateDispatch } from '@/state/hooks';
 

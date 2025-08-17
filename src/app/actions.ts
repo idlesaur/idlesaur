@@ -35,7 +35,15 @@ export async function dig() {
     }
 }
 
-export async function buyBoneDigger() {
+export type BuyBoneDiggerState = {
+    success: boolean;
+    message?: string;
+    error?: string;
+    totalBones?: number;
+    boneDiggers?: number;
+};
+
+export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
@@ -67,10 +75,10 @@ export async function buyBoneDigger() {
                 totalBones: currency.bones,
             };
         });
-    } catch (error) {
+    } catch (error: unknown) {
         return {
             success: false,
-            error,
+            error: String(error),
         };
     }
 }
