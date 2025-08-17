@@ -4,9 +4,20 @@ import { auth } from '@/auth';
 import { prisma } from '@/prisma';
 import { revalidatePath } from 'next/cache';
 import { Routes } from '@/constants';
-import { getBoneDiggerCost } from '@/util';
+import { getBoneDiggerCost, getBonesPerSecond } from '@/util';
+import { getFullUserData } from '@/server/util';
 
-export async function dig() {
+export interface BaseServerActionResponse {
+    success: boolean;
+    message?: string;
+    error?: string;
+}
+
+export interface DigState extends BaseServerActionResponse {
+    bones?: number;
+}
+
+export async function dig(): Promise<DigState> {
     const session = await auth();
 
     if (!session?.user?.id) {
@@ -14,34 +25,34 @@ export async function dig() {
     }
 
     try {
-        // Random bones gained per dig (1-5)
-        const bonesGained = Math.floor(Math.random() * 5) + 1;
+        return await prisma.$transaction(async () => {
+            await getAndUpdateBones();
 
-        const updatedCurrency = await prisma.currency.update({
-            where: { userId: session?.user?.id },
-            data: { bones: { increment: bonesGained } },
+            // Random bones gained per dig (1-5)
+            const bonesGained = Math.floor(Math.random() * 5) + 1;
+
+            const updatedCurrency = await prisma.currency.update({
+                where: { userId: session?.user?.id },
+                data: { bones: { increment: bonesGained } },
+            });
+
+            revalidatePath(Routes.GAME);
+
+            return {
+                success: true,
+                bones: updatedCurrency.bones,
+            };
         });
-
-        revalidatePath(Routes.GAME);
-
-        return {
-            success: true,
-            bonesGained,
-            totalBones: updatedCurrency.bones,
-        };
     } catch (error) {
         console.error(error);
         return { success: false, message: 'Server error' };
     }
 }
 
-export type BuyBoneDiggerState = {
-    success: boolean;
-    message?: string;
-    error?: string;
-    totalBones?: number;
+export interface BuyBoneDiggerState extends BaseServerActionResponse {
+    bones?: number;
     boneDiggers?: number;
-};
+}
 
 export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
     const session = await auth();
@@ -53,6 +64,8 @@ export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
 
     try {
         return await prisma.$transaction(async (tx) => {
+            await getAndUpdateBones();
+
             const currency = await tx.currency.update({
                 data: {
                     bones: { decrement: cost },
@@ -72,7 +85,7 @@ export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
             return {
                 success: true,
                 boneDiggers: upgrades.boneDiggers,
-                totalBones: currency.bones,
+                bones: currency.bones,
             };
         });
     } catch (error: unknown) {
@@ -81,4 +94,31 @@ export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
             error: String(error),
         };
     }
+}
+
+export async function getAndUpdateBones() {
+    const session = await auth();
+    if (!session?.user?.id) return null;
+
+    const user = await getFullUserData(session.user.id);
+
+    if (!user?.currency || !user?.upgrades) return null;
+
+    const now = new Date();
+    const secondsPassed = Math.floor(
+        (now.getTime() - user.currency.lastBonesTick.getTime()) / 1000,
+    );
+
+    let bones = user.currency.bones;
+    if (secondsPassed > 0) {
+        bones += secondsPassed * getBonesPerSecond(user.upgrades.boneDiggers);
+    }
+
+    return prisma.currency.update({
+        where: { userId: user.id },
+        data: {
+            bones,
+            lastBonesTick: now,
+        },
+    });
 }

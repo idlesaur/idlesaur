@@ -45,9 +45,9 @@ describe('BoneButton', () => {
         expect(startTransition).toHaveBeenCalledWith(mockAction);
     });
 
-    it('dispatches setBones when state.totalBones changes', () => {
+    it('dispatches setBones when state.bones changes', () => {
         vi.mocked(useActionState).mockReturnValue([
-            { totalBones: 42 },
+            { bones: 42 },
             mockAction,
             false,
         ]);
@@ -55,7 +55,7 @@ describe('BoneButton', () => {
         expect(mockDispatch).toHaveBeenCalledWith(setBones(42));
     });
 
-    it('does not dispatch when state.totalBones is missing', () => {
+    it('does not dispatch when state.bones is missing', () => {
         vi.mocked(useActionState).mockReturnValue([{}, mockAction, false]);
         render(<BoneButton />);
         expect(mockDispatch).not.toHaveBeenCalled();

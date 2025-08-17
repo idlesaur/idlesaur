@@ -1,4 +1,7 @@
-import { BASE_BONE_COST_BONE_DIGGER } from '@/constants';
+import {
+    BASE_BONE_COST_BONE_DIGGER,
+    BASE_BONES_PER_SECOND_PER_DIGGER,
+} from '@/constants';
 import { GameState } from '@/state/types';
 import { RequireOnly } from '@/types';
 
@@ -21,6 +24,10 @@ export const getBonesPerClick = (
     gameState: RequireOnly<GameState, 'boneDiggers'>,
 ): number => {
     return 1 + gameState.boneDiggers;
+};
+
+export const getBonesPerSecond = (boneDiggers: number): number => {
+    return boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER;
 };
 
 export const formatNumber = (value: number): string => {
