@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "public"."Currency" ADD COLUMN     "lastBonesTick" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

@@ -1,6 +1,6 @@
 export type GameStateActionType =
     | 'game_state/set_bones'
-    | 'game_state/purchase_bone_digger';
+    | 'game_state/set_bone_diggers';
 
 export interface GameStateAction {
     type: GameStateActionType;
@@ -13,9 +13,8 @@ export const setBones = (bones: number) => ({
     payload: bones,
 });
 
-const PURCHASE_BONE_DIGGER: GameStateActionType =
-    'game_state/purchase_bone_digger';
-export const purchaseBoneDiggers = (diggersToPurchase: number = 1) => ({
-    type: PURCHASE_BONE_DIGGER,
-    payload: diggersToPurchase,
+const SET_BONE_DIGGERS: GameStateActionType = 'game_state/set_bone_diggers';
+export const setBoneDiggers = (boneDiggers: number) => ({
+    type: SET_BONE_DIGGERS,
+    payload: boneDiggers,
 });

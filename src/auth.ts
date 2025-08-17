@@ -20,6 +20,7 @@ export const { handlers, auth } = NextAuth({
                     id: dbUser.id,
                     profile: dbUser.profile,
                     currency: dbUser.currency,
+                    upgrades: dbUser.upgrades,
                 };
             }
 

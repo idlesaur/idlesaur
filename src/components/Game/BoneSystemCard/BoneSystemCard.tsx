@@ -1,27 +1,32 @@
 'use client';
-
-import React, { useCallback } from 'react';
+import React, { useActionState, startTransition, useEffect } from 'react';
 import { PiBone } from 'react-icons/pi';
 
 import { BoneButton, GameCard, PriceButton } from '@/components/Game';
 import { formatNumber, getBoneDiggerCost } from '@/util';
 import { useGameState, useGameStateDispatch } from '@/state/hooks';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-import { purchaseBoneDiggers } from '@/state/actions';
+import { buyBoneDigger } from '@/app/actions';
+import { setBones, setBoneDiggers } from '@/state/actions';
 
 export const BoneSystemCard = () => {
-    const gameState = useGameState();
-    const { bones, boneDiggers } = gameState;
+    const { bones, boneDiggers } = useGameState();
     const dispatch = useGameStateDispatch();
+    const [state, action, pending] = useActionState(buyBoneDigger, null);
 
-    const boneDiggerCost = getBoneDiggerCost(gameState);
+    useEffect(() => {
+        if (state?.totalBones) {
+            dispatch(setBones(state.totalBones));
+        }
+        if (state?.boneDiggers) {
+            dispatch(setBoneDiggers(state.boneDiggers));
+        }
+    }, [dispatch, state?.boneDiggers, state?.totalBones]);
+
+    const boneDiggerCost = getBoneDiggerCost(boneDiggers);
     const canAffordBoneDigger = bones >= boneDiggerCost;
     const bonesPerSecondFromDiggers =
         boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER;
-
-    const handlePurchaseBoneDiggers = useCallback(() => {
-        dispatch(purchaseBoneDiggers());
-    }, [dispatch]);
 
     return (
         <GameCard icon={<PiBone />} title="Dino-bones">
@@ -35,8 +40,8 @@ export const BoneSystemCard = () => {
                 icon={<PiBone />}
                 price={formatNumber(boneDiggerCost)}
                 text="Buy Bone-digger"
-                onClick={handlePurchaseBoneDiggers}
-                disabled={!canAffordBoneDigger}
+                onClick={() => startTransition(action)}
+                disabled={pending || !canAffordBoneDigger}
             />
         </GameCard>
     );

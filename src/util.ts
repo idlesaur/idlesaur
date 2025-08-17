@@ -3,14 +3,14 @@ import { GameState } from '@/state/types';
 import { RequireOnly } from '@/types';
 
 export const getBoneDiggerCost = (
-    gameState: RequireOnly<GameState, 'boneDiggers'>,
+    currentBoneDiggers: number,
     quantity: number = 1,
 ) => {
     let totalCost = 0;
     for (let i = 0; i < quantity; i++) {
         const cost =
             Math.floor(
-                (gameState.boneDiggers + i) * BASE_BONE_COST_BONE_DIGGER * 1.1,
+                (currentBoneDiggers + i) * BASE_BONE_COST_BONE_DIGGER * 1.1,
             ) + BASE_BONE_COST_BONE_DIGGER;
         totalCost += cost;
     }
