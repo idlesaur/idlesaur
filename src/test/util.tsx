@@ -7,22 +7,27 @@ import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 
 import { GameStateProvider } from '@/state/providers';
+import { createGameState } from '@/state/util';
+import { GameState } from '@/state/types';
 
 export interface WrapperOptions {
     session?: Session;
+    gameState?: Partial<GameState>;
 }
 
-const createWrapper = ({ session }: WrapperOptions) => {
+const createWrapper = ({ session, gameState }: WrapperOptions) => {
     // eslint-disable-next-line react/display-name
     return ({ children }: { children: React.ReactNode }): ReactNode => (
         <SessionProvider session={session ?? null}>
-            <GameStateProvider>{children}</GameStateProvider>
+            <GameStateProvider initialState={createGameState(gameState)}>
+                {children}
+            </GameStateProvider>
         </SessionProvider>
     );
 };
 
-export const getRender = ({ session }: WrapperOptions = {}) => {
-    const wrapper = createWrapper({ session });
+export const getRender = (wrapperOptions: WrapperOptions = {}) => {
+    const wrapper = createWrapper(wrapperOptions);
     return (ui: React.ReactNode, options?: Partial<RenderOptions>) =>
         testingLibRender(ui, { wrapper, ...options });
 };
