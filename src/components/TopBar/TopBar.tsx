@@ -1,11 +1,14 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { PiBone } from 'react-icons/pi';
-import { formatNumber } from '@/util';
+
+import { formatNumber, isNullOrWhitespace } from '@/util';
 import { SignOutButton } from '@/components';
 import { useGameState } from '@/state/hooks';
+import { useUserState } from '@/state/hooks/useUserState';
 
 interface ResourceDisplayProps {
     value: number;
@@ -23,6 +26,7 @@ const ResourceDisplay = ({ value, children }: ResourceDisplayProps) => {
 
 export const TopBar = () => {
     const { bones } = useGameState();
+    const { profileImage } = useUserState();
 
     return (
         <div
@@ -33,7 +37,16 @@ export const TopBar = () => {
             <ResourceDisplay value={bones}>
                 <PiBone />
             </ResourceDisplay>
-            <div className="ml-auto">
+            <div className="ml-auto flex flex-row gap-2">
+                {!isNullOrWhitespace(profileImage) && (
+                    <Image
+                        src={profileImage!}
+                        className="h-8 w-8 rounded-2xl"
+                        alt="Profile Image"
+                        width={32}
+                        height={32}
+                    />
+                )}
                 <SignOutButton />
             </div>
         </div>

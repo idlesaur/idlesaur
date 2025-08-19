@@ -2,7 +2,7 @@ import { Game as GamePageComponent } from '@/components/pages';
 import { redirect, RedirectType } from 'next/navigation';
 import { auth } from '@/auth';
 import { Routes } from '@/constants';
-import { GameStateProvider } from '@/state/providers';
+import { GameStateProvider, UserStateProvider } from '@/state/providers';
 import { getAndUpdateBones } from '@/app/actions';
 
 export default async function Game() {
@@ -16,11 +16,15 @@ export default async function Game() {
     }
 
     const { bones } = response;
-    const boneDiggers = session?.user?.upgrades?.boneDiggers ?? 0;
+    const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
+    const userName = session?.user?.profile?.userName ?? undefined;
+    const profileImage = session?.user?.image ?? undefined;
 
     return (
         <GameStateProvider initialState={{ bones, boneDiggers }}>
-            <GamePageComponent />
+            <UserStateProvider initialState={{ userName, profileImage }}>
+                <GamePageComponent />
+            </UserStateProvider>
         </GameStateProvider>
     );
 }
