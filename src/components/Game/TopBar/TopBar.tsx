@@ -7,6 +7,7 @@ import { PiBone } from 'react-icons/pi';
 
 import { formatNumber, isNullOrWhitespace } from '@/util';
 import { SignOutButton } from '@/components';
+import { SideNav } from '@/components/Game';
 import { useGameState } from '@/state/hooks';
 import { useUserState } from '@/state/hooks/useUserState';
 
@@ -21,40 +22,6 @@ const ResourceDisplay = ({ value, children }: ResourceDisplayProps) => {
             <div className="bg-background-800 rounded-2xl p-1">{children}</div>
             <span className="pl-1">{formatNumber(value)}</span>
         </div>
-    );
-};
-
-// Slide-out left nav
-const SideNav = ({ onClose }: { onClose: () => void }) => {
-    return (
-        <>
-            {/* Dark overlay */}
-            <div
-                className="bg-opacity-50 fixed inset-0 z-40 bg-black"
-                onClick={onClose}
-            />
-
-            {/* Slide-out panel */}
-            <div className="bg-background-800 fixed top-0 left-0 z-50 h-full w-64 transform shadow-lg transition-transform duration-300">
-                <div className="border-background-700 border-b p-4 text-lg font-bold">
-                    Navigation
-                </div>
-                <ul className="flex flex-col">
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        Dashboard
-                    </li>
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        Inventory
-                    </li>
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        Settings
-                    </li>
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        <SignOutButton />
-                    </li>
-                </ul>
-            </div>
-        </>
     );
 };
 
@@ -141,9 +108,10 @@ export const TopBar = () => {
                 )}
                 {isDropdownOpen && <ProfileDropdown />}
             </div>
-            {isSideNavOpen && (
-                <SideNav onClose={() => setIsSideNavOpen(false)} />
-            )}
+            <SideNav
+                isOpen={isSideNavOpen}
+                onClose={() => setIsSideNavOpen(false)}
+            />
         </div>
     );
 };

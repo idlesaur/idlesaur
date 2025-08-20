@@ -4,4 +4,5 @@ export * from './DinoStats';
 export * from './GameCard';
 export * from './GameTick';
 export * from './PriceButton';
+export * from './SideNav';
 export * from './TopBar';
