@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
@@ -12,7 +12,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
     return (
         <html lang="en">
             <body>
-                <SessionProvider>{children}</SessionProvider>
+                <div className="flex min-h-screen w-screen flex-col items-center justify-center">
+                    <SessionProvider>{children}</SessionProvider>
+                </div>
             </body>
         </html>
     );

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { ReactNode, useReducer } from 'react';
-import { LoadingIndicator } from '@/components';
 import { gameStateReducer } from '@/state/reducers';
 import { GameStateContext, GameStateDispatchContext } from '@/state/context';
 import { GameState } from '@/state/types';
@@ -17,7 +16,7 @@ export const GameStateProvider = ({
     children,
     initialState,
 }: GameStateProviderProps) => {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     const bones = session?.user?.currency?.bones ?? undefined;
 
@@ -25,14 +24,6 @@ export const GameStateProvider = ({
         gameStateReducer,
         createGameState(initialState ?? { bones }),
     );
-
-    if (status === 'loading') {
-        return (
-            <div className="flex min-h-screen w-screen flex-col items-center justify-center">
-                <LoadingIndicator />
-            </div>
-        );
-    }
 
     return (
         <GameStateContext.Provider value={gameState}>

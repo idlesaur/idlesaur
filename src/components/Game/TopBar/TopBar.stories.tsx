@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { TopBar } from './TopBar';
-import { withGameState } from '@/../.storybook/decorators/GameStateDecorator';
+import { withGameState } from '../../../../.storybook/decorators/GameStateDecorator';
 
 const meta = {
     component: TopBar,

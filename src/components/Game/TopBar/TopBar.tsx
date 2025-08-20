@@ -24,7 +24,41 @@ const ResourceDisplay = ({ value, children }: ResourceDisplayProps) => {
     );
 };
 
-const ProfileDropdown = ({ onClose }: { onClose: () => void }) => {
+// Slide-out left nav
+const SideNav = ({ onClose }: { onClose: () => void }) => {
+    return (
+        <>
+            {/* Dark overlay */}
+            <div
+                className="bg-opacity-50 fixed inset-0 z-40 bg-black"
+                onClick={onClose}
+            />
+
+            {/* Slide-out panel */}
+            <div className="bg-background-800 fixed top-0 left-0 z-50 h-full w-64 transform shadow-lg transition-transform duration-300">
+                <div className="border-background-700 border-b p-4 text-lg font-bold">
+                    Navigation
+                </div>
+                <ul className="flex flex-col">
+                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
+                        Dashboard
+                    </li>
+                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
+                        Inventory
+                    </li>
+                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
+                        Settings
+                    </li>
+                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
+                        <SignOutButton />
+                    </li>
+                </ul>
+            </div>
+        </>
+    );
+};
+
+const ProfileDropdown = () => {
     const { userName, profileImage } = useUserState();
     return (
         <div className="bg-background-800 absolute right-0 mt-8 w-40 rounded-lg shadow-lg">
@@ -59,6 +93,7 @@ const ProfileDropdown = ({ onClose }: { onClose: () => void }) => {
 
 export const TopBar = () => {
     const { bones } = useGameState();
+    const [isSideNavOpen, setIsSideNavOpen] = useState(false);
     const { profileImage } = useUserState();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -83,7 +118,10 @@ export const TopBar = () => {
             className="bg-background-900 sticky top-0 flex h-8 w-full flex-row items-center gap-3 p-1"
             data-testid="top-bar"
         >
-            <GiHamburgerMenu />
+            <GiHamburgerMenu
+                className="cursor-pointer"
+                onClick={() => setIsSideNavOpen(true)}
+            />
             <ResourceDisplay value={bones}>
                 <PiBone />
             </ResourceDisplay>
@@ -101,10 +139,11 @@ export const TopBar = () => {
                         onClick={() => setIsDropdownOpen((prev) => !prev)}
                     />
                 )}
-                {isDropdownOpen && (
-                    <ProfileDropdown onClose={() => setIsDropdownOpen(false)} />
-                )}
+                {isDropdownOpen && <ProfileDropdown />}
             </div>
+            {isSideNavOpen && (
+                <SideNav onClose={() => setIsSideNavOpen(false)} />
+            )}
         </div>
     );
 };

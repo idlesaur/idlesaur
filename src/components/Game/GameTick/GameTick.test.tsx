@@ -13,8 +13,7 @@ import {
 import { useInterval } from '@/hooks';
 import { useGameStateDispatch } from '@/state/hooks/useGameStateDispatch';
 import { render, getRender } from '@/test/util';
-import { GameTick } from '@/components/GameTick';
-import { createGameState } from '@/state/util';
+import { GameTick } from '@/components/Game';
 
 vi.mock('@/hooks/useInterval', { spy: true });
 vi.mock('@/state/hooks/useGameStateDispatch', { spy: true });
