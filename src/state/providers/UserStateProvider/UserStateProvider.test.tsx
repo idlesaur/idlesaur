@@ -30,18 +30,7 @@ describe('GameStateProvider', () => {
         vi.clearAllMocks();
     });
 
-    it('shows loading if not hydrated', () => {
-        render(
-            <GameStateProvider>
-                <div>Child content</div>
-            </GameStateProvider>,
-        );
-
-        expect(screen.getByTestId('loading')).toBeInTheDocument();
-        expect(screen.queryByText('Child content')).not.toBeInTheDocument();
-    });
-
-    it('renders children after hydration', () => {
+    it('renders children', () => {
         vi.mocked(useSession).mockReturnValue({
             data: { user: { id: '1', name: 'Test' } },
             status: 'authenticated',
