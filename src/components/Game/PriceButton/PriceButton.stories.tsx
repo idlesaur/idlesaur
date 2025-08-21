@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { fn } from 'storybook/test';
 import { DiCode } from 'react-icons/di';
 
-import { PriceButton } from '@/components';
+import { PriceButton } from '@/components/Game';
 
 const meta = {
     component: PriceButton,

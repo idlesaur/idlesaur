@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { DinoStats } from '@/components';
+import { DinoStats } from '@/components/Game';
 import { createDino } from '@/state/util';
 
 const meta = {
