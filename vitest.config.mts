@@ -19,6 +19,7 @@ export default defineConfig({
                 'src/app/**',
                 'src/generated/**',
                 'src/types.ts',
+                'src/auth.ts',
                 'src/prisma.ts',
             ],
             thresholds: {

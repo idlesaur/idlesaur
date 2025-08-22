@@ -86,7 +86,7 @@ export const TopBar = () => {
             data-testid="top-bar"
         >
             <GiHamburgerMenu
-                className="cursor-pointer"
+                className="hover:bg-background-700 cursor-pointer"
                 onClick={() => setIsSideNavOpen(true)}
             />
             <ResourceDisplay value={bones}>

@@ -12,6 +12,7 @@ export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
     return (
         <>
             <div
+                data-testid="overlay"
                 className={`fixed inset-0 z-40 bg-black transition-opacity duration-300 ${
                     isOpen
                         ? 'pointer-events-auto opacity-50'
@@ -27,7 +28,7 @@ export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
             >
                 <div className="border-background-700 flex flex-row border-b p-4 text-lg font-bold">
                     Navigation
-                    <div className="ml-auto cursor-pointer">
+                    <div className="hover:bg-background-700 ml-auto flex cursor-pointer items-center p-1">
                         <MdOutlineClose onClick={onClose} />
                     </div>
                 </div>
