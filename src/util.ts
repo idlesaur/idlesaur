@@ -37,3 +37,7 @@ export const formatNumber = (value: number): string => {
 export const randomItem = <T>(arr: T[]): T => {
     return arr[Math.floor(Math.random() * arr.length)];
 };
+
+export const isNullOrWhitespace = (str: string | null | undefined): boolean => {
+    return str === null || str === undefined || str.trim().length === 0;
+};

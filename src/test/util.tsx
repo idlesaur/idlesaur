@@ -6,21 +6,24 @@ import {
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 
-import { GameStateProvider } from '@/state/providers';
-import { createGameState } from '@/state/util';
-import { GameState } from '@/state/types';
+import { GameStateProvider, UserStateProvider } from '@/state/providers';
+import { createGameState, createUserState } from '@/state/util';
+import { GameState, UserState } from '@/state/types';
 
 export interface WrapperOptions {
     session?: Session;
     gameState?: Partial<GameState>;
+    userState?: Partial<UserState>;
 }
 
-const createWrapper = ({ session, gameState }: WrapperOptions) => {
+const createWrapper = ({ session, gameState, userState }: WrapperOptions) => {
     // eslint-disable-next-line react/display-name
     return ({ children }: { children: React.ReactNode }): ReactNode => (
         <SessionProvider session={session ?? null}>
             <GameStateProvider initialState={createGameState(gameState)}>
-                {children}
+                <UserStateProvider initialState={createUserState(userState)}>
+                    {children}
+                </UserStateProvider>
             </GameStateProvider>
         </SessionProvider>
     );

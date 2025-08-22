@@ -1,2 +1,1 @@
-export * from './GameStateProvider';
 export * from './UserStateProvider';

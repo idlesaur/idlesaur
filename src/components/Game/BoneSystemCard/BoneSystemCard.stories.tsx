@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { BoneSystemCard } from '@/components';
+import { BoneSystemCard } from '@/components/Game';
 
 const meta = {
     component: BoneSystemCard,

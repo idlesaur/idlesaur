@@ -18,7 +18,7 @@ export const PriceButton = ({
             <span className="flex items-center gap-2">
                 {icon && <span className="flex-shrink-0">{icon}</span>}
                 {price !== undefined && (
-                    <span className="text-sm opacity-80">{price}</span>
+                    <span className="text-sm">{price}</span>
                 )}
                 {text && <span>{text}</span>}
             </span>

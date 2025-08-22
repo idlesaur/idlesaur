@@ -2,5 +2,7 @@ export * from './BoneButton';
 export * from './BoneSystemCard';
 export * from './DinoStats';
 export * from './GameCard';
+export * from './GameTick';
 export * from './PriceButton';
-export * from './Game';
+export * from './SideNav';
+export * from './TopBar';
