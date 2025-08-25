@@ -3,6 +3,8 @@ import './globals.css';
 import React, { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 
+import { Footer } from '@/components';
+
 export const metadata: Metadata = {
     title: 'Idlesaur',
     description: 'Idle Dinosaur Game.',
@@ -11,10 +13,11 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: ReactNode }) => {
     return (
         <html lang="en">
-            <body>
-                <div className="flex min-h-screen w-screen flex-col items-center justify-center">
+            <body className="flex min-h-screen flex-col">
+                <div className="flex flex-1 flex-col items-center justify-center">
                     <SessionProvider>{children}</SessionProvider>
                 </div>
+                <Footer />
             </body>
         </html>
     );

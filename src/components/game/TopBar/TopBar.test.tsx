@@ -14,7 +14,7 @@ vi.mock('next/image', () => ({
     default: (props: never) => <img {...props} alt="mock image" />,
 }));
 
-vi.mock('@/components/Game', () => ({
+vi.mock('@/components/game', () => ({
     SideNav: ({ isOpen }: { isOpen: boolean }) => (
         <div data-testid="side-nav">{isOpen ? 'Open' : 'Closed'}</div>
     ),

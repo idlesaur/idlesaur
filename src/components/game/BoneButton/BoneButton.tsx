@@ -2,7 +2,7 @@
 
 import React, { useActionState, startTransition, useEffect } from 'react';
 import { PiBone } from 'react-icons/pi';
-import { PriceButton } from '@/components/Game';
+import { PriceButton } from '@/components/game';
 import { dig } from '@/app/actions';
 import { useGameStateDispatch } from '@/state/hooks';
 import { setBones } from '@/state/actions';

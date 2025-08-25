@@ -1,8 +1,8 @@
-import { BoneSystemCard, GameTick, TopBar } from '@/components/Game';
+import { BoneSystemCard, GameTick, TopBar } from '@/components/game';
 
 export default async function Game() {
     return (
-        <div className="flex min-h-screen w-full flex-col">
+        <div className="flex w-full flex-1 flex-col">
             <GameTick />
             <TopBar />
             <main className="flex flex-1 flex-col items-center justify-center">

@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import React, { useActionState } from 'react';
 
-import { BoneSystemCard } from '@/components/Game';
+import { BoneSystemCard } from '@/components/game';
 import { useGameState, useGameStateDispatch } from '@/state/hooks';
 import { getBoneDiggerCost } from '@/util';
 import { setBones, setBoneDiggers } from '@/state/actions';

@@ -1,3 +1,4 @@
+export * from './Footer';
 export * from './LoadingIndicator';
 export * from './PostPreview';
 export * from './SignInButton';

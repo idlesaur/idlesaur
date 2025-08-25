@@ -7,7 +7,7 @@ import { PiBone } from 'react-icons/pi';
 
 import { formatNumber, isNullOrWhitespace } from '@/util';
 import { SignOutButton } from '@/components';
-import { SideNav } from '@/components/Game';
+import { SideNav } from '@/components/game';
 import { useGameState } from '@/state/hooks';
 import { useUserState } from '@/state/hooks/useUserState';
 
@@ -86,6 +86,7 @@ export const TopBar = () => {
             data-testid="top-bar"
         >
             <GiHamburgerMenu
+                data-testid="side-nav-toggle"
                 className="hover:bg-background-700 cursor-pointer"
                 onClick={() => setIsSideNavOpen(true)}
             />
