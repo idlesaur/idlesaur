@@ -54,13 +54,18 @@ export interface BuyBoneDiggerState extends BaseServerActionResponse {
     boneDiggers?: number;
 }
 
-export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
+export async function buyBoneDiggers(
+    _currentState: BuyBoneDiggerState | null,
+    formData: FormData,
+): Promise<BuyBoneDiggerState> {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
     }
 
-    const cost = getBoneDiggerCost(session.user.upgrades?.boneDiggers ?? 0);
+    const currentDiggers = session.user.upgrades?.boneDiggers ?? 0;
+    const quantity = Number(formData.get('amountBoneDiggersToBuy')) ?? 1;
+    const cost = getBoneDiggerCost(currentDiggers, quantity);
 
     try {
         return await prisma.$transaction(async (tx) => {
@@ -78,7 +83,7 @@ export async function buyBoneDigger(): Promise<BuyBoneDiggerState> {
             }
 
             const upgrades = await tx.upgrades.update({
-                data: { boneDiggers: { increment: 1 } },
+                data: { boneDiggers: { increment: quantity } },
                 where: { userId: session?.user?.id },
             });
 
