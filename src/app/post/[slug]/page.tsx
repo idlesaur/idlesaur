@@ -3,11 +3,11 @@ import { prisma } from '@/prisma';
 export default async function Page({
     params,
 }: {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 }) {
-    const { id } = await params;
+    const { slug } = await params;
     const post = await prisma.post.findUnique({
-        where: { id: Number(id) },
+        where: { slug },
     });
 
     if (!post) {

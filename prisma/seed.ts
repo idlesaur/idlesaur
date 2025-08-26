@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from '@/generated/prisma';
+import { generateSlug } from '@/util';
 
 const prisma = new PrismaClient();
 
@@ -8,6 +9,7 @@ const postData: Prisma.PostCreateInput[] = [
         content:
             'Welcome to the future place of an online idle game.  More to come soon!',
         published: true,
+        slug: generateSlug('Welcome to Idlesaur!'),
     },
 ];
 

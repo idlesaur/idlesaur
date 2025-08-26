@@ -15,7 +15,7 @@ export const GameCard = ({ icon, children, title }: GameCardProps) => {
                     <div className="bg-background-800 rounded-2xl p-1">
                         {icon}
                     </div>
-                    <span className="flex w-full items-center justify-center self-center">
+                    <span className="flex flex-1 items-center justify-center">
                         {title}
                     </span>
                 </div>

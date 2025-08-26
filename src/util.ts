@@ -41,3 +41,10 @@ export const randomItem = <T>(arr: T[]): T => {
 export const isNullOrWhitespace = (str: string | null | undefined): boolean => {
     return str === null || str === undefined || str.trim().length === 0;
 };
+
+export const generateSlug = (title: string): string => {
+    return title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '');
+};

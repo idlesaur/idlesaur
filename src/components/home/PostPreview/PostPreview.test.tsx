@@ -1,10 +1,9 @@
-// PostPreview.test.tsx
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { PostPreview, PostPreviewProps } from '@/components';
 import { Routes } from '@/constants';
+import { generateSlug } from '@/util';
 
-// Mock components from @/components/ui
 vi.mock('@/components/ui', () => ({
     Heading: ({ children }: { level: number; children: React.ReactNode }) => (
         <h4 data-testid="heading">{children}</h4>
@@ -26,6 +25,7 @@ describe('PostPreview', () => {
     const mockPost: PostPreviewProps['post'] = {
         id: 123,
         title: 'Test Post Title',
+        slug: generateSlug('Test Post Title'),
         // Add any required Post fields here if your generated type has more
     } as never;
 
@@ -38,7 +38,7 @@ describe('PostPreview', () => {
     it('renders a link with the correct href', () => {
         render(<PostPreview post={mockPost} />);
         const link = screen.getByTestId('link');
-        const expectedHref = Routes.POST.replace(':id', String(mockPost.id));
+        const expectedHref = Routes.POST.replace(':id', String(mockPost.slug));
         expect(link).toHaveAttribute('href', expectedHref);
     });
 
