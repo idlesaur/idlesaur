@@ -1,22 +1,42 @@
-// SideNav.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, RenderResult } from '@testing-library/react';
+
+import { getRender, render } from '@/test/util';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SideNav, SideNavProps } from './SideNav';
 
-// Mock SignOutButton so we can check it's rendered
 vi.mock('@/components', () => ({
     SignOutButton: () => <button data-testid="sign-out-btn">Sign Out</button>,
+    SignInButton: () => <button data-testid="sign-in-btn">Sign In</button>,
 }));
 
 describe('SideNav', () => {
     let onClose: ReturnType<typeof vi.fn>;
-    const renderComponent = (props?: Partial<SideNavProps>) =>
-        render(
+
+    const signedInRender = getRender({
+        session: {
+            user: {
+                name: 'test',
+                id: 'f',
+                profile: null,
+                currency: null,
+                upgrades: null,
+            },
+        },
+    });
+    const signedOutRender = render;
+
+    const renderComponent = (
+        props?: Partial<SideNavProps>,
+        signedIn: boolean = false,
+    ) => {
+        const renderer = signedIn ? signedInRender : signedOutRender;
+        return renderer(
             <SideNav
                 isOpen={props?.isOpen ?? false}
                 onClose={props?.onClose ?? onClose}
             />,
         );
+    };
 
     beforeEach(() => {
         onClose = vi.fn();
@@ -50,11 +70,13 @@ describe('SideNav', () => {
         expect(onClose).toHaveBeenCalledTimes(1);
     });
 
-    it('renders navigation items and SignOutButton', () => {
-        renderComponent({ isOpen: true });
-        expect(screen.getByText('Dashboard')).toBeInTheDocument();
-        expect(screen.getByText('Inventory')).toBeInTheDocument();
-        expect(screen.getByText('Settings')).toBeInTheDocument();
+    it('renders signed in content', () => {
+        renderComponent({ isOpen: true }, true);
         expect(screen.getByTestId('sign-out-btn')).toBeInTheDocument();
+    });
+
+    it('renders signed out content', () => {
+        renderComponent({ isOpen: true });
+        expect(screen.getByTestId('sign-in-btn')).toBeInTheDocument();
     });
 });
