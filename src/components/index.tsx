@@ -3,6 +3,7 @@ export * from './Header';
 export * from './LoadingIndicator';
 export * from './Logo';
 export * from './ProfileDropdown';
+export * from './SideNav';
 export * from './StyledHeading';
 export * from './SignInButton';
 export * from './SignOutButton';

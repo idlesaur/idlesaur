@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { fn } from 'storybook/test';
 
-import { SideNav } from '@/components/game';
+import { SideNav } from '@/components';
 
 const meta = {
     component: SideNav,
-    title: 'Components/Game/SideNav',
+    title: 'Components/SideNav',
     args: {
         isOpen: true,
         onClose: fn(),

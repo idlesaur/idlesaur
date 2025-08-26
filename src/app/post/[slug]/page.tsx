@@ -1,4 +1,5 @@
 import { prisma } from '@/prisma';
+import { Card, CardHeading } from '@/components/ui';
 
 export default async function Page({
     params,
@@ -23,7 +24,11 @@ export default async function Page({
     return (
         <div>
             <main>
-                <h1>{post.title}</h1>
+                <Card className="items-start">
+                    <CardHeading>{post.title}</CardHeading>
+                    <div>{post.createdAt.toLocaleDateString()}</div>
+                    <div>{post.content}</div>
+                </Card>
             </main>
         </div>
     );

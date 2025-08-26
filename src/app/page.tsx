@@ -1,6 +1,6 @@
 import { prisma } from '@/prisma';
 import { LinkButton } from '@/components/ui';
-import { StyledHeading, SignInButton, SignOutButton, Logo } from '@/components';
+import { StyledHeading, SignInButton, Logo } from '@/components';
 import { Routes } from '@/constants';
 import { PostPreview } from '@/components/home';
 import { Post } from '@/generated/prisma';
@@ -20,12 +20,6 @@ export default async function Home() {
                 {!session && <SignInButton />}
                 {session && (
                     <>
-                        <div>
-                            Signed in as:{' '}
-                            {session?.user?.profile?.userName ??
-                                session?.user?.name}
-                        </div>
-                        <SignOutButton />
                         <LinkButton href={Routes.GAME}>Play</LinkButton>
                     </>
                 )}

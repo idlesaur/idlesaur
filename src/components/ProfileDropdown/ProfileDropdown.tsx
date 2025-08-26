@@ -11,7 +11,7 @@ export const ProfileDropdownContent = () => {
     const { userName, profileImage } = useUserState();
 
     return (
-        <div className="bg-background-800 absolute right-0 mt-1 w-40 rounded-lg shadow-lg">
+        <div className="bg-background-800 absolute right-0 z-20 mt-1 w-40 rounded-lg shadow-lg">
             <ul className="flex flex-col text-sm">
                 {!isNullOrWhitespace(userName) && (
                     <li className="flex flex-row gap-2 px-4 py-2">
@@ -69,8 +69,8 @@ export const ProfileDropdown = () => {
                     src={profileImage!}
                     className="cursor-pointer rounded-2xl"
                     alt="Profile Image"
-                    width={24}
-                    height={24}
+                    width={32}
+                    height={32}
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
                 />
             )}

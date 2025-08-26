@@ -1,7 +1,12 @@
 'use client';
 
 import { MdOutlineClose } from 'react-icons/md';
-import { SignOutButton } from '@/components';
+import { useSession } from 'next-auth/react';
+
+import {
+    SideNavContentSignedIn,
+    SideNavContentSignedOut,
+} from '@/components/SideNav';
 
 export interface SideNavProps {
     isOpen: boolean;
@@ -9,6 +14,8 @@ export interface SideNavProps {
 }
 
 export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
+    const { status } = useSession();
+    const isSignedIn = status === 'authenticated';
     return (
         <>
             <div
@@ -28,23 +35,19 @@ export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
             >
                 <div className="border-background-700 flex flex-row border-b p-4 text-lg font-bold">
                     Navigation
-                    <div className="hover:bg-background-700 ml-auto flex cursor-pointer items-center p-1">
-                        <MdOutlineClose onClick={onClose} />
+                    <div
+                        className="hover:bg-background-700 ml-auto flex cursor-pointer items-center p-1 hover:rounded-2xl"
+                        onClick={onClose}
+                    >
+                        <MdOutlineClose />
                     </div>
                 </div>
                 <ul className="flex flex-col">
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        Dashboard
-                    </li>
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        Inventory
-                    </li>
-                    <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
-                        Settings
-                    </li>
-                    <li className="px-4 py-2">
-                        <SignOutButton />
-                    </li>
+                    {isSignedIn ? (
+                        <SideNavContentSignedIn />
+                    ) : (
+                        <SideNavContentSignedOut />
+                    )}
                 </ul>
             </div>
         </>
