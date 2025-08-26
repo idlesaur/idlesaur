@@ -9,14 +9,13 @@ const logoFont = Rubik_Wet_Paint({
 });
 
 export interface LogoProps {
-    children: React.ReactNode;
     level?: 1 | 2 | 3 | 4;
 }
 
-export const Logo = ({ children, level }: LogoProps) => {
+export const Logo = ({ level }: LogoProps) => {
     return (
-        <Heading className={logoFont.className} level={level}>
-            {children}
+        <Heading className={`${logoFont.className}`} level={level}>
+            Idlesaur
         </Heading>
     );
 };

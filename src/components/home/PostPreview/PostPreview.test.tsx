@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { PostPreview, PostPreviewProps } from '@/components';
+import { PostPreview, PostPreviewProps } from '@/components/home';
 import { Routes } from '@/constants';
 import { generateSlug } from '@/util';
 
