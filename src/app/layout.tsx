@@ -10,7 +10,6 @@ import { auth } from '@/auth';
 
 const mainFont = Josefin_Sans({
     subsets: ['latin'],
-    // display: 'swap',
 });
 
 export const metadata: Metadata = {

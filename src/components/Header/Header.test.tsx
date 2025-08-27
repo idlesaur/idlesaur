@@ -27,21 +27,4 @@ describe('Footer', () => {
         expect(sideNav).toHaveTextContent('Closed');
         fireEvent.click(screen.getByTestId('profile-dropdown'));
     });
-
-    // it('toggles profile dropdown on image click', () => {
-    //     render(<Header />);
-    //     expect(screen.queryByText('Profile')).not.toBeInTheDocument();
-    //     fireEvent.click(screen.getByAltText('mock image'));
-    //     expect(screen.getByText('Profile')).toBeInTheDocument();
-    // });
-    //
-    // it('closes dropdown when clicking outside', () => {
-    //     render(<Header />);
-    //     // open first
-    //     fireEvent.click(screen.getByAltText('mock image'));
-    //     expect(screen.getByText('Profile')).toBeInTheDocument();
-    //     // click outside
-    //     fireEvent.mouseDown(document.body);
-    //     expect(screen.queryByText('Profile')).not.toBeInTheDocument();
-    // });
 });

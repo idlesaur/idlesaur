@@ -1,8 +1,9 @@
-import { screen, fireEvent, RenderResult } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 
 import { getRender, render } from '@/test/util';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SideNav, SideNavProps } from './SideNav';
+import { Session } from 'next-auth';
 
 vi.mock('@/components', () => ({
     SignOutButton: () => <button data-testid="sign-out-btn">Sign Out</button>,
@@ -21,7 +22,7 @@ describe('SideNav', () => {
                 currency: null,
                 upgrades: null,
             },
-        },
+        } as Session,
     });
     const signedOutRender = render;
 
