@@ -48,10 +48,10 @@ export const BoneSystemCard = () => {
 
             <form action={buyDiggersAction}>
                 <Slider
+                    allowEdit={true}
                     value={amountBoneDiggersToBuy}
                     onChange={(val) => setAmountBoneDiggersToBuy(val)}
-                    max={1000}
-                    className="mt-3"
+                    className="my-3"
                     name="amountBoneDiggersToBuy"
                 />
                 <PriceButton
@@ -59,7 +59,11 @@ export const BoneSystemCard = () => {
                     price={formatNumber(boneDiggerCost)}
                     text={`Buy ${amountBoneDiggersToBuy} Bone-digger${amountBoneDiggersToBuy > 1 ? 's' : ''}`}
                     type="submit"
-                    disabled={pending || !canAffordBoneDigger}
+                    disabled={
+                        pending ||
+                        !canAffordBoneDigger ||
+                        amountBoneDiggersToBuy <= 0
+                    }
                 />
             </form>
         </GameCard>

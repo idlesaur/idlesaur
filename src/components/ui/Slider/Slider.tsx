@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { Input } from '@/components/ui';
+
 export interface SliderProps {
     value?: number;
     min?: number;
@@ -11,6 +13,7 @@ export interface SliderProps {
     onChange?: (value: number) => void;
     className?: string;
     name?: string;
+    allowEdit?: boolean;
 }
 
 export const Slider = ({
@@ -21,6 +24,7 @@ export const Slider = ({
     onChange,
     className,
     name,
+    allowEdit = false,
 }: SliderProps) => {
     const [internalValue, setInternalValue] = useState(controlledValue ?? min);
 
@@ -37,7 +41,7 @@ export const Slider = ({
         <div
             className={twMerge('flex w-full flex-col items-center', className)}
         >
-            <input
+            <Input
                 type="range"
                 min={min}
                 max={max}
@@ -49,7 +53,18 @@ export const Slider = ({
                     `accent-primary-700 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-300`,
                 )}
             />
-            <span className="mt-2 text-sm">{currentValue}</span>
+            <div className="mt-3 flex items-center justify-center text-sm">
+                {allowEdit ? (
+                    <Input
+                        type="number"
+                        value={currentValue}
+                        onChange={handleChange}
+                        className="text-center"
+                    />
+                ) : (
+                    <span>{currentValue}</span>
+                )}
+            </div>
         </div>
     );
 };

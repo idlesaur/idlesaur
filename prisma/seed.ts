@@ -7,7 +7,7 @@ const postData: Partial<Prisma.PostCreateInput>[] = [
     {
         title: 'Idlesaur is Open Source!',
         content:
-            'Check out the link in the footer and you even find this post in `prisma/seed.ts`',
+            'Check out the link in the footer and you can even find this post in `prisma/seed.ts`',
         published: true,
     },
     {
@@ -26,15 +26,17 @@ const postData: Partial<Prisma.PostCreateInput>[] = [
 
 export async function main() {
     for (const post of postData) {
+        console.log(`attempt to create post: ${post.title}`);
         await prisma.post.create({
             data: {
                 ...post,
                 slug: generateSlug(post.title!),
             } as Prisma.PostCreateInput,
         });
+        console.log(`post: ${post.title} - created successfully`);
     }
 
-    console.log(`Prisma seeded successfully.`);
+    console.log(`Prisma seeded successfully!`);
 }
 
 main();
