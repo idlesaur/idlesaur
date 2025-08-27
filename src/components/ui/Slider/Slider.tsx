@@ -56,6 +56,7 @@ export const Slider = ({
             <div className="mt-3 flex items-center justify-center text-sm">
                 {allowEdit ? (
                     <Input
+                        min={min}
                         type="number"
                         value={currentValue}
                         onChange={handleChange}
