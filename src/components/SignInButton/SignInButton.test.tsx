@@ -1,4 +1,5 @@
 import React from 'react';
+import { signIn } from 'next-auth/react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { SignInButton } from '@/components';
@@ -7,8 +8,6 @@ import { SignInButton } from '@/components';
 vi.mock('next-auth/react', () => ({
     signIn: vi.fn(),
 }));
-
-import { signIn } from 'next-auth/react';
 
 describe('<SignInButton />', () => {
     beforeEach(() => {

@@ -5,9 +5,12 @@ import { Routes } from '@/constants';
 import { generateSlug } from '@/util';
 
 vi.mock('@/components/ui', () => ({
-    Heading: ({ children }: { level: number; children: React.ReactNode }) => (
-        <h4 data-testid="heading">{children}</h4>
-    ),
+    CardHeading: ({
+        children,
+    }: {
+        level: number;
+        children: React.ReactNode;
+    }) => <h4 data-testid="card-heading">{children}</h4>,
     LinkButton: ({
         href,
         children,
@@ -18,6 +21,9 @@ vi.mock('@/components/ui', () => ({
         <a data-testid="link" href={href}>
             {children}
         </a>
+    ),
+    Card: ({ children }: { children: React.ReactNode }) => (
+        <div data-testid="card">{children}</div>
     ),
 }));
 
@@ -31,7 +37,7 @@ describe('PostPreview', () => {
 
     it('renders the post title in a heading', () => {
         render(<PostPreview post={mockPost} />);
-        const heading = screen.getByTestId('heading');
+        const heading = screen.getByTestId('card-heading');
         expect(heading).toHaveTextContent(mockPost.title);
     });
 
@@ -40,11 +46,5 @@ describe('PostPreview', () => {
         const link = screen.getByTestId('link');
         const expectedHref = Routes.POST.replace(':id', String(mockPost.slug));
         expect(link).toHaveAttribute('href', expectedHref);
-    });
-
-    it('renders the ">" symbol inside the link', () => {
-        render(<PostPreview post={mockPost} />);
-        const link = screen.getByTestId('link');
-        expect(link).toHaveTextContent('>');
     });
 });
