@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { formatNumber, getBoneDiggerCost, getBonesPerClick } from './util';
+import {
+    formatNumber,
+    getBoneDiggerCost,
+    getBonesPerClick,
+    generateSlug,
+} from './util';
 import { BASE_BONE_COST_BONE_DIGGER } from '@/constants';
 
 describe('getBoneDiggerCost', () => {
@@ -42,5 +47,11 @@ describe('formatNumber', () => {
     it('returns a comma separated for thousands numbers', () => {
         expect(formatNumber(1234.42)).toBe('1,234');
         expect(formatNumber(12345.42)).toBe('12,345');
+    });
+});
+
+describe('generateSlug', () => {
+    it('returns a slug', () => {
+        expect(generateSlug('A  TeSt--TiTle!23')).toBe('a-test-title-23');
     });
 });
