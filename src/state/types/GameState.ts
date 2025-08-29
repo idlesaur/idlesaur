@@ -1,8 +1,10 @@
-import { Dino } from '@/state/types/Dino';
+// import { Dino } from '@/state/types/Dino';
 
 export interface GameState {
     bones: number;
+    setBones: (value: number) => void;
     boneDiggers: number;
-    dinos: Array<Dino>;
-    maxDinos: number;
+    setBoneDiggers: (value: number) => void;
+    // dinos: Array<Dino>;
+    // maxDinos: number;
 }

@@ -6,14 +6,14 @@ import { PiBone } from 'react-icons/pi';
 import { Slider } from '@/components/ui';
 import { BoneButton, GameCard, PriceButton } from '@/components/game';
 import { formatNumber, getBoneDiggerCost } from '@/util';
-import { useGameState, useGameStateDispatch } from '@/state/hooks';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-import { buyBoneDiggers } from '@/app/actions';
-import { setBones, setBoneDiggers } from '@/state/actions';
+import { buyBoneDiggers } from '@/app/lib/actions';
+import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 
 export const BoneSystemCard = () => {
-    const { bones, boneDiggers } = useGameState();
-    const dispatch = useGameStateDispatch();
+    const { bones, setBones } = useCurrencyStore((state) => state);
+    const { boneDiggers, setBoneDiggers } = useUpgradesStore((state) => state);
+
     const [state, buyDiggersAction, pending] = useActionState(
         buyBoneDiggers,
         null,
@@ -22,12 +22,12 @@ export const BoneSystemCard = () => {
 
     useEffect(() => {
         if (state?.bones) {
-            dispatch(setBones(state.bones));
+            setBones(state.bones);
         }
         if (state?.boneDiggers) {
-            dispatch(setBoneDiggers(state.boneDiggers));
+            setBoneDiggers(state.boneDiggers);
         }
-    }, [dispatch, state?.boneDiggers, state?.bones]);
+    }, [state?.boneDiggers, state?.bones]);
 
     const boneDiggerCost = getBoneDiggerCost(
         boneDiggers,

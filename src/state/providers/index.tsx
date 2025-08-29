@@ -1,2 +1,2 @@
-export * from './GameStateProvider';
-export * from './UserStateProvider';
+export * from './CurrencyStoreProvider';
+export * from './UpgradesStoreProvider';

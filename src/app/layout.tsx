@@ -18,10 +18,10 @@ export const metadata: Metadata = {
         'Free-to-play Open-source Multi-player Online Idle Dinosaur Game.',
 };
 
-const RootLayout = async ({ children }: { children: ReactNode }) => {
+export const experimental_ppr = true;
+
+export default async function Layout({ children }: { children: ReactNode }) {
     const session = await auth();
-    const userName = session?.user?.profile?.userName ?? undefined;
-    const profileImage = session?.user?.image ?? undefined;
 
     return (
         <html lang="en">
@@ -29,19 +29,13 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
                 className={`flex min-h-screen flex-col ${mainFont.className}`}
             >
                 <SessionProvider>
-                    <UserStateProvider
-                        initialState={{ userName, profileImage }}
-                    >
-                        <Header />
-                        <div className="flex flex-1 flex-col items-center justify-center">
-                            {children}
-                        </div>
-                    </UserStateProvider>
+                    <Header />
+                    <div className="flex flex-1 flex-col items-center justify-center">
+                        {children}
+                    </div>
                 </SessionProvider>
                 <Footer />
             </body>
         </html>
     );
-};
-
-export default RootLayout;
+}

@@ -33,7 +33,7 @@
     "@prisma/client": "^6.14.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "dotenv": "^17.2.1",
-    "next": "15.5.2",
+    "next": "15.5.1-canary.17",
     "next-auth": "5.0.0-beta.29",
     "pg": "^8.16.3",
     "prisma": "^6.14.0",
@@ -42,7 +42,8 @@
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.3.1",
     "tsx": "^4.20.4",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.0",

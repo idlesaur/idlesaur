@@ -1,8 +1,11 @@
 import { redirect, RedirectType } from 'next/navigation';
 import { auth } from '@/auth';
 import { Routes } from '@/constants';
-import { GameStateProvider } from '@/state/providers';
-import { getAndUpdateBones } from '@/app/actions';
+import {
+    CurrencyStoreProvider,
+    UpgradesStoreProvider,
+} from '@/state/providers';
+import { getAndUpdateBones } from '@/app/lib/actions';
 import { ReactNode } from 'react';
 
 export default async function GameLayout({
@@ -11,7 +14,7 @@ export default async function GameLayout({
     children: ReactNode;
 }) {
     const session = await auth();
-    if (!session) {
+    if (!session?.user) {
         redirect(Routes.HOME, RedirectType.replace);
     }
     const response = await getAndUpdateBones();
@@ -19,12 +22,12 @@ export default async function GameLayout({
         redirect(Routes.HOME, RedirectType.replace);
     }
 
-    const { bones } = response;
-    const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
+    // const { bones } = response;
+    // const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
 
     return (
-        <GameStateProvider initialState={{ bones, boneDiggers }}>
-            {children}
-        </GameStateProvider>
+        <UpgradesStoreProvider>
+            <CurrencyStoreProvider>{children}</CurrencyStoreProvider>
+        </UpgradesStoreProvider>
     );
 }

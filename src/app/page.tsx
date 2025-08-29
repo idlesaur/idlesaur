@@ -1,16 +1,10 @@
-import { prisma } from '@/prisma';
 import { LinkButton } from '@/components/ui';
 import { StyledHeading, SignInButton, Logo } from '@/components';
 import { Routes } from '@/constants';
-import { PostPreview } from '@/components/home';
-import { Post } from '@/generated/prisma';
 import { auth } from '@/auth';
+import PostPreviews from '@/app/PostPreviews';
 
 export default async function Home() {
-    const posts = await prisma.post.findMany({
-        orderBy: { createdAt: 'desc' },
-        take: 3,
-    });
     const session = await auth();
 
     return (
@@ -30,9 +24,7 @@ export default async function Home() {
                         <StyledHeading level={4}>View All News</StyledHeading>
                     </div>
                     <div className="mb-4 flex max-w-full flex-col flex-wrap items-center justify-center gap-3 sm:flex-row">
-                        {posts.map((post: Post) => (
-                            <PostPreview post={post} key={post.id} />
-                        ))}
+                        <PostPreviews />
                     </div>
                 </div>
             </main>
