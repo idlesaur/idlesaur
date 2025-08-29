@@ -1,7 +1,7 @@
 import '../src/app/globals.css';
 
 import type { Preview } from '@storybook/nextjs';
-import { withGameState } from './decorators/GameStateDecorator';
+import { withCurrencyState, withUpgradesState } from './decorators';
 
 const preview: Preview = {
     parameters: {
@@ -12,7 +12,7 @@ const preview: Preview = {
             },
         },
     },
-    decorators: [withGameState()],
+    decorators: [withCurrencyState(), withUpgradesState()],
 };
 
 export default preview;

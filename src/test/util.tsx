@@ -6,25 +6,41 @@ import {
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 
-import { GameStateProvider, UserStateProvider } from '@/state/providers';
-import { createGameState, createUserState } from '@/state/util';
-import { GameState, UserState } from '@/state/types';
+import {
+    CurrencyStoreProvider,
+    UpgradesStoreProvider,
+} from '@/state/providers';
+
+import {
+    createCurrencyState,
+    createUpgradesState,
+    CurrencyState,
+    UpgradesState,
+} from '@/state/stores';
 
 export interface WrapperOptions {
     session?: Session;
-    gameState?: Partial<GameState>;
-    userState?: Partial<UserState>;
+    upgradesState?: Partial<UpgradesState>;
+    currencyState?: Partial<CurrencyState>;
 }
 
-const createWrapper = ({ session, gameState, userState }: WrapperOptions) => {
+const createWrapper = ({
+    session,
+    upgradesState,
+    currencyState,
+}: WrapperOptions) => {
     // eslint-disable-next-line react/display-name
     return ({ children }: { children: React.ReactNode }): ReactNode => (
         <SessionProvider session={session ?? null}>
-            <GameStateProvider initialState={createGameState(gameState)}>
-                <UserStateProvider initialState={createUserState(userState)}>
+            <UpgradesStoreProvider
+                initialState={createUpgradesState(upgradesState)}
+            >
+                <CurrencyStoreProvider
+                    initialState={createCurrencyState(currencyState)}
+                >
                     {children}
-                </UserStateProvider>
-            </GameStateProvider>
+                </CurrencyStoreProvider>
+            </UpgradesStoreProvider>
         </SessionProvider>
     );
 };

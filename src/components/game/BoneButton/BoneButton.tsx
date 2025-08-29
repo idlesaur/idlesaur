@@ -15,7 +15,7 @@ export const BoneButton = () => {
             return;
         }
         setBones(state.bones);
-    }, [state?.bones]);
+    }, [setBones, state?.bones]);
 
     return (
         <PriceButton
