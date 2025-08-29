@@ -10,12 +10,16 @@ export type UpgradesActions = {
 
 export type UpgradesStore = UpgradesState & UpgradesActions;
 
-export const defaultInitState: UpgradesState = {
+export const defaultUpgradesState: UpgradesState = {
     boneDiggers: 0,
 };
 
+export const createUpgradesState = (
+    overrideDefaults: Partial<UpgradesState> = {},
+): UpgradesState => ({ ...defaultUpgradesState, ...overrideDefaults });
+
 export const createUpgradesStore = (
-    initState: UpgradesState = defaultInitState,
+    initState: UpgradesState = defaultUpgradesState,
 ) => {
     return createStore<UpgradesStore>()((set) => ({
         ...initState,

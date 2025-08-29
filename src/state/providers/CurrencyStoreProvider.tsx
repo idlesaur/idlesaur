@@ -6,7 +6,9 @@ import { useStore } from 'zustand';
 import {
     type CurrencyStore,
     createCurrencyStore,
-} from '@/state/stores/currency';
+    CurrencyState,
+    createCurrencyState,
+} from '@/state/stores';
 
 export type CurrencyStoreApi = ReturnType<typeof createCurrencyStore>;
 
@@ -16,14 +18,16 @@ export const CurrencyStoreContext = createContext<CurrencyStoreApi | undefined>(
 
 export interface CurrencyStoreProviderProps {
     children: ReactNode;
+    initialState?: CurrencyState;
 }
 
 export const CurrencyStoreProvider = ({
     children,
+    initialState = createCurrencyState(),
 }: CurrencyStoreProviderProps) => {
     const storeRef = useRef<CurrencyStoreApi | null>(null);
     if (storeRef.current === null) {
-        storeRef.current = createCurrencyStore();
+        storeRef.current = createCurrencyStore(initialState);
     }
 
     return (
@@ -36,13 +40,13 @@ export const CurrencyStoreProvider = ({
 export const useCurrencyStore = <T,>(
     selector: (store: CurrencyStore) => T,
 ): T => {
-    const counterStoreContext = useContext(CurrencyStoreContext);
+    const currencyStoreContext = useContext(CurrencyStoreContext);
 
-    if (!counterStoreContext) {
+    if (!currencyStoreContext) {
         throw new Error(
             `useCurrencyStore must be used within CurrencyStoreProvider`,
         );
     }
 
-    return useStore(counterStoreContext, selector);
+    return useStore(currencyStoreContext, selector);
 };

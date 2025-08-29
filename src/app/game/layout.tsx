@@ -7,6 +7,7 @@ import {
 } from '@/state/providers';
 import { getAndUpdateBones } from '@/app/lib/actions';
 import { ReactNode } from 'react';
+import { createCurrencyState, createUpgradesState } from '@/state/stores';
 
 export default async function GameLayout({
     children,
@@ -22,12 +23,18 @@ export default async function GameLayout({
         redirect(Routes.HOME, RedirectType.replace);
     }
 
-    // const { bones } = response;
-    // const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
+    const { bones } = response;
+    const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
 
     return (
-        <UpgradesStoreProvider>
-            <CurrencyStoreProvider>{children}</CurrencyStoreProvider>
+        <UpgradesStoreProvider
+            initialState={createUpgradesState({ boneDiggers })}
+        >
+            <CurrencyStoreProvider
+                initialState={createCurrencyState({ bones })}
+            >
+                {children}
+            </CurrencyStoreProvider>
         </UpgradesStoreProvider>
     );
 }

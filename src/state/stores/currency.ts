@@ -10,12 +10,16 @@ export type CurrencyActions = {
 
 export type CurrencyStore = CurrencyState & CurrencyActions;
 
-export const defaultInitState: CurrencyState = {
+export const defaultCurrencyState: CurrencyState = {
     bones: 0,
 };
 
+export const createCurrencyState = (
+    overrideDefaults: Partial<CurrencyState> = {},
+): CurrencyState => ({ ...defaultCurrencyState, ...overrideDefaults });
+
 export const createCurrencyStore = (
-    initState: CurrencyState = defaultInitState,
+    initState: CurrencyState = defaultCurrencyState,
 ) => {
     return createStore<CurrencyStore>()((set) => ({
         ...initState,

@@ -6,7 +6,9 @@ import { useStore } from 'zustand';
 import {
     type UpgradesStore,
     createUpgradesStore,
-} from '@/state/stores/upgrades';
+    UpgradesState,
+    createUpgradesState,
+} from '@/state/stores';
 
 export type UpgradesStoreApi = ReturnType<typeof createUpgradesStore>;
 
@@ -16,14 +18,16 @@ export const UpgradesStoreContext = createContext<UpgradesStoreApi | undefined>(
 
 export interface UpgradesStoreProviderProps {
     children: ReactNode;
+    initialState?: UpgradesState;
 }
 
 export const UpgradesStoreProvider = ({
     children,
+    initialState = createUpgradesState(),
 }: UpgradesStoreProviderProps) => {
     const storeRef = useRef<UpgradesStoreApi | null>(null);
     if (storeRef.current === null) {
-        storeRef.current = createUpgradesStore();
+        storeRef.current = createUpgradesStore(initialState);
     }
 
     return (
