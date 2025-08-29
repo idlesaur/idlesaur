@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { TopBar } from './TopBar';
-import { withGameState } from '../../../../.storybook/decorators/GameStateDecorator';
+import { withCurrencyState } from '@/../.storybook/decorators';
 
 const meta = {
     component: TopBar,
     title: 'Components/TopBar',
-    decorators: [withGameState({ bones: 42 })],
+    decorators: [withCurrencyState({ bones: 42 })],
 } satisfies Meta<typeof TopBar>;
 
 export default meta;

@@ -2,7 +2,7 @@ import {
     BASE_BONE_COST_BONE_DIGGER,
     BASE_BONES_PER_SECOND_PER_DIGGER,
 } from '@/constants';
-import { GameState } from '@/state/types';
+import { UpgradesState } from '@/state/stores';
 import { RequireOnly } from '@/types';
 
 export const getBoneDiggerCost = (
@@ -21,7 +21,7 @@ export const getBoneDiggerCost = (
 };
 
 export const getBonesPerClick = (
-    gameState: RequireOnly<GameState, 'boneDiggers'>,
+    gameState: RequireOnly<UpgradesState, 'boneDiggers'>,
 ): number => {
     return 1 + gameState.boneDiggers;
 };

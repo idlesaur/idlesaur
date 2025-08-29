@@ -11,22 +11,26 @@ import {
     afterAll,
 } from 'vitest';
 import { useInterval } from '@/hooks';
-import { useGameStateDispatch } from '@/state/hooks/useGameStateDispatch';
 import { render, getRender } from '@/test/util';
 import { GameTick } from '@/components/game';
+import { useCurrencyStore } from '@/state/providers';
 
 vi.mock('@/hooks/useInterval', { spy: true });
 vi.mock('@/state/hooks/useGameStateDispatch', { spy: true });
+vi.mock('@/state/providers', { spy: true });
 
 describe('GameTick', () => {
-    const dispatch = vi.fn();
+    const mockSetBones = vi.fn();
 
     beforeAll(() => {
         vi.useFakeTimers();
     });
 
     beforeEach(() => {
-        vi.mocked(useGameStateDispatch).mockReturnValue(dispatch);
+        vi.mocked(useCurrencyStore).mockReturnValue({
+            bones: 42,
+            setBones: mockSetBones,
+        });
     });
 
     afterEach(() => {
@@ -41,35 +45,30 @@ describe('GameTick', () => {
         render(<GameTick />);
 
         expect(useInterval).toHaveBeenCalled();
-        expect(useGameStateDispatch).toHaveBeenCalled();
-        expect(dispatch).not.toHaveBeenCalled();
+        expect(mockSetBones).not.toHaveBeenCalled();
 
         // Simulate a gametick
         act(() => {
             vi.advanceTimersToNextTimer();
         });
 
-        expect(dispatch).not.toHaveBeenCalled();
+        expect(mockSetBones).not.toHaveBeenCalled();
     });
 
     it('adds bones based on bone diggers', () => {
-        const renderWithState = getRender({ gameState: { boneDiggers: 1 } });
+        const renderWithState = getRender({
+            upgradesState: { boneDiggers: 1 },
+        });
         renderWithState(<GameTick />);
 
         expect(useInterval).toHaveBeenCalled();
-        expect(useGameStateDispatch).toHaveBeenCalled();
-        expect(dispatch).not.toHaveBeenCalled();
+        expect(mockSetBones).not.toHaveBeenCalled();
 
         // Simulate a game tick
         act(() => {
             vi.advanceTimersToNextTimer();
         });
 
-        expect(dispatch).toHaveBeenCalledWith(
-            expect.objectContaining({
-                type: 'game_state/set_bones',
-                payload: 0.066,
-            }),
-        );
+        expect(mockSetBones).toHaveBeenCalledWith(42.066);
     });
 });

@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 
 export const Header: React.FC = () => {
     const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+
     return (
         <>
             <header className="border-background-900 bg-background-800 mb-auto flex w-full flex-col border-b py-4">
@@ -14,10 +15,7 @@ export const Header: React.FC = () => {
                         className="hover:bg-background-700 cursor-pointer p-2 hover:rounded-2xl"
                         onClick={() => setIsSideNavOpen(true)}
                     >
-                        <GiHamburgerMenu
-                            data-testid="side-nav-toggle"
-                            className=""
-                        />
+                        <GiHamburgerMenu data-testid="side-nav-toggle" />
                     </div>
 
                     <Logo level={4} />
@@ -26,6 +24,7 @@ export const Header: React.FC = () => {
                     </div>
                 </div>
             </header>
+
             <SideNav
                 isOpen={isSideNavOpen}
                 onClose={() => setIsSideNavOpen(false)}

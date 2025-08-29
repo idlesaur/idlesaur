@@ -5,8 +5,6 @@ import { SessionProvider } from 'next-auth/react';
 import { Josefin_Sans } from 'next/font/google';
 
 import { Footer, Header } from '@/components';
-import { UserStateProvider } from '@/state/providers';
-import { auth } from '@/auth';
 
 const mainFont = Josefin_Sans({
     subsets: ['latin'],
@@ -18,30 +16,22 @@ export const metadata: Metadata = {
         'Free-to-play Open-source Multi-player Online Idle Dinosaur Game.',
 };
 
-const RootLayout = async ({ children }: { children: ReactNode }) => {
-    const session = await auth();
-    const userName = session?.user?.profile?.userName ?? undefined;
-    const profileImage = session?.user?.image ?? undefined;
+export const experimental_ppr = true;
 
+export default async function Layout({ children }: { children: ReactNode }) {
     return (
         <html lang="en">
             <body
                 className={`flex min-h-screen flex-col ${mainFont.className}`}
             >
                 <SessionProvider>
-                    <UserStateProvider
-                        initialState={{ userName, profileImage }}
-                    >
-                        <Header />
-                        <div className="flex flex-1 flex-col items-center justify-center">
-                            {children}
-                        </div>
-                    </UserStateProvider>
+                    <Header />
+                    <div className="flex flex-1 flex-col items-center justify-center">
+                        {children}
+                    </div>
                 </SessionProvider>
                 <Footer />
             </body>
         </html>
     );
-};
-
-export default RootLayout;
+}

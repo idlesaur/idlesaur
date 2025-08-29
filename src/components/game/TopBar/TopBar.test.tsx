@@ -2,31 +2,16 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { useUserState } from '@/state/hooks/useUserState';
-import { useGameState } from '@/state/hooks';
 import { TopBar } from './TopBar';
-import { GameState } from '@/state/types';
+import { useCurrencyStore } from '@/state/providers';
 import { render } from '@/test/util';
 
-vi.mock('@/state/hooks', () => ({
-    useGameState: vi.fn(),
-}));
-
-vi.mock('@/state/hooks/useUserState', () => ({
-    useUserState: vi.fn(),
-}));
+vi.mock('@/state/providers', { spy: true });
 
 describe('TopBar', () => {
-    const mockUseGameState = vi.mocked(useGameState);
-    const mockUseUserState = vi.mocked(useUserState);
-
     beforeEach(() => {
         vi.clearAllMocks();
-        mockUseGameState.mockReturnValue({ bones: 42 } as GameState);
-        mockUseUserState.mockReturnValue({
-            userName: 'TestUser',
-            profileImage: '/test.png',
-        });
+        vi.mocked(useCurrencyStore).mockReturnValue({ bones: 42 });
     });
 
     it('renders with bones value', () => {

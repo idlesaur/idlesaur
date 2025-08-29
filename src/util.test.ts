@@ -35,7 +35,7 @@ describe('getBonesPerClick', () => {
     });
 
     it('returns 1 + boneDiggers', () => {
-        expect(getBonesPerClick({ boneDiggers: 5, bones: 0 })).toBe(6);
+        expect(getBonesPerClick({ boneDiggers: 5 })).toBe(6);
     });
 });
 

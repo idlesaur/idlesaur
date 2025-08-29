@@ -2,7 +2,6 @@
 
 import { MdOutlineClose } from 'react-icons/md';
 import { useSession } from 'next-auth/react';
-
 import {
     SideNavContentSignedIn,
     SideNavContentSignedOut,
@@ -10,12 +9,21 @@ import {
 
 export interface SideNavProps {
     isOpen: boolean;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
     const { status } = useSession();
     const isSignedIn = status === 'authenticated';
+
+    const handleMenuClick = (e: React.MouseEvent) => {
+        // Only close if the click is on an <a> or <button>
+        const target = e.target as HTMLElement;
+        if (target.closest('a, button')) {
+            onClose?.();
+        }
+    };
+
     return (
         <>
             <div
@@ -42,7 +50,7 @@ export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
                         <MdOutlineClose />
                     </div>
                 </div>
-                <ul className="flex flex-col">
+                <ul className="flex flex-col" onClick={handleMenuClick}>
                     {isSignedIn ? (
                         <SideNavContentSignedIn />
                     ) : (

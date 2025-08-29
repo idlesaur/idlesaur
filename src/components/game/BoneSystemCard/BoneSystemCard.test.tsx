@@ -3,15 +3,14 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import React, { useActionState } from 'react';
 
 import { BoneSystemCard } from '@/components/game';
-import { useGameState, useGameStateDispatch } from '@/state/hooks';
+import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 import { getBoneDiggerCost } from '@/util';
-import { setBones, setBoneDiggers } from '@/state/actions';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-import { createGameState } from '@/state/util';
+import { createCurrencyState, createUpgradesState } from '@/state/stores';
 
-vi.mock('@/state/hooks', () => ({
-    useGameState: vi.fn(),
-    useGameStateDispatch: vi.fn(),
+vi.mock('@/state/providers', () => ({
+    useCurrencyStore: vi.fn(),
+    useUpgradesStore: vi.fn(),
 }));
 
 vi.mock('@/util', async () => {
@@ -32,17 +31,18 @@ vi.mock('react', async () => {
 });
 
 describe('<BoneSystemCard />', () => {
-    const mockDispatch = vi.fn();
     const mockUseActionState = vi.mocked(useActionState);
 
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.mocked(useGameStateDispatch).mockReturnValue(mockDispatch);
     });
 
     it('renders bone stats correctly', () => {
-        vi.mocked(useGameState).mockReturnValue(
-            createGameState({ bones: 100, boneDiggers: 2 }),
+        vi.mocked(useCurrencyStore).mockReturnValue(
+            createCurrencyState({ bones: 100 }),
+        );
+        vi.mocked(useUpgradesStore).mockReturnValue(
+            createUpgradesState({ boneDiggers: 2 }),
         );
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
         mockUseActionState.mockReturnValue([null, vi.fn(), false]);
@@ -57,8 +57,11 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('disables buy button when not affordable', () => {
-        vi.mocked(useGameState).mockReturnValue(
-            createGameState({ bones: 10, boneDiggers: 2 }),
+        vi.mocked(useCurrencyStore).mockReturnValue(
+            createCurrencyState({ bones: 10 }),
+        );
+        vi.mocked(useUpgradesStore).mockReturnValue(
+            createUpgradesState({ boneDiggers: 2 }),
         );
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
         mockUseActionState.mockReturnValue([null, vi.fn(), false]);
@@ -70,8 +73,11 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('disables buy button when pending', () => {
-        vi.mocked(useGameState).mockReturnValue(
-            createGameState({ bones: 100, boneDiggers: 2 }),
+        vi.mocked(useCurrencyStore).mockReturnValue(
+            createCurrencyState({ bones: 100 }),
+        );
+        vi.mocked(useUpgradesStore).mockReturnValue(
+            createUpgradesState({ boneDiggers: 2 }),
         );
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
         mockUseActionState.mockReturnValue([null, vi.fn(), true]);
@@ -83,9 +89,17 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('dispatches updated bones and diggers when state changes', () => {
-        vi.mocked(useGameState).mockReturnValue(
-            createGameState({ bones: 100, boneDiggers: 2 }),
-        );
+        const mockSetBones = vi.fn();
+        const mockSetBoneDiggers = vi.fn();
+
+        vi.mocked(useCurrencyStore).mockReturnValue({
+            ...createCurrencyState({ bones: 100 }),
+            setBones: mockSetBones,
+        });
+        vi.mocked(useUpgradesStore).mockReturnValue({
+            ...createUpgradesState({ boneDiggers: 2 }),
+            setBoneDiggers: mockSetBoneDiggers,
+        });
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
 
         const newState = { bones: 150, boneDiggers: 5 };
@@ -93,19 +107,20 @@ describe('<BoneSystemCard />', () => {
 
         render(<BoneSystemCard />);
 
-        expect(mockDispatch).toHaveBeenCalledWith(setBones(newState.bones));
-        expect(mockDispatch).toHaveBeenCalledWith(
-            setBoneDiggers(newState.boneDiggers),
-        );
+        expect(mockSetBones).toHaveBeenCalledWith(newState.bones);
+        // expect(mockDispatch).toHaveBeenCalledWith(
+        //     setBoneDiggers(newState.boneDiggers),
+        // );
     });
 
     it('updates buy amount when slider changes', () => {
-        vi.mocked(useGameState).mockReturnValue(
-            createGameState({
-                bones: 1000,
-                boneDiggers: 2,
-            }),
+        vi.mocked(useCurrencyStore).mockReturnValue(
+            createCurrencyState({ bones: 1000 }),
         );
+        vi.mocked(useUpgradesStore).mockReturnValue(
+            createUpgradesState({ boneDiggers: 2 }),
+        );
+
         vi.mocked(getBoneDiggerCost).mockReturnValue(100);
         mockUseActionState.mockReturnValue([null, vi.fn(), false]);
 

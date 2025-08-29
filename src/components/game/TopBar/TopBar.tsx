@@ -5,7 +5,7 @@ import React from 'react';
 import { PiBone } from 'react-icons/pi';
 
 import { formatNumber } from '@/util';
-import { useGameState } from '@/state/hooks';
+import { useCurrencyStore } from '@/state/providers';
 
 interface ResourceDisplayProps {
     value: number;
@@ -22,7 +22,7 @@ const ResourceDisplay = ({ value, children }: ResourceDisplayProps) => {
 };
 
 export const TopBar = () => {
-    const { bones } = useGameState();
+    const { bones } = useCurrencyStore((state) => state);
 
     return (
         <div

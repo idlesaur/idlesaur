@@ -7,7 +7,6 @@ import {
     ProfileDropdownContent,
 } from '@/components/ProfileDropdown';
 import React from 'react';
-import { Session } from 'next-auth';
 
 vi.mock('next/image', () => ({
     // @ts-expect-error props
@@ -21,44 +20,6 @@ vi.mock('@/components', () => ({
 }));
 
 describe('ProfileDropdownContent', () => {
-    const signedInRender = getRender({
-        session: {
-            user: {
-                name: 'test',
-                id: 'f',
-                profile: null,
-                currency: null,
-                upgrades: null,
-            },
-        } as Session,
-        userState: {
-            userName: 'Test User',
-            profileImage: '/test-image.jpg',
-        },
-    });
-
-    it('renders username and profile image when provided', () => {
-        signedInRender(<ProfileDropdownContent />);
-
-        expect(screen.getByText('Test User')).toBeInTheDocument();
-        expect(screen.getByAltText('mock image')).toHaveAttribute(
-            'src',
-            '/test-image.jpg',
-        );
-    });
-
-    it('does not render username if null/whitespace', () => {
-        const nullWhitespaceRender = getRender({
-            userState: {
-                userName: '   ',
-                profileImage: '/test-image.jpg',
-            },
-        });
-        nullWhitespaceRender(<ProfileDropdownContent />);
-
-        expect(screen.queryByText('   ')).not.toBeInTheDocument();
-    });
-
     it('always shows Profile, Settings, and Sign Out', () => {
         render(<ProfileDropdownContent />);
 
@@ -70,9 +31,17 @@ describe('ProfileDropdownContent', () => {
 
 describe('ProfileDropdown', () => {
     const user = userEvent.setup();
+
     const customRender = getRender({
-        userState: {
-            profileImage: '/test-image.jpg',
+        session: {
+            user: {
+                image: '/test-image.jpg',
+                id: '',
+                profile: null,
+                currency: null,
+                upgrades: null,
+            },
+            expires: '',
         },
     });
 

@@ -2,13 +2,15 @@
 
 import Image from 'next/image';
 
-import { useUserState } from '@/state/hooks';
 import { isNullOrWhitespace } from '@/util';
 import { SignOutButton } from '@/components';
 import { useEffect, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export const ProfileDropdownContent = () => {
-    const { userName, profileImage } = useUserState();
+    const session = useSession();
+    const userName = session?.data?.user?.profile?.userName ?? undefined;
+    const profileImage = session?.data?.user?.image ?? undefined;
 
     return (
         <div className="bg-background-800 absolute right-0 z-20 mt-1 w-40 rounded-lg shadow-lg">
@@ -42,7 +44,9 @@ export const ProfileDropdownContent = () => {
 };
 
 export const ProfileDropdown = () => {
-    const { profileImage } = useUserState();
+    const session = useSession();
+    const profileImage = session?.data?.user?.image ?? undefined;
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
