@@ -5,8 +5,6 @@ import { SessionProvider } from 'next-auth/react';
 import { Josefin_Sans } from 'next/font/google';
 
 import { Footer, Header } from '@/components';
-import { UserStateProvider } from '@/state/providers';
-import { auth } from '@/auth';
 
 const mainFont = Josefin_Sans({
     subsets: ['latin'],
@@ -21,8 +19,6 @@ export const metadata: Metadata = {
 export const experimental_ppr = true;
 
 export default async function Layout({ children }: { children: ReactNode }) {
-    const session = await auth();
-
     return (
         <html lang="en">
             <body

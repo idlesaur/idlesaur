@@ -21,13 +21,14 @@ export const BoneSystemCard = () => {
     const [amountBoneDiggersToBuy, setAmountBoneDiggersToBuy] = useState(1);
 
     useEffect(() => {
+        // TODO: if bones is 0, still set it
         if (state?.bones) {
             setBones(state.bones);
         }
         if (state?.boneDiggers) {
             setBoneDiggers(state.boneDiggers);
         }
-    }, [state?.boneDiggers, state?.bones]);
+    }, [setBoneDiggers, setBones, state?.boneDiggers, state?.bones]);
 
     const boneDiggerCost = getBoneDiggerCost(
         boneDiggers,
