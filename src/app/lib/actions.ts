@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { Routes } from '@/constants';
 import { getBoneDiggerCost, getBonesPerSecond } from '@/util';
 import { getFullUserData } from '@/server/util';
+import { Profile } from '@/schema';
 
 export interface BaseServerActionResponse {
     success: boolean;
@@ -126,4 +127,49 @@ export async function getAndUpdateBones() {
             lastBonesTick: now,
         },
     });
+}
+
+export async function updateProfile(
+    _currentState: BaseServerActionResponse | null,
+    formData: FormData,
+) {
+    const session = await auth();
+    if (!session?.user?.id) {
+        return { success: false, message: 'Unauthorized' };
+    }
+
+    const user = await getFullUserData(session.user.id);
+
+    if (!user?.profile) {
+        return { success: false, message: 'Profile not found' };
+    }
+
+    const parsedProfile = Profile.safeParse(formData);
+
+    if (!parsedProfile.success) {
+        return {
+            success: false,
+            message: 'Profile parse error',
+            error: parsedProfile.error,
+        };
+    }
+
+    try {
+        return await prisma.$transaction(async (tx) => {
+            await tx.profile.update({
+                data: parsedProfile.data,
+                where: { userId: session?.user?.id },
+            });
+
+            return {
+                success: true,
+                message: 'Updated profile successfully.',
+            };
+        });
+    } catch (e) {
+        return {
+            success: false,
+            error: String(e?.message ?? 'Error.'),
+        };
+    }
 }
