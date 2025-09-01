@@ -7,14 +7,17 @@ import { Routes } from '@/constants';
 import { getBoneDiggerCost, getBonesPerSecond } from '@/util';
 import { getFullUserData } from '@/server/util';
 import { Profile } from '@/schema';
+import { ZodError } from 'zod';
+import { SubmitHandler } from 'react-hook-form';
+import { EditProfileFormValues } from '@/components/profile';
 
-export interface BaseServerActionResponse {
+export interface BaseServerActionResponse<T> {
     success: boolean;
     message?: string;
-    error?: string;
+    errors?: ZodError<T>;
 }
 
-export interface DigState extends BaseServerActionResponse {
+export interface DigState extends BaseServerActionResponse<undefined> {
     bones?: number;
 }
 
@@ -50,7 +53,8 @@ export async function dig(): Promise<DigState> {
     }
 }
 
-export interface BuyBoneDiggerState extends BaseServerActionResponse {
+export interface BuyBoneDiggerState
+    extends BaseServerActionResponse<undefined> {
     bones?: number;
     boneDiggers?: number;
 }
@@ -97,7 +101,7 @@ export async function buyBoneDiggers(
     } catch (error: unknown) {
         return {
             success: false,
-            error: String(error),
+            message: String(error),
         };
     }
 }
@@ -129,10 +133,9 @@ export async function getAndUpdateBones() {
     });
 }
 
-export async function updateProfile(
-    _currentState: BaseServerActionResponse | null,
-    formData: FormData,
-) {
+export const updateProfile: SubmitHandler<EditProfileFormValues> = async (
+    data: EditProfileFormValues,
+) => {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
@@ -144,7 +147,7 @@ export async function updateProfile(
         return { success: false, message: 'Profile not found' };
     }
 
-    const parsedProfile = Profile.safeParse(formData);
+    const parsedProfile = Profile.safeParse(data);
 
     if (!parsedProfile.success) {
         return {
@@ -166,10 +169,11 @@ export async function updateProfile(
                 message: 'Updated profile successfully.',
             };
         });
-    } catch (e) {
+        // @ts-expect-error typing of error
+    } catch (e: never) {
         return {
             success: false,
-            error: String(e?.message ?? 'Error.'),
+            message: String(e?.message ?? 'Error.'),
         };
     }
-}
+};
