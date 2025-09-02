@@ -6,10 +6,8 @@ import { revalidatePath } from 'next/cache';
 import { Routes } from '@/constants';
 import { getBoneDiggerCost, getBonesPerSecond } from '@/util';
 import { getFullUserData } from '@/server/util';
-import { Profile } from '@/schema';
+import { Profile, ProfileType } from '@/schema';
 import { ZodError } from 'zod';
-import { SubmitHandler } from 'react-hook-form';
-import { EditProfileFormValues } from '@/components/profile';
 
 export interface BaseServerActionResponse<T> {
     success: boolean;
@@ -133,8 +131,9 @@ export async function getAndUpdateBones() {
     });
 }
 
-export const updateProfile: SubmitHandler<EditProfileFormValues> = async (
-    data: EditProfileFormValues,
+export const updateProfile = async (
+    // _currentState: BaseServerActionResponse<ProfileType> | null,
+    profile: ProfileType,
 ) => {
     const session = await auth();
     if (!session?.user?.id) {
@@ -147,7 +146,7 @@ export const updateProfile: SubmitHandler<EditProfileFormValues> = async (
         return { success: false, message: 'Profile not found' };
     }
 
-    const parsedProfile = Profile.safeParse(data);
+    const parsedProfile = Profile.safeParse(profile);
 
     if (!parsedProfile.success) {
         return {
