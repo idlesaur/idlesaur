@@ -2,17 +2,23 @@
 
 import { auth } from '@/auth';
 import { prisma } from '@/prisma';
+import { Prisma } from '@/generated/prisma';
 import { revalidatePath } from 'next/cache';
 import { Routes } from '@/constants';
-import { getBoneDiggerCost, getBonesPerSecond } from '@/util';
-import { getFullUserData } from '@/server/util';
+import {
+    getBoneDiggerCost,
+    getBonesPerSecond,
+    mergeZodErrors,
+    toZodErrorMany,
+} from '@/util';
+import { getFullUserData } from '@/app/lib/data';
 import { Profile, ProfileType } from '@/schema';
-import { ZodError } from 'zod';
+import * as z from 'zod';
 
 export interface BaseServerActionResponse<T> {
     success: boolean;
     message?: string;
-    errors?: ZodError<T>;
+    errors?: z.core.$ZodError<T>;
 }
 
 export interface DigState extends BaseServerActionResponse<undefined> {
@@ -132,7 +138,9 @@ export async function getAndUpdateBones() {
     });
 }
 
-export const updateProfile = async (profile: ProfileType) => {
+export const updateProfile = async (
+    profile: ProfileType,
+): Promise<BaseServerActionResponse<ProfileType>> => {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
@@ -155,24 +163,32 @@ export const updateProfile = async (profile: ProfileType) => {
     }
 
     try {
-        return await prisma.$transaction(async (tx) => {
-            await tx.profile.update({
-                data: parsedProfile.data,
-                where: { userId: session?.user?.id },
-            });
-
-            return {
-                success: true,
-                message: 'Updated profile successfully.',
-            };
+        await prisma.profile.update({
+            data: parsedProfile.data,
+            where: { userId: session?.user?.id },
         });
-        // @ts-expect-error typing of error
-    } catch (e: never) {
-        return {
-            success: false,
-            message: String(e?.message ?? 'Error.'),
-        };
-    } finally {
+
         revalidatePath(Routes.PROFILE);
+        return { success: true, message: 'Updated profile successfully.' };
+    } catch (e) {
+        if (
+            e instanceof Prisma.PrismaClientKnownRequestError &&
+            e.code === 'P2002'
+        ) {
+            return {
+                success: false,
+                message: 'Validation error',
+                errors: mergeZodErrors(
+                    undefined, // could be parsedProfile.error if it failed
+                    toZodErrorMany<ProfileType>({
+                        userName: 'Username already taken',
+                    }),
+                ),
+            };
+        }
+
+        throw e;
     }
+
+    return { success: false, message: 'Updated profile failed successfully.' };
 };
