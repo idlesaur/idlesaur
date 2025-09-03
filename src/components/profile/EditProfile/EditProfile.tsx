@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useActionState } from 'react';
+import React, { useActionState, startTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -22,7 +22,7 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         resolver: zodResolver(Profile),
     });
 
-    const [state, updateProfileAction] = useActionState(
+    const [_, updateProfileAction] = useActionState(
         async (
             _prevState: BaseServerActionResponse<ProfileType> | null,
             formData: FormData,
@@ -44,7 +44,6 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         },
         null,
     );
-    console.log('state', state);
 
     // Hybrid submit — validates with RHF, then sends FormData to server action
     const onValid = (data: ProfileType) => {
@@ -52,7 +51,7 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         Object.entries(data).forEach(([key, value]) => {
             formData.append(key, value as string);
         });
-        updateProfileAction(formData);
+        startTransition(() => updateProfileAction(formData));
     };
 
     return (

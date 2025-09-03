@@ -171,5 +171,7 @@ export const updateProfile = async (profile: ProfileType) => {
             success: false,
             message: String(e?.message ?? 'Error.'),
         };
+    } finally {
+        revalidatePath(Routes.GAME);
     }
 };
