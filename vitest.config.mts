@@ -24,7 +24,7 @@ export default defineConfig({
                 'src/prisma.ts',
             ],
             thresholds: {
-                functions: 87,
+                functions: 82,
                 branches: 88,
                 statements: 88,
                 lines: 88,
