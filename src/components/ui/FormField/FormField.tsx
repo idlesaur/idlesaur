@@ -1,34 +1,15 @@
-import { FieldError, UseFormRegister } from 'react-hook-form';
-import { InputHTMLAttributes } from 'react';
+import { InputProps } from '@/components/ui';
 
-export type ValidFieldNames =
-    | 'email'
-    | 'githubUrl'
-    | 'yearsOfExperience'
-    | 'password'
-    | 'confirmPassword';
-
-export interface FormFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-    name: ValidFieldNames;
-    register: UseFormRegister<FormData>;
-    error: FieldError | undefined;
-    valueAsNumber?: boolean;
+export interface FormFieldProps extends InputProps {
+    error?: string;
 }
 
-export const FormField: React.FC<FormFieldProps> = ({
-    type,
-    placeholder,
-    name,
-    register,
-    error,
-    valueAsNumber,
-}) => (
-    <>
-        <input
-            type={type}
-            placeholder={placeholder}
-            {...register(name, { valueAsNumber })}
-        />
-        {error && <span className="text-red-600">{error.message}</span>}
-    </>
-);
+export const FormField = ({ error, ...rest }: FormFieldProps) => {
+    console.log('error', error);
+    return (
+        <>
+            <input {...rest} />
+            {error && <span className="text-red-600">{error}</span>}
+        </>
+    );
+};

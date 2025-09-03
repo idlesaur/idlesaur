@@ -131,10 +131,7 @@ export async function getAndUpdateBones() {
     });
 }
 
-export const updateProfile = async (
-    // _currentState: BaseServerActionResponse<ProfileType> | null,
-    profile: ProfileType,
-) => {
+export const updateProfile = async (profile: ProfileType) => {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
@@ -152,7 +149,7 @@ export const updateProfile = async (
         return {
             success: false,
             message: 'Profile parse error',
-            error: parsedProfile.error,
+            errors: parsedProfile.error,
         };
     }
 

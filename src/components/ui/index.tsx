@@ -1,6 +1,7 @@
 export * from './Button';
 export * from './Card';
 export * from './CardHeading';
+export * from './FormField';
 export * from './Heading';
 export * from './Input';
 export * from './LinkButton';
