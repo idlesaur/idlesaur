@@ -1,24 +1,23 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { auth } from '@/auth';
 import { prisma } from '@/prisma';
-import { Prisma } from '@/generated/prisma';
-import { revalidatePath } from 'next/cache';
 import { Routes } from '@/constants';
-import {
-    getBoneDiggerCost,
-    getBonesPerSecond,
-    mergeZodErrors,
-    toZodErrorMany,
-} from '@/util';
+import { getBoneDiggerCost, getBonesPerSecond } from '@/util';
 import { getFullUserData } from '@/app/lib/data';
 import { Profile, ProfileType } from '@/schema';
-import * as z from 'zod';
+import {
+    flattenZodError,
+    mergeZodErrors,
+    toZodErrorMany,
+    ServerErrors,
+} from '@/app/lib/util';
 
 export interface BaseServerActionResponse<T> {
     success: boolean;
     message?: string;
-    errors?: z.core.$ZodError<T>;
+    errors?: ServerErrors<T>;
 }
 
 export interface DigState extends BaseServerActionResponse<undefined> {
@@ -147,18 +146,16 @@ export const updateProfile = async (
     }
 
     const user = await getFullUserData(session.user.id);
-
     if (!user?.profile) {
         return { success: false, message: 'Profile not found' };
     }
 
     const parsedProfile = Profile.safeParse(profile);
-
     if (!parsedProfile.success) {
         return {
             success: false,
             message: 'Profile parse error',
-            errors: parsedProfile.error,
+            errors: flattenZodError(parsedProfile.error),
         };
     }
 
@@ -170,25 +167,31 @@ export const updateProfile = async (
 
         revalidatePath(Routes.PROFILE);
         return { success: true, message: 'Updated profile successfully.' };
-    } catch (e) {
+    } catch (e: unknown) {
+        // Prepare Prisma-style errors
+        const prismaError: Partial<ProfileType> = {};
+
         if (
-            e instanceof Prisma.PrismaClientKnownRequestError &&
+            typeof e === 'object' &&
+            e !== null &&
+            'code' in e &&
             e.code === 'P2002'
         ) {
-            return {
-                success: false,
-                message: 'Validation error',
-                errors: mergeZodErrors(
-                    undefined, // could be parsedProfile.error if it failed
-                    toZodErrorMany<ProfileType>({
-                        userName: 'Username already taken',
-                    }),
-                ),
-            };
+            // @ts-expect-error meta might exist
+            const target = e?.meta?.target?.[0]?.replace('"', '') || 'userName';
+            prismaError[target as keyof ProfileType] =
+                `Username "${profile.userName}" already taken`;
         }
 
-        throw e;
-    }
+        // Convert plain Prisma errors to ZodError
+        const prismaZodError = toZodErrorMany<ProfileType>(prismaError);
 
-    return { success: false, message: 'Updated profile failed successfully.' };
+        return {
+            success: false,
+            message: 'Validation error',
+            errors: flattenZodError(
+                mergeZodErrors(parsedProfile.error, prismaZodError),
+            ),
+        };
+    }
 };

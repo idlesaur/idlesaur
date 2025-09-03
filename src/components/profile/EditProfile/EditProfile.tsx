@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { ProfileType, Profile } from '@/schema';
-import { Heading, FormField } from '@/components/ui';
+import { Heading, FormField, Button } from '@/components/ui';
 import { updateProfile } from '@/app/lib/actions';
 
 export interface EditProfileProps {
@@ -31,11 +31,10 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         console.log('result: ', result);
         if (!result.success && result.errors) {
             // Map server errors into RHF's errors
-            Object.entries(result.errors).forEach(([field, messages]) => {
-                console.log(messages);
+            Object.entries(result.errors).forEach(([field, message]) => {
                 setError(field as keyof ProfileType, {
                     type: 'server',
-                    message: (messages as string[])[0],
+                    message: message as string,
                 });
             });
         }
@@ -44,10 +43,9 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
     return (
         <div>
             <Heading level={2}>Profile</Heading>
-            <Heading level={4}>User: {profile.userName}</Heading>
             <form
                 onSubmit={handleSubmit(submitHandler)}
-                className="flex flex-col"
+                className="flex flex-col gap-2"
             >
                 <FormField
                     label="userName"
@@ -60,7 +58,7 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
                     register={register}
                     error={errors.bio?.message}
                 />
-                <input type="submit" />
+                <Button type="submit">Update Profile</Button>
             </form>
         </div>
     );

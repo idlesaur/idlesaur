@@ -4,8 +4,6 @@ import {
 } from '@/constants';
 import { UpgradesState } from '@/state/stores';
 import { RequireOnly } from '@/types';
-import { ZodError } from 'zod';
-import { FieldValues } from 'react-hook-form';
 
 export const getBoneDiggerCost = (
     currentBoneDiggers: number,
@@ -55,44 +53,3 @@ export const camelCaseToWords = (s: string) => {
     const result = s.replace(/([A-Z])/g, ' $1');
     return result.charAt(0).toUpperCase() + result.slice(1);
 };
-
-export function toZodError<T extends FieldValues>(
-    field: keyof T,
-    message: string,
-): ZodError {
-    return new ZodError([
-        {
-            code: 'custom',
-            message,
-            path: [field] as (keyof T)[],
-        },
-    ]);
-}
-
-/**
- * Create a ZodError from multiple fields at once.
- */
-export function toZodErrorMany<T extends FieldValues>(
-    errors: Partial<Record<keyof T, string>>,
-): ZodError<T> {
-    const issues = Object.entries(errors)
-        .filter(([, message]) => !!message)
-        .map(([field, message]) => ({
-            code: 'custom' as const,
-            message: message as string,
-            path: [field as keyof T],
-        }));
-
-    // TS thinks this produces ZodError<unknown> — so cast here
-    return new ZodError(issues) as ZodError<T>;
-}
-
-export function mergeZodErrors<T extends FieldValues>(
-    ...errors: (ZodError<T> | undefined | null)[]
-): ZodError<T> {
-    const mergedIssues = errors
-        .filter((e): e is ZodError<T> => e instanceof ZodError)
-        .flatMap((err) => err.issues);
-
-    return new ZodError(mergedIssues) as ZodError<T>;
-}
