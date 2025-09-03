@@ -1,9 +1,6 @@
 import * as z from 'zod';
 import { FieldValues } from 'react-hook-form';
-
-type ZodError<T = unknown> = z.core.$ZodError<T>;
-
-export type ServerErrors<T> = Partial<Record<keyof T, string>>;
+import { ServerErrors, ZodError } from '@/app/lib/types';
 
 export function flattenZodError<T extends FieldValues>(
     error: ZodError<T>,

@@ -31,20 +31,24 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
                 setError={setError}
                 onSubmit={updateProfile}
             >
-                <FormField
-                    label="userName"
-                    register={register}
-                    required={true}
-                    error={errors.userName?.message}
-                />
-                <FormField
-                    label="bio"
-                    register={register}
-                    error={errors.bio?.message}
-                />
-                <Button type="submit" loading={isLoading}>
-                    Update Profile
-                </Button>
+                {({ isPending }) => (
+                    <>
+                        <FormField
+                            label="userName"
+                            register={register}
+                            required={true}
+                            error={errors.userName?.message}
+                        />
+                        <FormField
+                            label="bio"
+                            register={register}
+                            error={errors.bio?.message}
+                        />
+                        <Button type="submit" loading={isPending || isLoading}>
+                            Update Profile
+                        </Button>
+                    </>
+                )}
             </Form>
         </div>
     );

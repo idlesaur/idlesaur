@@ -15,7 +15,10 @@ import {
 } from 'react-hook-form';
 
 export interface FormProps<T extends FieldValues> {
-    children?: React.ReactNode;
+    children?: (formState: {
+        isPending: boolean;
+        formState: BaseServerActionResponse<T>;
+    }) => React.ReactNode;
     handleSubmit: UseFormHandleSubmit<T>;
     setError: UseFormSetError<T>;
     onSubmit: (
@@ -30,7 +33,7 @@ export const Form = <T extends FieldValues>({
     onSubmit,
     setError,
 }: FormProps<T>) => {
-    const [formState, formAction] = useActionState(onSubmit, {
+    const [formState, formAction, isPending] = useActionState(onSubmit, {
         success: false,
     });
     const formRef = useRef<HTMLFormElement>(null);
@@ -41,8 +44,6 @@ export const Form = <T extends FieldValues>({
         }
         setErrorsFromServerErrors(formState, setError);
     }, [formState, setError]);
-
-    console.log('formState: ', formState);
 
     return (
         <form
@@ -58,7 +59,9 @@ export const Form = <T extends FieldValues>({
             className="flex flex-col gap-2"
             ref={formRef}
         >
-            {children}
+            {typeof children === 'function'
+                ? children({ isPending, formState })
+                : children}
         </form>
     );
 };
