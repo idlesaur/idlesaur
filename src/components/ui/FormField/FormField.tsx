@@ -1,8 +1,8 @@
 import { FieldValues, Path, UseFormRegister } from 'react-hook-form';
 import { camelCaseToWords } from '@/util';
-import { getInputClass } from '@/components/ui/util';
+import { Input, InputProps } from '@/components/ui';
 
-export interface FormFieldProps<T extends FieldValues> {
+export interface FormFieldProps<T extends FieldValues> extends InputProps {
     label: Path<T>;
     register: UseFormRegister<T>;
     required?: boolean;
@@ -14,14 +14,15 @@ export const FormField = <T extends FieldValues>({
     label,
     register,
     required = false,
+    ...rest
 }: FormFieldProps<T>) => {
     return (
         <>
             <label>{camelCaseToWords(label)}</label>
-            <input
+            <Input
                 {...register(label, { required })}
-                className={getInputClass()}
                 aria-invalid={!!error}
+                {...rest}
             />
             {error && <span className="text-red-600">{error}</span>}
         </>

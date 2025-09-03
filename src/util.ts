@@ -60,12 +60,12 @@ export function setErrorsFromServerErrors<T extends FieldValues>(
     result: BaseServerActionResponse<T>,
     setError: UseFormSetError<T>,
 ) {
-    if (!result.success && result.errors) {
-        Object.entries(result.errors).forEach(([field, message]) => {
-            setError(field as Path<T>, {
-                type: 'server',
-                message: message as string,
-            });
-        });
-    }
+    if (!result.errors) return;
+
+    (Object.keys(result.errors) as Array<keyof T>).forEach((key) => {
+        const message = result.errors![key];
+        if (message) {
+            setError(key as Path<T>, { message });
+        }
+    });
 }

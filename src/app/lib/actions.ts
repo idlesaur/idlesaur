@@ -63,7 +63,7 @@ export interface BuyBoneDiggerState
 }
 
 export async function buyBoneDiggers(
-    _currentState: BuyBoneDiggerState | null,
+    _previousState: BuyBoneDiggerState | null,
     formData: FormData,
 ): Promise<BuyBoneDiggerState> {
     const session = await auth();
@@ -138,11 +138,19 @@ export async function getAndUpdateBones() {
 }
 
 export const updateProfile = async (
-    profile: ProfileType,
+    _prevState: BaseServerActionResponse<ProfileType>,
+    formData: FormData,
 ): Promise<BaseServerActionResponse<ProfileType>> => {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
+    }
+
+    if (!(formData instanceof FormData)) {
+        return {
+            success: false,
+            message: 'Invalid Form Data',
+        };
     }
 
     const user = await getFullUserData(session.user.id);
@@ -150,6 +158,7 @@ export const updateProfile = async (
         return { success: false, message: 'Profile not found' };
     }
 
+    const profile = Object.fromEntries(formData);
     const parsedProfile = Profile.safeParse(profile);
     if (!parsedProfile.success) {
         return {
@@ -180,7 +189,7 @@ export const updateProfile = async (
             // @ts-expect-error meta might exist
             const target = e?.meta?.target?.[0]?.replace('"', '') || 'userName';
             prismaError[target as keyof ProfileType] =
-                `Username "${profile.userName}" already taken`;
+                `Username "${profile.userName}" already exists`;
         }
 
         // Convert plain Prisma errors to ZodError
