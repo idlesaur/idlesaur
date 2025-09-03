@@ -5,7 +5,7 @@ import {
 } from '@/constants';
 import { UpgradesState } from '@/state/stores';
 import { RequireOnly } from '@/types';
-import { BaseServerActionResponse } from '@/app/lib/actions';
+import { BaseServerActionResponse } from '@/app/lib/types';
 
 export const getBoneDiggerCost = (
     currentBoneDiggers: number,

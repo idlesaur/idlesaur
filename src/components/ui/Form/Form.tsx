@@ -6,7 +6,7 @@ import React, {
     useEffect,
     useRef,
 } from 'react';
-import { BaseServerActionResponse } from '@/app/lib/actions';
+import { BaseServerActionResponse } from '@/app/lib/types';
 import { setErrorsFromServerErrors } from '@/util';
 import {
     FieldValues,
