@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useActionState, startTransition } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { ProfileType, Profile } from '@/schema';
@@ -18,7 +18,8 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         handleSubmit,
         setError,
         formState: { errors },
-    } = useForm({
+    } = useForm<ProfileType>({
+        defaultValues: profile,
         resolver: zodResolver(Profile),
     });
 
@@ -29,10 +30,11 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         ) => {
             const data = Object.fromEntries(formData) as ProfileType;
             const result = await updateProfile(data);
-
+            console.log('result: ', result);
             if (!result.success && result.errors) {
                 // Map server errors into RHF's errors
                 Object.entries(result.errors).forEach(([field, messages]) => {
+                    console.log(messages);
                     setError(field as keyof ProfileType, {
                         type: 'server',
                         message: (messages as string[])[0],
@@ -46,7 +48,7 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
     );
 
     // Hybrid submit — validates with RHF, then sends FormData to server action
-    const onValid = (data: ProfileType) => {
+    const onValid: SubmitHandler<ProfileType> = (data: ProfileType) => {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
             formData.append(key, value as string);
@@ -60,10 +62,16 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
             <Heading level={4}>User: {profile.userName}</Heading>
             <form onSubmit={handleSubmit(onValid)} className="flex flex-col">
                 <FormField
-                    {...register('userName', { required: true })}
+                    label="userName"
+                    register={register}
+                    required={true}
                     error={errors.userName?.message}
                 />
-                <FormField {...register('bio')} error={errors.bio?.message} />
+                <FormField
+                    label="bio"
+                    register={register}
+                    error={errors.bio?.message}
+                />
                 <input type="submit" />
             </form>
         </div>

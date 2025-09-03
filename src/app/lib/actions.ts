@@ -96,7 +96,8 @@ export async function buyBoneDiggers(
                 bones: currency.bones,
             };
         });
-    } catch (error: unknown) {
+    } catch (error) {
+        console.error(error);
         return {
             success: false,
             message: String(error),
@@ -172,6 +173,6 @@ export const updateProfile = async (profile: ProfileType) => {
             message: String(e?.message ?? 'Error.'),
         };
     } finally {
-        revalidatePath(Routes.GAME);
+        revalidatePath(Routes.PROFILE);
     }
 };
