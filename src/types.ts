@@ -12,3 +12,10 @@ export type SessionUser = {
     currency: Currency | null;
     upgrades: Upgrades | null;
 };
+
+export type HighScore = {
+    key: string;
+    rank: number;
+    userName: string | null;
+    score: number;
+};

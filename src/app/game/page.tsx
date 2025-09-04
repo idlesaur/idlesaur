@@ -1,4 +1,4 @@
-import { BoneSystemCard, GameTick, TopBar } from '@/components/game';
+import { BoneSystemCard, GameTick, TopBar } from '@/components/page/game';
 
 export default async function Game() {
     return (

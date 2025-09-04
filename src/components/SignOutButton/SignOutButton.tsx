@@ -1,7 +1,9 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
 import React from 'react';
+import { signOut } from 'next-auth/react';
+import { twMerge } from 'tailwind-merge';
+
 import { Button } from '@/components/ui';
 
 export const SignOutButton = (
@@ -12,7 +14,7 @@ export const SignOutButton = (
             variant="secondary"
             {...props}
             onClick={async () => await signOut()}
-            className="w-24 p-0"
+            className={twMerge('w-24 p-0', props.className)}
         >
             Sign Out
         </Button>
