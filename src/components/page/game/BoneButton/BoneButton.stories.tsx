@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { BoneButton } from '@/components/game';
+import { BoneButton } from '@/components/page/game';
 
 const meta = {
     component: BoneButton,
-    title: 'Components/Game/BoneButton',
+    title: 'Components/Page/Game/BoneButton',
 } satisfies Meta<typeof BoneButton>;
 
 export default meta;

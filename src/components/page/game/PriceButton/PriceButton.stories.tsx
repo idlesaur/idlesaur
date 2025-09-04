@@ -2,11 +2,11 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { fn } from 'storybook/test';
 import { DiCode } from 'react-icons/di';
 
-import { PriceButton } from '@/components/game';
+import { PriceButton } from '@/components/page/game';
 
 const meta = {
     component: PriceButton,
-    title: 'Components/Game/PriceButton',
+    title: 'Components/Page/Game/PriceButton',
     args: {
         icon: <DiCode />,
         onClick: fn(),

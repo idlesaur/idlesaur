@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getFullUserData } from '@/app/lib/data';
+import { getUserData } from '@/app/lib/data';
 import { prisma } from '@/prisma';
 import { Profile } from '@/generated/prisma';
 
@@ -12,7 +12,7 @@ vi.mock('@/prisma', () => ({
     },
 }));
 
-describe('getFullUserData', () => {
+describe('getUserData', () => {
     const mockFindUnique = vi.mocked(prisma.user.findUnique);
 
     beforeEach(() => {
@@ -27,7 +27,7 @@ describe('getFullUserData', () => {
             upgrades: {},
         } as never);
 
-        const result = await getFullUserData('123');
+        const result = await getUserData({ userId: '123' });
 
         expect(mockFindUnique).toHaveBeenCalledWith({
             where: { id: '123' },
@@ -48,7 +48,7 @@ describe('getFullUserData', () => {
     it('returns null when user not found', async () => {
         mockFindUnique.mockResolvedValue(null);
 
-        const result = await getFullUserData('456');
+        const result = await getUserData({ userId: '456' });
 
         expect(result).toBeNull();
         expect(mockFindUnique).toHaveBeenCalledWith({

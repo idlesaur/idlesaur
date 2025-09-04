@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { DiCode } from 'react-icons/di';
 
-import { GameCard } from '@/components/game';
+import { GameCard } from '@/components/page/game';
 
 const meta = {
     component: GameCard,
-    title: 'Components/Game/GameCard',
+    title: 'Components/Page/Game/GameCard',
     args: {
         title: 'Game Card',
         children: 'Test button',

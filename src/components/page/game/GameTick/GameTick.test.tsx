@@ -12,7 +12,7 @@ import {
 } from 'vitest';
 import { useInterval } from '@/hooks';
 import { render, getRender } from '@/test/util';
-import { GameTick } from '@/components/game';
+import { GameTick } from '@/components/page/game';
 import { useCurrencyStore } from '@/state/providers';
 
 vi.mock('@/hooks/useInterval', { spy: true });

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { DinoStats } from '@/components/game';
+import { DinoStats } from '@/components/page/game';
 import { createDino } from '@/state/util';
 
 const meta = {
     component: DinoStats,
-    title: 'Components/Game/DinoStats',
+    title: 'Components/Page/Game/DinoStats',
     args: {
         dino: createDino({ name: 'Storybook Dino' }),
     },

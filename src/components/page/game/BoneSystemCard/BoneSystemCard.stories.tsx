@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { BoneSystemCard } from '@/components/game';
+import { BoneSystemCard } from '@/components/page/game';
 
 const meta = {
     component: BoneSystemCard,
-    title: 'Components/Game/BoneSystemCard',
+    title: 'Components/Page/Game/BoneSystemCard',
 } satisfies Meta<typeof BoneSystemCard>;
 
 export default meta;

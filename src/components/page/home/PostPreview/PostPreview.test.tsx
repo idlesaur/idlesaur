@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { PostPreview, PostPreviewProps } from '@/components/home';
+import { PostPreview, PostPreviewProps } from '@/components/page/home';
 import { Routes } from '@/constants';
 import { generateSlug } from '@/util';
 
@@ -32,7 +32,7 @@ describe('PostPreview', () => {
         id: 123,
         title: 'Test Post Title',
         slug: generateSlug('Test Post Title'),
-        // Add any required Post fields here if your generated type has more
+        createdAt: new Date(1757023227815),
     } as never;
 
     it('renders the post title in a heading', () => {

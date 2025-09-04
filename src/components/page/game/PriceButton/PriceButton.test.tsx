@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { DiCode } from 'react-icons/di';
 
-import { PriceButton } from '@/components/game';
+import { PriceButton } from '@/components/page/game';
 
 describe('PriceButton', () => {
     it('renders with icon and price', () => {
