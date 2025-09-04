@@ -19,9 +19,9 @@ export async function dig(): Promise<DigState> {
     }
 
     try {
-        return await prisma.$transaction(async () => {
-            await getAndUpdateBones();
+        await getAndUpdateBones();
 
+        return await prisma.$transaction(async () => {
             // Random bones gained per dig (1-5)
             const bonesGained = Math.floor(Math.random() * 5) + 1;
 

@@ -24,6 +24,7 @@
     "prisma:prod:reset": "dotenv -e .env.production -- prisma migrate reset",
     "prisma:prod:seed": "dotenv -e .env.production -- tsx prisma/seed.ts",
     "prisma:prod:deploy": "dotenv -e .env.production -- prisma migrate deploy",
+    "prisma:preview:deploy": "dotenv -e .env.preview -- prisma migrate deploy",
     "postinstall": "prisma generate"
   },
   "dependencies": {
