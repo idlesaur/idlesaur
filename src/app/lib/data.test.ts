@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getFullUserData } from './util';
+import { getFullUserData } from '@/app/lib/data';
 import { prisma } from '@/prisma';
 import { Profile } from '@/generated/prisma';
 

@@ -1,9 +1,11 @@
+import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
 import {
     BASE_BONE_COST_BONE_DIGGER,
     BASE_BONES_PER_SECOND_PER_DIGGER,
 } from '@/constants';
 import { UpgradesState } from '@/state/stores';
 import { RequireOnly } from '@/types';
+import { BaseServerActionResponse } from '@/app/lib/types';
 
 export const getBoneDiggerCost = (
     currentBoneDiggers: number,
@@ -48,3 +50,22 @@ export const generateSlug = (title: string): string => {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)+/g, '');
 };
+
+export const camelCaseToWords = (s: string) => {
+    const result = s.replace(/([A-Z])/g, ' $1');
+    return result.charAt(0).toUpperCase() + result.slice(1);
+};
+
+export function setErrorsFromServerErrors<T extends FieldValues>(
+    result: BaseServerActionResponse<T>,
+    setError: UseFormSetError<T>,
+) {
+    if (!result.errors) return;
+
+    (Object.keys(result.errors) as Array<keyof T>).forEach((key) => {
+        const message = result.errors![key];
+        if (message) {
+            setError(key as Path<T>, { message });
+        }
+    });
+}

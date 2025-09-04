@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { isNullOrWhitespace } from '@/util';
 import { SignOutButton } from '@/components';
 import { useEffect, useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { Routes } from '@/constants';
 
 export const ProfileDropdownContent = () => {
     const session = useSession();
@@ -14,9 +16,9 @@ export const ProfileDropdownContent = () => {
 
     return (
         <div className="bg-background-800 absolute right-0 z-20 mt-1 w-40 rounded-lg shadow-lg">
-            <ul className="flex flex-col text-sm">
+            <div className="flex flex-1 flex-col text-sm">
                 {!isNullOrWhitespace(userName) && (
-                    <li className="flex flex-row gap-2 px-4 py-2">
+                    <div className="flex flex-row gap-2 px-4 py-2">
                         {!isNullOrWhitespace(profileImage) && (
                             <Image
                                 src={profileImage!}
@@ -27,18 +29,21 @@ export const ProfileDropdownContent = () => {
                             />
                         )}
                         {userName}
-                    </li>
+                    </div>
                 )}
-                <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
+                <Link
+                    href={Routes.PROFILE}
+                    className="hover:bg-background-700 w-full cursor-pointer px-4 py-2"
+                >
                     Profile
-                </li>
-                <li className="hover:bg-background-700 cursor-pointer px-4 py-2">
+                </Link>
+                <div className="cursor-no-drop px-4 py-2 text-gray-500">
                     Settings
-                </li>
-                <li className="px-4 py-2">
+                </div>
+                <div className="px-4 py-2">
                     <SignOutButton />
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     );
 };

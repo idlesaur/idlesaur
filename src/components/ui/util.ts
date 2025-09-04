@@ -13,3 +13,10 @@ export const getButtonClass = (
         className,
     );
 };
+
+export const getInputClass = (className?: string): string => {
+    return twMerge(
+        'p-1 px-3 m-1 bg-background-800 rounded-2xl disabled:cursor-not-allowed disabled:opacity-50',
+        className,
+    );
+};

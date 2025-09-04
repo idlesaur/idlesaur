@@ -18,7 +18,9 @@ export const PostPreview = ({ post }: PostPreviewProps) => {
                 </div>
 
                 <CardHeading>{post.title}</CardHeading>
-                <div className="text-sm">{new Date().toLocaleDateString()}</div>
+                <div className="text-sm">
+                    {post.createdAt.toLocaleDateString()}
+                </div>
             </Card>
         </LinkButton>
     );

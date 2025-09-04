@@ -3,7 +3,7 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/prisma';
-import { getFullUserData } from '@/server/util';
+import { getUserData } from '@/app/lib/data';
 
 export const { handlers, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -12,7 +12,7 @@ export const { handlers, auth } = NextAuth({
         async session({ session, user }) {
             if (!user?.id) return session;
 
-            const dbUser = await getFullUserData(user.id);
+            const dbUser = await getUserData({ userId: user.id });
 
             if (dbUser) {
                 session.user = {

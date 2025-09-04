@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "public"."Currency" ALTER COLUMN "bones" SET DEFAULT 0,
+ALTER COLUMN "bones" SET DATA TYPE DOUBLE PRECISION;
+
+-- AlterTable
+ALTER TABLE "public"."Post" ALTER COLUMN "slug" DROP DEFAULT;

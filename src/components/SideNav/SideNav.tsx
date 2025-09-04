@@ -50,13 +50,13 @@ export const SideNav = ({ isOpen, onClose }: SideNavProps) => {
                         <MdOutlineClose />
                     </div>
                 </div>
-                <ul className="flex flex-col" onClick={handleMenuClick}>
+                <div className="flex flex-col" onClick={handleMenuClick}>
                     {isSignedIn ? (
                         <SideNavContentSignedIn />
                     ) : (
                         <SideNavContentSignedOut />
                     )}
-                </ul>
+                </div>
             </div>
         </>
     );
