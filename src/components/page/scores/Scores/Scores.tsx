@@ -11,7 +11,7 @@ export interface ScoreRowProps {
 
 export const ScoreRow = ({ score }: ScoreRowProps) => {
     return (
-        <div className="flex w-full flex-row items-center justify-between">
+        <div className="grid w-full grid-cols-3 py-2 text-center">
             <div>{score.rank}</div>
             <div>{score.userName}</div>
             <div>{score.score}</div>
@@ -25,15 +25,17 @@ export interface ScoresProps {
 
 export const Scores = ({ scores }: ScoresProps) => {
     return (
-        <Card>
+        <Card className="w-80">
             <CardHeading>High Scores</CardHeading>
-            <div className="flex w-full flex-row items-center justify-between">
+
+            <div className="bg-background-800 grid w-full grid-cols-3 py-2 text-center font-semibold">
                 <div>Rank</div>
                 <div>User</div>
                 <div>Score</div>
             </div>
+
             <div className="flex w-full flex-col">
-                {scores.map((score: HighScore) => (
+                {scores.map((score) => (
                     <ScoreRow score={score} key={score.key} />
                 ))}
             </div>
