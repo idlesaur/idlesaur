@@ -1,5 +1,5 @@
 import { prisma } from '@/prisma';
-import { PostPreview } from '@/components/home';
+import { PostPreview } from '@/components/page/home';
 import { Post } from '@/generated/prisma';
 
 export default async function PostPreviews() {

@@ -2,7 +2,7 @@
 
 import React, { useActionState, startTransition, useEffect } from 'react';
 import { PiBone } from 'react-icons/pi';
-import { PriceButton } from '@/components/game';
+import { PriceButton } from '@/components/page/game';
 import { dig } from '@/app/lib/actions';
 import { useCurrencyStore } from '@/state/providers';
 

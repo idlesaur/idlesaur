@@ -4,7 +4,7 @@ import React, { useActionState, useEffect, useState } from 'react';
 import { PiBone } from 'react-icons/pi';
 
 import { Slider } from '@/components/ui';
-import { BoneButton, GameCard, PriceButton } from '@/components/game';
+import { BoneButton, GameCard, PriceButton } from '@/components/page/game';
 import { formatNumber, getBoneDiggerCost } from '@/util';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
 import { buyBoneDiggers } from '@/app/lib/actions';

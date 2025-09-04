@@ -12,5 +12,6 @@ export enum Routes {
     HOME = '/',
     GAME = '/game',
     PROFILE = '/profile',
+    SCORES = '/scores',
     POST = '/post/:id',
 }
