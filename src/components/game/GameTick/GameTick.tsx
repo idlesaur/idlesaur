@@ -10,7 +10,7 @@ export const GameTick = () => {
     const { bones, setBones } = useCurrencyStore((state) => state);
 
     useInterval((dt: number) => {
-        const deltaSeconds: number = dt / 1000.0;
+        const deltaSeconds = dt / 1000.0;
         const additionalBones: number =
             getBonesPerSecond(boneDiggers) * deltaSeconds;
 

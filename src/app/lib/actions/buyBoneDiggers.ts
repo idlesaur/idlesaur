@@ -20,9 +20,9 @@ export async function buyBoneDiggers(
     const cost = getBoneDiggerCost(currentDiggers, quantity);
 
     try {
-        return await prisma.$transaction(async (tx) => {
-            await getAndUpdateBones();
+        await getAndUpdateBones();
 
+        return await prisma.$transaction(async (tx) => {
             const currency = await tx.currency.update({
                 data: {
                     bones: { decrement: cost },

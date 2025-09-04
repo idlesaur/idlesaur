@@ -2,7 +2,7 @@
 
 import { Profile, ProfileType } from '@/schema';
 import { auth } from '@/auth';
-import { getFullUserData } from '@/app/lib/data';
+import { getUserData } from '@/app/lib/data';
 import {
     flattenZodError,
     mergeZodErrors,
@@ -29,7 +29,7 @@ export const updateProfile = async (
         };
     }
 
-    const user = await getFullUserData(session.user.id);
+    const user = await getUserData({ userId: session.user.id });
     if (!user?.profile) {
         return { success: false, message: 'Profile not found' };
     }
