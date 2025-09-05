@@ -16,6 +16,7 @@ export type SessionUser = {
 export type HighScore = {
     key: string;
     rank: number;
+    publicProfile: boolean;
     userName: string | null;
     score: number;
 };

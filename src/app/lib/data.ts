@@ -65,6 +65,7 @@ export const getHighScores = async ({
             r.user?.profile?.userName,
             r.user?.profile?.public,
         ),
+        publicProfile: r.user?.profile?.public ?? false,
         score: r.bones,
         rank: 1 + skip + i,
         key: r.user?.profile?.userId ?? String(i),

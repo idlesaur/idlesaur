@@ -4,6 +4,9 @@ import React from 'react';
 
 import { Card, CardHeading } from '@/components/ui';
 import { HighScore } from '@/types';
+import Link from 'next/link';
+import { Routes } from '@/constants';
+import { formatNumber } from '@/util';
 
 export interface ScoreRowProps {
     score: HighScore;
@@ -13,8 +16,19 @@ export const ScoreRow = ({ score }: ScoreRowProps) => {
     return (
         <div className="grid w-full grid-cols-3 py-2 text-center">
             <div>{score.rank}</div>
-            <div>{score.userName}</div>
-            <div>{score.score}</div>
+            <div>
+                {score.publicProfile && score.userName ? (
+                    <Link
+                        href={Routes.PUBLIC_PROFILE(score.userName)}
+                        className="underline"
+                    >
+                        {score.userName}
+                    </Link>
+                ) : (
+                    score.userName
+                )}
+            </div>
+            <div>{formatNumber(score.score)}</div>
         </div>
     );
 };
