@@ -2,24 +2,8 @@
 
 import React from 'react';
 
-import { PiBone } from 'react-icons/pi';
-
-import { formatNumber } from '@/util';
 import { useCurrencyStore } from '@/state/providers';
-
-interface ResourceDisplayProps {
-    value: number;
-    children: React.ReactElement;
-}
-
-const ResourceDisplay = ({ value, children }: ResourceDisplayProps) => {
-    return (
-        <div className="bg-background-700 flex flex-row items-center rounded-2xl pr-3">
-            <div className="bg-background-800 rounded-2xl p-1">{children}</div>
-            <span className="pl-1">{formatNumber(value)}</span>
-        </div>
-    );
-};
+import { ResourceDisplay, ResourceType } from '@/components';
 
 export const TopBar = () => {
     const { bones } = useCurrencyStore((state) => state);
@@ -29,9 +13,7 @@ export const TopBar = () => {
             className="bg-background-900 sticky top-0 flex h-8 w-full flex-row items-center gap-3 p-1"
             data-testid="top-bar"
         >
-            <ResourceDisplay value={bones}>
-                <PiBone />
-            </ResourceDisplay>
+            <ResourceDisplay value={bones} type={ResourceType.BONES} />
         </div>
     );
 };

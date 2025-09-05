@@ -78,6 +78,13 @@ export const ProfileDropdown = () => {
         };
     }, []);
 
+    const handleMenuClick = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('a, button')) {
+            setIsDropdownOpen(false);
+        }
+    };
+
     return (
         <div className="" ref={dropdownRef}>
             {!isNullOrWhitespace(profileImage) && (
@@ -90,7 +97,9 @@ export const ProfileDropdown = () => {
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
                 />
             )}
-            {isDropdownOpen && <ProfileDropdownContent />}
+            <div onClick={handleMenuClick}>
+                {isDropdownOpen && <ProfileDropdownContent />}
+            </div>
         </div>
     );
 };
