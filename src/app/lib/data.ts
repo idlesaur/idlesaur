@@ -48,6 +48,7 @@ export const getHighScores = async ({
                 select: {
                     profile: {
                         select: {
+                            public: true,
                             userName: true,
                             userId: true,
                         },
@@ -60,7 +61,10 @@ export const getHighScores = async ({
     });
 
     const highScores: HighScore[] = result.map((r, i) => ({
-        userName: getPublicProfileName(r.user?.profile?.userName, true),
+        userName: getPublicProfileName(
+            r.user?.profile?.userName,
+            r.user?.profile?.public,
+        ),
         score: r.bones,
         rank: 1 + skip + i,
         key: r.user?.profile?.userId ?? String(i),
