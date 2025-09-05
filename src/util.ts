@@ -69,3 +69,15 @@ export function setErrorsFromServerErrors<T extends FieldValues>(
         }
     });
 }
+
+const ANON_NAME = 'Anonnosaur';
+export function getPublicProfileName(
+    userName?: string | null,
+    isPublic?: boolean,
+): string {
+    if (!isPublic || userName === null || userName === undefined) {
+        return ANON_NAME;
+    }
+
+    return userName ?? ANON_NAME;
+}

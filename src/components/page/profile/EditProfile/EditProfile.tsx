@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { ProfileType, Profile } from '@/schema';
-import { Heading, Form, FormField, Button } from '@/components/ui';
+import { Card, CardHeading, Form, FormField, Button } from '@/components/ui';
 import { updateProfile } from '@/app/lib/actions';
 
 export interface EditProfileProps {
@@ -24,8 +24,8 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
     });
 
     return (
-        <div>
-            <Heading level={2}>Profile</Heading>
+        <Card>
+            <CardHeading>Profile</CardHeading>
             <Form
                 handleSubmit={handleSubmit}
                 setError={setError}
@@ -44,12 +44,16 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
                             register={register}
                             error={errors.bio?.message}
                         />
-                        <Button type="submit" loading={isPending || isLoading}>
+                        <Button
+                            type="submit"
+                            loading={isPending || isLoading}
+                            className="mt-2 w-full"
+                        >
                             Update Profile
                         </Button>
                     </>
                 )}
             </Form>
-        </div>
+        </Card>
     );
 };

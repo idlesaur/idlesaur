@@ -25,7 +25,7 @@ export interface ScoresProps {
 
 export const Scores = ({ scores }: ScoresProps) => {
     return (
-        <Card className="w-80">
+        <Card className="w-xl">
             <CardHeading>High Scores</CardHeading>
 
             <div className="bg-background-800 grid w-full grid-cols-3 py-2 text-center font-semibold">

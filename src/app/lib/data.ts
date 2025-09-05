@@ -3,6 +3,7 @@ import { cache } from 'react';
 import { prisma } from '@/prisma';
 import { PrismaClient } from '@/generated/prisma';
 import { HighScore } from '@/types';
+import { getPublicProfileName } from '@/util';
 
 export type PrismaTransactionalClient = Parameters<
     Parameters<PrismaClient['$transaction']>[0]
@@ -17,6 +18,12 @@ export const getPostBySlug = cache(async (slug: string) => {
 export const getProfileByUserId = async (userId: string) => {
     return prisma.profile.findUnique({
         where: { userId },
+    });
+};
+
+export const getPublicProfileByUserName = async (userName: string) => {
+    return prisma.profile.findUnique({
+        where: { userName },
     });
 };
 
@@ -53,7 +60,7 @@ export const getHighScores = async ({
     });
 
     const highScores: HighScore[] = result.map((r, i) => ({
-        userName: r.user?.profile?.userName ?? 'Anonnosaur',
+        userName: getPublicProfileName(r.user?.profile?.userName, true),
         score: r.bones,
         rank: 1 + skip + i,
         key: r.user?.profile?.userId ?? String(i),
