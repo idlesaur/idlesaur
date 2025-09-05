@@ -3,15 +3,19 @@ import { getPublicProfileByUserName } from '@/app/lib/data';
 import { PublicProfile } from '@/components/page/profile';
 import { TbFileSad } from 'react-icons/tb';
 
-// export async function generateMetadata({ params }: Props) {
-//     const { slug } = await params;
-//     const post = await getPostBySlug(slug);
-//
-//     return {
-//         title: post?.title,
-//         description: post?.content,
-//     };
-// }
+export async function generateMetadata({ params }: Props) {
+    const { userName } = await params;
+    const profile = await getPublicProfileByUserName(userName);
+
+    const isProfileAvailable = profile?.public;
+
+    return {
+        title: isProfileAvailable
+            ? `Idlesaur - ${profile.userName}'s profile`
+            : 'Idlesaur - Profile not found',
+        description: 'Idlesaur - Profile Page',
+    };
+}
 
 export type Props = {
     params: Promise<{ userName: string }>;
@@ -19,10 +23,7 @@ export type Props = {
 
 export default async function Page({ params }: Props) {
     const { userName } = await params;
-    console.log('userName', userName);
-
     const profile = await getPublicProfileByUserName(userName);
-    console.log('profile', profile);
 
     return (
         <div>

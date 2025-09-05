@@ -25,7 +25,7 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
 
     return (
         <Card>
-            <CardHeading>Profile</CardHeading>
+            <CardHeading>Your Profile</CardHeading>
             <Form
                 handleSubmit={handleSubmit}
                 setError={setError}
@@ -33,6 +33,12 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
             >
                 {({ isPending }) => (
                     <>
+                        <FormField
+                            type="checkbox"
+                            label="public"
+                            register={register}
+                            error={errors.public?.message}
+                        />
                         <FormField
                             label="userName"
                             register={register}

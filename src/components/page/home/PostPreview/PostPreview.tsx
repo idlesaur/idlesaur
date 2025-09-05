@@ -9,7 +9,7 @@ export interface PostPreviewProps {
 }
 
 export const PostPreview = ({ post }: PostPreviewProps) => {
-    const link = Routes.POST.replace(':id', String(post.slug));
+    const link = Routes.POST_PAGE(post.slug);
     return (
         <LinkButton href={link} className="w-80 p-1">
             <Card>

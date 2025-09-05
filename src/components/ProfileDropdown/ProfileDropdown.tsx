@@ -28,14 +28,21 @@ export const ProfileDropdownContent = () => {
                                 height={32}
                             />
                         )}
-                        {userName}
+                        {userName && (
+                            <Link
+                                href={Routes.PUBLIC_PROFILE(userName)}
+                                className="hover:bg-background-700 w-full cursor-pointer px-4 py-2"
+                            >
+                                {userName}
+                            </Link>
+                        )}
                     </div>
                 )}
                 <Link
                     href={Routes.PROFILE}
                     className="hover:bg-background-700 w-full cursor-pointer px-4 py-2"
                 >
-                    Profile
+                    Edit Profile
                 </Link>
                 <div className="cursor-no-drop px-4 py-2 text-gray-500">
                     Settings

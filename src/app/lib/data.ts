@@ -23,7 +23,7 @@ export const getProfileByUserId = async (userId: string) => {
 
 export const getPublicProfileByUserName = async (userName: string) => {
     return prisma.profile.findUnique({
-        where: { userName },
+        where: { userName, public: true },
     });
 };
 
