@@ -24,7 +24,6 @@ export type Props = {
 export default async function Page({ params }: Props) {
     const { userName } = await params;
     const profileInfo = await getPublicProfileByUserName(userName);
-    console.log('profileInfo! ', profileInfo);
 
     const profile: ProfileType = {
         userName: profileInfo?.userName ?? '',
