@@ -98,23 +98,4 @@ describe('EditProfile', () => {
             expect(updateProfile).toHaveBeenCalled();
         });
     });
-
-    // it('displays validation errors from react-hook-form', async () => {
-    //     // We will trigger an error by mocking updateProfile to throw
-    //     (updateProfile as any).mockImplementationOnce(() => {
-    //         throw { userName: { message: 'Username error' } };
-    //     });
-    //
-    //     render(<EditProfile profile={defaultProfile} />);
-    //
-    //     fireEvent.submit(
-    //         screen.getByRole('button', { name: /update profile/i }),
-    //     );
-    //
-    //     await waitFor(() => {
-    //         expect(screen.getByRole('alert')).toHaveTextContent(
-    //             /username error/i,
-    //         );
-    //     });
-    // });
 });
