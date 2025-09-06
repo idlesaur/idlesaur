@@ -3,7 +3,7 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/prisma';
-import { getUserData } from '@/app/lib/data';
+import { getUserData, updateProfileLastActive } from '@/app/lib/data';
 
 export const { handlers, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -28,6 +28,9 @@ export const { handlers, auth } = NextAuth({
         },
     },
     events: {
+        session: async ({ session }) => {
+            updateProfileLastActive({ userId: session?.user?.id });
+        },
         createUser: async ({ user }) => {
             await prisma.$transaction([
                 prisma.profile.create({
