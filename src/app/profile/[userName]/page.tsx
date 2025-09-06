@@ -27,15 +27,10 @@ export default async function Page({ params }: Props) {
     const session = await auth();
     const isOwnProfile = userName === session?.user?.profile?.userName;
 
-    console.log(session);
-    console.log('own profile: ', isOwnProfile);
-
     const profileInfo = await getPublicProfileByUserName(
         userName,
         isOwnProfile,
     );
-
-    console.log(profileInfo);
 
     const profile: ProfileType = {
         userName: profileInfo?.userName ?? '',
