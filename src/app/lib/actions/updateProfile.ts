@@ -11,7 +11,7 @@ import {
 import { prisma } from '@/prisma';
 import { revalidatePath } from 'next/cache';
 import { Routes } from '@/constants';
-import { BaseServerActionResponse } from '@/app/lib/types';
+import { BaseServerActionResponse, ServerErrors } from '@/app/lib/types';
 
 export const updateProfile = async (
     _prevState: BaseServerActionResponse<ProfileType>,
@@ -34,7 +34,12 @@ export const updateProfile = async (
         return { success: false, message: 'Profile not found' };
     }
 
-    const profile = Object.fromEntries(formData);
+    const profileFormData = Object.fromEntries(formData);
+    const profile = {
+        ...profileFormData,
+        public: profileFormData.public === 'true',
+    };
+
     const parsedProfile = Profile.safeParse(profile);
     if (!parsedProfile.success) {
         return {
@@ -53,8 +58,7 @@ export const updateProfile = async (
         revalidatePath(Routes.PROFILE);
         return { success: true, message: 'Updated profile successfully.' };
     } catch (e: unknown) {
-        // Prepare Prisma-style errors
-        const prismaError: Partial<ProfileType> = {};
+        const prismaError: ServerErrors<ProfileType> = {};
 
         if (
             typeof e === 'object' &&
@@ -63,12 +67,13 @@ export const updateProfile = async (
             e.code === 'P2002'
         ) {
             // @ts-expect-error meta might exist
-            const target = e?.meta?.target?.[0]?.replace('"', '') || 'userName';
-            prismaError[target as keyof ProfileType] =
-                `Username "${profile.userName}" already exists`;
+            const target = e?.meta?.target?.[0]?.replace('"', '') || false;
+            if (target === 'userName') {
+                prismaError.userName = `Username "${parsedProfile.data.userName}" already exists`;
+            }
         }
 
-        const prismaZodError = toZodErrorMany<ProfileType>(prismaError);
+        const prismaZodError = toZodErrorMany(prismaError);
 
         return {
             success: false,

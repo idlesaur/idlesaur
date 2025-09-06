@@ -11,7 +11,7 @@ export function flattenZodError<T extends FieldValues>(
 }
 
 export function toZodErrorMany<T extends FieldValues>(
-    errors: Partial<Record<keyof T, string>>,
+    errors: ServerErrors<T>,
 ): ZodError<T> {
     const issues = Object.entries(errors)
         .filter(([, message]) => !!message)

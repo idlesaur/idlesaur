@@ -59,6 +59,7 @@ export const BoneSystemCard = () => {
                     price={formatNumber(boneDiggerCost)}
                     text={`Buy ${amountBoneDiggersToBuy} Bone-digger${amountBoneDiggersToBuy > 1 ? 's' : ''}`}
                     type="submit"
+                    className="w-full"
                     disabled={
                         pending ||
                         !canAffordBoneDigger ||

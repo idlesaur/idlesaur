@@ -44,7 +44,7 @@ describe('PostPreview', () => {
     it('renders a link with the correct href', () => {
         render(<PostPreview post={mockPost} />);
         const link = screen.getByTestId('link');
-        const expectedHref = Routes.POST.replace(':id', String(mockPost.slug));
+        const expectedHref = Routes.POST_PAGE(mockPost.slug);
         expect(link).toHaveAttribute('href', expectedHref);
     });
 });

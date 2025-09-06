@@ -1,17 +1,13 @@
 'use client';
 
-import React, {
-    startTransition,
-    useActionState,
-    useEffect,
-    useRef,
-} from 'react';
+import React, { startTransition, useActionState, useEffect } from 'react';
 import { BaseServerActionResponse } from '@/app/lib/types';
 import { setErrorsFromServerErrors } from '@/util';
 import {
     FieldValues,
     UseFormSetError,
     UseFormHandleSubmit,
+    SubmitHandler,
 } from 'react-hook-form';
 
 export interface FormProps<T extends FieldValues> {
@@ -36,7 +32,6 @@ export const Form = <T extends FieldValues>({
     const [formState, formAction, isPending] = useActionState(onSubmit, {
         success: false,
     });
-    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         if (!formState || formState.success) {
@@ -45,19 +40,16 @@ export const Form = <T extends FieldValues>({
         setErrorsFromServerErrors(formState, setError);
     }, [formState, setError]);
 
+    const onRhfSubmit: SubmitHandler<T> = (data) => {
+        const formData = new FormData();
+        Object.keys(data).forEach((key) => formData.append(key, data[key]));
+        startTransition(() => formAction(formData));
+    };
+
     return (
         <form
-            // onSubmit={handleSubmit(onSubmit)}
-            onSubmit={(evt) => {
-                evt.preventDefault();
-                handleSubmit(() => {
-                    startTransition(() =>
-                        formAction(new FormData(formRef.current!)),
-                    );
-                })(evt);
-            }}
-            className="flex flex-col gap-2"
-            ref={formRef}
+            onSubmit={handleSubmit(onRhfSubmit)}
+            className="flex flex-col items-start gap-2"
         >
             {typeof children === 'function'
                 ? children({ isPending, formState })

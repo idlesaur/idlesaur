@@ -8,10 +8,11 @@ export const DEFAULT_AUTO_SAVE_DELAY: number = 2 * 60 * 1000; // X minutes
 export const GAME_SAVE_KEY: string = 'gamesave';
 
 // general
-export enum Routes {
-    HOME = '/',
-    GAME = '/game',
-    PROFILE = '/profile',
-    SCORES = '/scores',
-    POST = '/post/:id',
-}
+export const Routes = {
+    HOME: '/',
+    GAME: '/game',
+    PROFILE: '/profile',
+    PUBLIC_PROFILE: (userName: string) => `/profile/${userName}`,
+    SCORES: '/scores',
+    POST_PAGE: (slug: string) => `/post/${slug}`,
+};
