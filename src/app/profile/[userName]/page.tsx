@@ -2,6 +2,7 @@ import { ProfileType } from '@/schema';
 import { getPublicProfileByUserName } from '@/app/lib/data';
 import { PublicProfile } from '@/components/page/profile';
 import { TbFileSad } from 'react-icons/tb';
+import { auth } from '@/auth';
 
 export async function generateMetadata({ params }: Props) {
     const { userName } = await params;
@@ -23,7 +24,18 @@ export type Props = {
 
 export default async function Page({ params }: Props) {
     const { userName } = await params;
-    const profileInfo = await getPublicProfileByUserName(userName);
+    const session = await auth();
+    const isOwnProfile = userName === session?.user?.profile?.userName;
+
+    console.log(session);
+    console.log('own profile: ', isOwnProfile);
+
+    const profileInfo = await getPublicProfileByUserName(
+        userName,
+        isOwnProfile,
+    );
+
+    console.log(profileInfo);
 
     const profile: ProfileType = {
         userName: profileInfo?.userName ?? '',
@@ -35,8 +47,12 @@ export default async function Page({ params }: Props) {
     return (
         <div>
             <main>
-                {profile ? (
-                    <PublicProfile profile={profile} currency={currency} />
+                {isOwnProfile || (profile && profile.public) ? (
+                    <PublicProfile
+                        profile={profile}
+                        currency={currency}
+                        isOwnProfile={isOwnProfile}
+                    />
                 ) : (
                     <div className="flex flex-col items-center">
                         <TbFileSad size={64} />

@@ -21,9 +21,15 @@ export const getProfileByUserId = async (userId: string) => {
     });
 };
 
-export const getPublicProfileByUserName = async (userName: string) => {
+export const getPublicProfileByUserName = async (
+    userName: string,
+    isOwnProfile?: boolean,
+) => {
     return prisma.profile.findUnique({
-        where: { userName, public: true },
+        where: {
+            userName,
+            ...(!isOwnProfile && { public: true }),
+        },
         include: {
             user: {
                 select: {

@@ -8,6 +8,7 @@ import { ResourceDisplay, ResourceType } from '@/components';
 export interface PublicProfileProps {
     profile: Partial<ProfileType>;
     currency?: CurrencyState;
+    isOwnProfile?: boolean;
 }
 
 export const PublicProfile = ({ profile, currency }: PublicProfileProps) => {
