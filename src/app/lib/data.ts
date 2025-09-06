@@ -104,3 +104,20 @@ export const getUserData = ({ userId, tx }: GetUserDataParams) => {
         },
     });
 };
+
+export interface UpdateProfileLastActiveProps {
+    userId: string;
+}
+
+export const updateProfileLastActive = async ({
+    userId,
+}: UpdateProfileLastActiveProps) => {
+    await prisma.profile.update({
+        data: {
+            lastActive: new Date(),
+        },
+        where: {
+            userId,
+        },
+    });
+};

@@ -1,4 +1,3 @@
-import { ProfileType } from '@/schema';
 import { getPublicProfileByUserName } from '@/app/lib/data';
 import { PublicProfile } from '@/components/page/profile';
 import { TbFileSad } from 'react-icons/tb';
@@ -27,24 +26,15 @@ export default async function Page({ params }: Props) {
     const session = await auth();
     const isOwnProfile = userName === session?.user?.profile?.userName;
 
-    const profileInfo = await getPublicProfileByUserName(
-        userName,
-        isOwnProfile,
-    );
-
-    const profile: ProfileType = {
-        userName: profileInfo?.userName ?? '',
-        public: profileInfo?.public ?? false,
-        bio: profileInfo?.bio ?? '',
-    };
-    const currency = profileInfo?.user?.currency ?? undefined;
+    const profile = await getPublicProfileByUserName(userName, isOwnProfile);
+    const currency = profile?.user?.currency ?? undefined;
 
     return (
         <div>
             <main>
-                {isOwnProfile || (profile && profile.public) ? (
+                {!profile || isOwnProfile || (profile && profile.public) ? (
                     <PublicProfile
-                        profile={profile}
+                        profile={profile!}
                         currency={currency}
                         isOwnProfile={isOwnProfile}
                     />
