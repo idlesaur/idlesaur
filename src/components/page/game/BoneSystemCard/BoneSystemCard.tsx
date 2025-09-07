@@ -5,7 +5,11 @@ import { PiBone } from 'react-icons/pi';
 
 import { Slider } from '@/components/ui';
 import { BoneButton, GameCard, PriceButton } from '@/components/page/game';
-import { formatNumber, getBoneDiggerCost } from '@/util';
+import {
+    formatNumber,
+    getBoneDiggerCost,
+    getMaxBoneDiggersCanAfford,
+} from '@/util';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
 import { buyBoneDiggers } from '@/app/lib/actions';
 import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
@@ -36,6 +40,10 @@ export const BoneSystemCard = () => {
     const canAffordBoneDigger = bones >= boneDiggerCost;
     const bonesPerSecondFromDiggers =
         boneDiggers * BASE_BONES_PER_SECOND_PER_DIGGER;
+    const maxBoneDiggersCanAfford = getMaxBoneDiggersCanAfford(
+        bones,
+        boneDiggers,
+    );
 
     return (
         <GameCard icon={<PiBone />} title="Dino-bones">
@@ -46,13 +54,14 @@ export const BoneSystemCard = () => {
             </div>
             <BoneButton />
 
-            <form action={buyDiggersAction}>
+            <form action={buyDiggersAction} className="w-full">
                 <Slider
                     allowEdit={true}
                     value={amountBoneDiggersToBuy}
                     onChange={(val) => setAmountBoneDiggersToBuy(val)}
                     className="my-3"
                     name="amountBoneDiggersToBuy"
+                    max={maxBoneDiggersCanAfford}
                 />
                 <PriceButton
                     icon={<PiBone />}
