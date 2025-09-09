@@ -1,18 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { InputHTMLAttributes, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { Input } from '@/components/ui';
 
-export interface SliderProps {
-    value?: number;
-    min?: number;
-    max?: number;
-    step?: number;
-    onChange?: (value: number) => void;
+export interface SliderProps extends InputHTMLAttributes<HTMLInputElement> {
     className?: string;
-    name?: string;
     allowEdit?: boolean;
 }
 
@@ -34,7 +28,7 @@ export const Slider = ({
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(e.target.value);
         if (!isControlled) setInternalValue(newValue);
-        onChange?.(newValue);
+        onChange?.(e);
     };
 
     return (

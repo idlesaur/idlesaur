@@ -8,31 +8,31 @@ import {
     UseFormSetError,
     UseFormHandleSubmit,
     SubmitHandler,
+    FormState,
 } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 export interface FormProps<T extends FieldValues> {
-    children?: (formState: {
-        isPending: boolean;
-        formState: BaseServerActionResponse<T>;
-    }) => React.ReactNode;
+    children?: React.ReactNode;
     handleSubmit: UseFormHandleSubmit<T>;
     setError: UseFormSetError<T>;
-    onSubmit: (
-        prevState: BaseServerActionResponse<T>,
-        formData: FormData,
-    ) => Promise<BaseServerActionResponse<T>> | BaseServerActionResponse<T>;
+    // onSubmit: (
+    //     prevState: BaseServerActionResponse<T>,
+    //     formData: FormData,
+    // ) => Promise<BaseServerActionResponse<T>> | BaseServerActionResponse<T>;
+    formAction: (formData: FormData) => void;
+    formState: BaseServerActionResponse<T>;
+    className?: string;
 }
 
 export const Form = <T extends FieldValues>({
     children,
     handleSubmit,
-    onSubmit,
+    formAction,
+    formState,
     setError,
+    className,
 }: FormProps<T>) => {
-    const [formState, formAction, isPending] = useActionState(onSubmit, {
-        success: false,
-    });
-
     useEffect(() => {
         if (!formState || formState.success) {
             return;
@@ -49,11 +49,9 @@ export const Form = <T extends FieldValues>({
     return (
         <form
             onSubmit={handleSubmit(onRhfSubmit)}
-            className="flex flex-col items-start gap-2"
+            className={twMerge('flex flex-col items-start gap-2', className)}
         >
-            {typeof children === 'function'
-                ? children({ isPending, formState })
-                : children}
+            {children}
         </form>
     );
 };

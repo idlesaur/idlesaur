@@ -10,8 +10,7 @@ export interface BaseServerActionResponse<T> {
     errors?: ServerErrors<T>;
 }
 
-export interface BuyBoneDiggerState
-    extends BaseServerActionResponse<undefined> {
+export interface BuyBoneDiggerState<T> extends BaseServerActionResponse<T> {
     bones?: number;
     boneDiggers?: number;
 }
