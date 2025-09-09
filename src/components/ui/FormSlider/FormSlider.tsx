@@ -5,14 +5,12 @@ import { twMerge } from 'tailwind-merge';
 export interface FormSliderProps<T extends FieldValues> extends InputProps {
     label: Path<T>;
     register: UseFormRegister<T>;
-    allowEdit?: boolean;
     required?: boolean;
     error?: string;
     className?: string;
 }
 
 export const FormSlider = <T extends FieldValues>({
-    allowEdit,
     className,
     error,
     label,
