@@ -14,7 +14,7 @@ vi.mock('next/navigation');
 vi.mock('next/link', () => ({
     // @ts-expect-error we like unknown in tests
     default: ({ href, children, ...rest }: unknown) => (
-        <a href={href} {...rest}>
+        <a href={href} {...rest} onClick={(e) => e.preventDefault()}>
             {children}
         </a>
     ),
