@@ -37,7 +37,6 @@ export const FormSlider = <T extends FieldValues>({
                 aria-invalid={!!error}
                 {...rest}
             />
-            <div className="mt-3 flex items-center justify-center text-sm"></div>
         </div>
     );
 };

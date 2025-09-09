@@ -10,7 +10,7 @@ export interface BaseServerActionResponse<T> {
     errors?: ServerErrors<T>;
 }
 
-export interface BuyBoneDiggerState<T> extends BaseServerActionResponse<T> {
+export interface BuyBoneDiggerState extends BaseServerActionResponse<never> {
     bones?: number;
     boneDiggers?: number;
 }

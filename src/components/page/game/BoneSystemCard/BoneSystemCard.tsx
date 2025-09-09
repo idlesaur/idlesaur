@@ -33,6 +33,7 @@ export const BoneSystemCard = () => {
         setError,
         formState: { isLoading },
         watch,
+        reset,
     } = useForm<PurchaseBoneDiggersInputs>({
         defaultValues: {
             diggersToBuy: 0,
@@ -40,9 +41,6 @@ export const BoneSystemCard = () => {
     });
 
     useEffect(() => {
-        console.log('success ', formState.success);
-        console.log('boneDiggers ', formState.boneDiggers);
-        console.log('bones ', formState.bones);
         if (!formState.success) {
             return;
         }
@@ -54,12 +52,14 @@ export const BoneSystemCard = () => {
         if (formState.boneDiggers) {
             setBoneDiggers(formState.boneDiggers);
         }
+        reset();
     }, [
         formState.success,
         formState.boneDiggers,
         formState.bones,
         setBones,
         setBoneDiggers,
+        reset,
     ]);
 
     const amountBoneDiggersToBuy = watch('diggersToBuy');
@@ -93,7 +93,6 @@ export const BoneSystemCard = () => {
                 className="w-full"
             >
                 <FormSlider
-                    allowEdit={true}
                     register={register}
                     label="diggersToBuy"
                     className="my-3"

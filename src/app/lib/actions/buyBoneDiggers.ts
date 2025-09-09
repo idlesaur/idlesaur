@@ -16,7 +16,7 @@ export async function buyBoneDiggers(
     }
 
     const currentDiggers = session.user.upgrades?.boneDiggers ?? 0;
-    const quantity = Number(formData.get('amountBoneDiggersToBuy')) ?? 1;
+    const quantity = Number(formData.get('diggersToBuy')) ?? 1;
     const cost = getBoneDiggerCost(currentDiggers, quantity);
 
     try {
