@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { render, getRender } from '@/test/util';
+import { render, getRender, mockedDate } from '@/test/util';
 import {
     ProfileDropdown,
     ProfileDropdownContent,
@@ -45,6 +45,7 @@ describe('ProfileDropdownContent', () => {
                     public: false,
                     bio: '',
                     userId: '',
+                    lastActive: mockedDate,
                 },
                 currency: null,
                 upgrades: null,
@@ -82,6 +83,7 @@ describe('ProfileDropdownContent', () => {
                         public: false,
                         bio: '',
                         userId: '',
+                        lastActive: mockedDate,
                     },
                     currency: null,
                     upgrades: null,

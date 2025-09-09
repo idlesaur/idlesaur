@@ -52,3 +52,5 @@ export const getRender = (wrapperOptions: WrapperOptions = {}) => {
 };
 
 export const render = getRender();
+
+export const mockedDate = new Date(1757023227815);
