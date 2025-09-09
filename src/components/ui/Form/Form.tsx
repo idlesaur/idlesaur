@@ -1,6 +1,6 @@
 'use client';
 
-import React, { startTransition, useActionState, useEffect } from 'react';
+import React, { startTransition, useEffect } from 'react';
 import { BaseServerActionResponse } from '@/app/lib/types';
 import { setErrorsFromServerErrors } from '@/util';
 import {
@@ -8,7 +8,6 @@ import {
     UseFormSetError,
     UseFormHandleSubmit,
     SubmitHandler,
-    FormState,
 } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,10 +15,6 @@ export interface FormProps<T extends FieldValues> {
     children?: React.ReactNode;
     handleSubmit: UseFormHandleSubmit<T>;
     setError: UseFormSetError<T>;
-    // onSubmit: (
-    //     prevState: BaseServerActionResponse<T>,
-    //     formData: FormData,
-    // ) => Promise<BaseServerActionResponse<T>> | BaseServerActionResponse<T>;
     formAction: (formData: FormData) => void;
     formState: BaseServerActionResponse<T>;
     className?: string;
