@@ -45,7 +45,11 @@ describe('<BoneSystemCard />', () => {
             createUpgradesState({ boneDiggers: 2 }),
         );
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
-        mockUseActionState.mockReturnValue([null, vi.fn(), false]);
+        mockUseActionState.mockReturnValue([
+            { success: false },
+            vi.fn(),
+            false,
+        ]);
 
         render(<BoneSystemCard />);
 
@@ -64,11 +68,17 @@ describe('<BoneSystemCard />', () => {
             createUpgradesState({ boneDiggers: 2 }),
         );
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
-        mockUseActionState.mockReturnValue([null, vi.fn(), false]);
+        mockUseActionState.mockReturnValue([
+            { success: false },
+            vi.fn(),
+            false,
+        ]);
 
         render(<BoneSystemCard />);
 
-        const btn = screen.getByRole('button', { name: /buy 1 bone-digger/i });
+        const btn = screen.getByRole('button', {
+            name: /50 Buy 0 Bone-digger/i,
+        });
         expect(btn).toBeDisabled();
     });
 
@@ -80,11 +90,11 @@ describe('<BoneSystemCard />', () => {
             createUpgradesState({ boneDiggers: 2 }),
         );
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
-        mockUseActionState.mockReturnValue([null, vi.fn(), true]);
+        mockUseActionState.mockReturnValue([{ success: false }, vi.fn(), true]);
 
         render(<BoneSystemCard />);
 
-        const btn = screen.getByRole('button', { name: /buy 1 bone-digger/i });
+        const btn = screen.getByRole('button', { name: /Loading.../i });
         expect(btn).toBeDisabled();
     });
 
@@ -108,9 +118,6 @@ describe('<BoneSystemCard />', () => {
         render(<BoneSystemCard />);
 
         expect(mockSetBones).toHaveBeenCalledWith(newState.bones);
-        // expect(mockDispatch).toHaveBeenCalledWith(
-        //     setBoneDiggers(newState.boneDiggers),
-        // );
     });
 
     it('updates buy amount when slider changes', () => {
@@ -122,7 +129,11 @@ describe('<BoneSystemCard />', () => {
         );
 
         vi.mocked(getBoneDiggerCost).mockReturnValue(100);
-        mockUseActionState.mockReturnValue([null, vi.fn(), false]);
+        mockUseActionState.mockReturnValue([
+            { success: false },
+            vi.fn(),
+            false,
+        ]);
 
         render(<BoneSystemCard />);
 

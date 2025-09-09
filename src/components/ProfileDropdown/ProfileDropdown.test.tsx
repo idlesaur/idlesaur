@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { render, getRender } from '@/test/util';
+import { render, getRender, mockedDate } from '@/test/util';
 import {
     ProfileDropdown,
     ProfileDropdownContent,
@@ -14,7 +14,7 @@ vi.mock('next/navigation');
 vi.mock('next/link', () => ({
     // @ts-expect-error we like unknown in tests
     default: ({ href, children, ...rest }: unknown) => (
-        <a href={href} {...rest}>
+        <a href={href} {...rest} onClick={(e) => e.preventDefault()}>
             {children}
         </a>
     ),
@@ -45,6 +45,7 @@ describe('ProfileDropdownContent', () => {
                     public: false,
                     bio: '',
                     userId: '',
+                    lastActive: mockedDate,
                 },
                 currency: null,
                 upgrades: null,
@@ -82,6 +83,7 @@ describe('ProfileDropdownContent', () => {
                         public: false,
                         bio: '',
                         userId: '',
+                        lastActive: mockedDate,
                     },
                     currency: null,
                     upgrades: null,

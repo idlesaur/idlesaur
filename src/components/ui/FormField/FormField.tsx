@@ -22,6 +22,7 @@ export const FormField = <T extends FieldValues>({
             <Input
                 {...register(label, { required })}
                 aria-invalid={!!error}
+                aria-label={label}
                 {...rest}
             />
             {error && <span className="text-red-600">{error}</span>}

@@ -22,6 +22,29 @@ export const getBoneDiggerCost = (
     return totalCost;
 };
 
+export const getMaxBoneDiggersCanAfford = (
+    bones: number,
+    currentBoneDiggers: number,
+): number => {
+    let canAffordCount = 0;
+    let canAfford;
+    let bonesLeft = bones;
+
+    do {
+        const cost = getBoneDiggerCost(currentBoneDiggers + canAffordCount);
+        canAfford = cost <= bonesLeft;
+
+        if (!canAfford) {
+            break;
+        }
+
+        canAffordCount++;
+        bonesLeft -= cost;
+    } while (canAfford);
+
+    return canAffordCount;
+};
+
 export const getBonesPerClick = (
     gameState: RequireOnly<UpgradesState, 'boneDiggers'>,
 ): number => {

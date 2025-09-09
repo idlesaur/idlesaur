@@ -3,6 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { PostPreview, PostPreviewProps } from '@/components/page/home';
 import { Routes } from '@/constants';
 import { generateSlug } from '@/util';
+import { mockedDate } from '@/test/util';
 
 vi.mock('@/components/ui', () => ({
     CardHeading: ({
@@ -32,7 +33,7 @@ describe('PostPreview', () => {
         id: 123,
         title: 'Test Post Title',
         slug: generateSlug('Test Post Title'),
-        createdAt: new Date(1757023227815),
+        createdAt: mockedDate,
     } as never;
 
     it('renders the post title in a heading', () => {

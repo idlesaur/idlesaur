@@ -3,6 +3,7 @@ export * from './Card';
 export * from './CardHeading';
 export * from './Form';
 export * from './FormField';
+export * from './FormSlider';
 export * from './Heading';
 export * from './Input';
 export * from './LinkButton';
