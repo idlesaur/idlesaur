@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { Dinosaur } from '@/generated/prisma';
 
 export type ZodError<T = unknown> = z.core.$ZodError<T>;
 
@@ -13,4 +14,9 @@ export interface BaseServerActionResponse<T> {
 export interface BuyBoneDiggerState extends BaseServerActionResponse<never> {
     bones?: number;
     boneDiggers?: number;
+}
+
+export interface BuyDinoState extends BaseServerActionResponse<never> {
+    bones?: number;
+    dino?: Dinosaur;
 }

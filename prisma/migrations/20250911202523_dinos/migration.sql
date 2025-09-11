@@ -7,6 +7,7 @@ CREATE TABLE "public"."Dinosaur" (
     "userId" TEXT NOT NULL,
     "alive" BOOLEAN NOT NULL DEFAULT true,
     "name" TEXT NOT NULL,
+    "level" INTEGER NOT NULL DEFAULT 1,
     "experience" INTEGER NOT NULL DEFAULT 0,
     "nextLevelExperience" INTEGER NOT NULL DEFAULT 10,
     "health" INTEGER NOT NULL DEFAULT 10,

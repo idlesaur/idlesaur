@@ -3,8 +3,7 @@ import { screen } from '@testing-library/react';
 import { render } from '@/test/util';
 import { AttributeRow, DinoStats } from './DinoStats';
 import { formatNumber } from '@/util';
-import type { Dino } from '@/state/types';
-import { createDino } from '@/state/util';
+import { createDino } from '@/app/lib/util';
 
 vi.mock('@/util', async () => {
     const originalModule = await vi.importActual('@/util');
@@ -24,7 +23,7 @@ describe('AttributeRow', () => {
 });
 
 describe('DinoStats', () => {
-    const mockDino: Dino = createDino({
+    const mockDino = createDino({
         name: 'Chompy',
         health: 50,
         maxHealth: 100,
