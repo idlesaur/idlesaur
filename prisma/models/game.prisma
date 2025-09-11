@@ -22,3 +22,24 @@ model Upgrades {
   userId      String @unique
   boneDiggers Int    @default(0)
 }
+
+model Dinosaur {
+  id                  String   @id @default(cuid())
+  user                User     @relation(fields: [userId], references: [id])
+  userId              String   @unique
+  alive               Boolean  @default(true)
+  name                String
+  experience          Int      @default(0)
+  nextLevelExperience Int      @default(10)
+  health              Int      @default(10)
+  maxHealth           Int      @default(10)
+  attack              Int      @default(5)
+  defense             Int      @default(5)
+  speed               Int      @default(5)
+  type                DinoType @default(RAPTOR)
+}
+
+enum DinoType {
+  RAPTOR
+  TYRANNOSAURUS
+}

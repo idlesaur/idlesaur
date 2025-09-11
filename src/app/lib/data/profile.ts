@@ -1,19 +1,23 @@
-import { cache } from 'react';
-
 import { prisma } from '@/prisma';
-import { PrismaClient } from '@/generated/prisma';
 import { HighScore } from '@/types';
 import { getPublicProfileName } from '@/util';
 
-export type PrismaTransactionalClient = Parameters<
-    Parameters<PrismaClient['$transaction']>[0]
->[0];
+export interface UpdateProfileLastActiveProps {
+    userId: string;
+}
 
-export const getPostBySlug = cache(async (slug: string) => {
-    return prisma.post.findUnique({
-        where: { slug },
+export const updateProfileLastActive = async ({
+    userId,
+}: UpdateProfileLastActiveProps) => {
+    await prisma.profile.update({
+        data: {
+            lastActive: new Date(),
+        },
+        where: {
+            userId,
+        },
     });
-});
+};
 
 export const getProfileByUserId = async (userId: string) => {
     return prisma.profile.findUnique({
@@ -85,39 +89,4 @@ export const getHighScores = async ({
     }));
 
     return highScores;
-};
-
-export interface GetUserDataParams {
-    userId: string;
-    tx?: PrismaTransactionalClient;
-}
-
-export const getUserData = ({ userId, tx }: GetUserDataParams) => {
-    const user = tx?.user ?? prisma.user;
-
-    return user.findUnique({
-        where: { id: userId },
-        include: {
-            profile: true,
-            currency: true,
-            upgrades: true,
-        },
-    });
-};
-
-export interface UpdateProfileLastActiveProps {
-    userId: string;
-}
-
-export const updateProfileLastActive = async ({
-    userId,
-}: UpdateProfileLastActiveProps) => {
-    await prisma.profile.update({
-        data: {
-            lastActive: new Date(),
-        },
-        where: {
-            userId,
-        },
-    });
 };

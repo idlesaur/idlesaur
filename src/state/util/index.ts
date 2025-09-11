@@ -1,1 +1,1 @@
-export * from './createDino';
+export * from '../../app/lib/createDino';
