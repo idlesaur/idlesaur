@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading } from '@/components/ui';
 import { formatNumber } from '@/util';
-import { Dino } from '@/state/types';
+import { Dinosaur } from '@/generated/prisma';
 
 export const AttributeRow = ({
     name,
@@ -19,7 +19,7 @@ export const AttributeRow = ({
 };
 
 export interface DinoStatsProps {
-    dino: Dino;
+    dino: Dinosaur;
 }
 
 export const DinoStats = ({ dino }: DinoStatsProps) => (
