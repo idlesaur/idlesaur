@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useActionState, useCallback, useEffect } from 'react';
+import React, { useActionState, useEffect } from 'react';
 import { GiDinosaurRex } from 'react-icons/gi';
 
 import { Heading, Tooltip } from '@/components/ui';
@@ -8,12 +8,7 @@ import { buyDino } from '@/app/lib/actions';
 import { formatNumber, getDinoCost } from '@/util';
 import { Dinosaur } from '@/generated/prisma';
 import { PiBone } from 'react-icons/pi';
-import {
-    DinoStats,
-    GameCard,
-    PriceButton,
-    PurchaseBoneDiggersInputs,
-} from '@/components/page/game';
+import { DinoStats, GameCard, PriceButton } from '@/components/page/game';
 import { useCurrencyStore } from '@/state/providers';
 import { useForm } from 'react-hook-form';
 
@@ -35,16 +30,6 @@ export const DinoIcon = ({ dino }: DinoIconProps) => {
 export const DinoSystemCard = () => {
     const [formState, formAction, isPending] = useActionState(buyDino, {
         success: false,
-    });
-    const {
-        register,
-        handleSubmit,
-        setError,
-        formState: { isLoading },
-    } = useForm<PurchaseBoneDiggersInputs>({
-        defaultValues: {
-            diggersToBuy: 0,
-        },
     });
 
     const { bones, setBones } = useCurrencyStore((state) => state);
@@ -81,13 +66,16 @@ export const DinoSystemCard = () => {
             {/*    onClick={handleIncreaseCapacityClicked}*/}
             {/*    disabled={!canIncreaseCapacity}*/}
             {/*/>*/}
-            <PriceButton
-                icon={<PiBone />}
-                price={formatNumber(dinoCost)}
-                text="Build Dinosaur"
-                // onClick={handleGrowDinosaurClicked}
-                disabled={!canBuildDino}
-            />
+            <form action={formAction}>
+                <PriceButton
+                    icon={<PiBone />}
+                    price={formatNumber(dinoCost)}
+                    text="Build Dinosaur"
+                    type="submit"
+                    // onClick={handleGrowDinosaurClicked}
+                    disabled={!canBuildDino}
+                />
+            </form>
             <div className="bg-background-800 flex w-11/12 flex-col items-center gap-y-2 rounded-xl p-2">
                 <Heading level={4}>Dinos</Heading>
                 <div className="flex flex-row flex-wrap gap-2">

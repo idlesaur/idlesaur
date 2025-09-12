@@ -36,7 +36,7 @@ export const BoneSystemCard = () => {
         reset,
     } = useForm<PurchaseBoneDiggersInputs>({
         defaultValues: {
-            diggersToBuy: 0,
+            diggersToBuy: 1,
         },
     });
 
@@ -96,6 +96,7 @@ export const BoneSystemCard = () => {
                     register={register}
                     label="diggersToBuy"
                     className="my-3"
+                    min={1}
                     max={maxBoneDiggersCanAfford}
                 />
                 <PriceButton

@@ -37,6 +37,8 @@ model Dinosaur {
   attack              Int      @default(5)
   defense             Int      @default(5)
   speed               Int      @default(5)
+  special             Int      @default(5)
+  specialDefense      Int      @default(5)
   type                DinoType @default(RAPTOR)
 }
 
