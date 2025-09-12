@@ -2,7 +2,7 @@
 
 import { Profile, ProfileType } from '@/schema';
 import { auth } from '@/auth';
-import { getUserData } from '@/app/lib/data';
+import { getProfileByUserId, getUserData } from '@/app/lib/data';
 import {
     flattenZodError,
     mergeZodErrors,
@@ -18,7 +18,8 @@ export const updateProfile = async (
     formData: FormData,
 ): Promise<BaseServerActionResponse<ProfileType>> => {
     const session = await auth();
-    if (!session?.user?.id) {
+    const userId = session?.user?.id;
+    if (!userId) {
         return { success: false, message: 'Unauthorized' };
     }
 
@@ -27,11 +28,6 @@ export const updateProfile = async (
             success: false,
             message: 'Invalid Form Data',
         };
-    }
-
-    const user = await getUserData({ userId: session.user.id });
-    if (!user?.profile) {
-        return { success: false, message: 'Profile not found' };
     }
 
     const profileFormData = Object.fromEntries(formData);

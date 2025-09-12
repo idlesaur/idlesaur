@@ -5,6 +5,7 @@ import { getBoneDiggerCost } from '@/util';
 import { prisma } from '@/prisma';
 import { getAndUpdateBones } from '@/app/lib/actions';
 import { BuyBoneDiggerState } from '@/app/lib/types';
+import { getPlayerUpgrades } from '@/app/lib/data';
 
 export async function buyBoneDiggers(
     _previousState: BuyBoneDiggerState | null,
@@ -15,7 +16,10 @@ export async function buyBoneDiggers(
         return { success: false, message: 'Unauthorized' };
     }
 
-    const currentDiggers = session.user.upgrades?.boneDiggers ?? 0;
+    const userId = session.user.id;
+    const upgrades = await getPlayerUpgrades({ userId });
+
+    const currentDiggers = upgrades?.boneDiggers ?? 0;
     const quantity = Number(formData.get('diggersToBuy')) ?? 1;
     const cost = getBoneDiggerCost(currentDiggers, quantity);
 

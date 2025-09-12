@@ -18,9 +18,6 @@ export const { handlers, auth } = NextAuth({
                 session.user = {
                     ...session.user,
                     id: dbUser.id,
-                    profile: dbUser.profile,
-                    currency: dbUser.currency,
-                    upgrades: dbUser.upgrades,
                 };
             }
 
@@ -29,7 +26,7 @@ export const { handlers, auth } = NextAuth({
     },
     events: {
         session: async ({ session }) => {
-            updateProfileLastActive({ userId: session?.user?.id });
+            await updateProfileLastActive({ userId: session?.user?.id });
         },
         createUser: async ({ user }) => {
             await prisma.$transaction([

@@ -15,10 +15,21 @@ export const getUserData = ({ userId, tx }: GetUserDataParams) => {
 
     return user.findUnique({
         where: { id: userId },
-        include: {
-            profile: true,
-            currency: true,
-            upgrades: true,
-        },
+    });
+};
+
+export const getUserCurrency = ({ userId, tx }: GetUserDataParams) => {
+    const currency = tx?.currency ?? prisma.currency;
+
+    return currency.findUnique({
+        where: { userId },
+    });
+};
+
+export const getPlayerUpgrades = ({ userId, tx }: GetUserDataParams) => {
+    const upgrades = tx?.upgrades ?? prisma.upgrades;
+
+    return upgrades.findUnique({
+        where: { userId },
     });
 };
