@@ -5,7 +5,7 @@ import { getDinoCost } from '@/util';
 import { prisma } from '@/prisma';
 import { getAndUpdateBones } from '@/app/lib/actions';
 import { BuyDinoState } from '@/app/lib/types';
-import { generateName } from '@/app/lib/util';
+import { createDino } from '@/app/lib/util';
 
 export async function buyDino(
     _previousState: BuyDinoState | null,
@@ -26,14 +26,16 @@ export async function buyDino(
                 data: {
                     bones: { decrement: cost },
                 },
-                where: { userId: session?.user?.id },
+                where: { userId: session.user.id },
             });
 
             if (currency.bones < 0) {
                 throw new Error(`Not enough bones to purchase bone digger`);
             }
             const dino = await tx.dinosaur.create({
-                data: { userId: session?.user?.id, name: generateName() },
+                data: createDino({
+                    user: { connect: { id: session.user.id } },
+                }),
             });
 
             return {

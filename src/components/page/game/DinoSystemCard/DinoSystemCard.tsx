@@ -10,7 +10,6 @@ import { Dinosaur } from '@/generated/prisma';
 import { PiBone } from 'react-icons/pi';
 import { DinoStats, GameCard, PriceButton } from '@/components/page/game';
 import { useCurrencyStore } from '@/state/providers';
-import { useForm } from 'react-hook-form';
 
 export interface DinoIconProps {
     dino: Dinosaur;
@@ -56,24 +55,13 @@ export const DinoSystemCard = () => {
 
     return (
         <GameCard icon={<GiDinosaurRex />} title="Build-a-Dino">
-            {/*<div>*/}
-            {/*    Capacity: {dinos.length} {' / '} {maxDinos}*/}
-            {/*</div>*/}
-            {/*<PriceButton*/}
-            {/*    icon={<PiBone />}*/}
-            {/*    price={formatNumber(capacityCost)}*/}
-            {/*    text="Increase Capacity"*/}
-            {/*    onClick={handleIncreaseCapacityClicked}*/}
-            {/*    disabled={!canIncreaseCapacity}*/}
-            {/*/>*/}
             <form action={formAction}>
                 <PriceButton
                     icon={<PiBone />}
                     price={formatNumber(dinoCost)}
                     text="Build Dinosaur"
                     type="submit"
-                    // onClick={handleGrowDinosaurClicked}
-                    disabled={!canBuildDino}
+                    disabled={!canBuildDino || isPending}
                 />
             </form>
             <div className="bg-background-800 flex w-11/12 flex-col items-center gap-y-2 rounded-xl p-2">

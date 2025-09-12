@@ -15,6 +15,8 @@ CREATE TABLE "public"."Dinosaur" (
     "attack" INTEGER NOT NULL DEFAULT 5,
     "defense" INTEGER NOT NULL DEFAULT 5,
     "speed" INTEGER NOT NULL DEFAULT 5,
+    "special" INTEGER NOT NULL DEFAULT 5,
+    "specialDefense" INTEGER NOT NULL DEFAULT 5,
     "type" "public"."DinoType" NOT NULL DEFAULT 'RAPTOR',
 
     CONSTRAINT "Dinosaur_pkey" PRIMARY KEY ("id")
