@@ -4,10 +4,16 @@ import { Routes } from '@/constants';
 import {
     CurrencyStoreProvider,
     UpgradesStoreProvider,
+    DinosaursStoreProvider,
 } from '@/state/providers';
 import { getAndUpdateBones } from '@/app/lib/actions';
 import { ReactNode } from 'react';
-import { createCurrencyState, createUpgradesState } from '@/state/stores';
+import {
+    createCurrencyState,
+    createUpgradesState,
+    createDinosaursState,
+} from '@/state/stores';
+import { getPlayerDinosaurs } from '@/app/lib/data';
 
 export default async function GameLayout({
     children,
@@ -22,9 +28,10 @@ export default async function GameLayout({
     if (!response) {
         redirect(Routes.HOME, RedirectType.replace);
     }
-
     const { bones } = response;
     const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
+
+    const dinosaurs = await getPlayerDinosaurs({ userId: session!.user.id });
 
     return (
         <UpgradesStoreProvider
@@ -33,7 +40,11 @@ export default async function GameLayout({
             <CurrencyStoreProvider
                 initialState={createCurrencyState({ bones })}
             >
-                {children}
+                <DinosaursStoreProvider
+                    initialState={createDinosaursState({ dinosaurs })}
+                >
+                    {children}
+                </DinosaursStoreProvider>
             </CurrencyStoreProvider>
         </UpgradesStoreProvider>
     );

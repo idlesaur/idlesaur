@@ -9,7 +9,7 @@ import { formatNumber, getDinoCost } from '@/util';
 import { Dinosaur } from '@/generated/prisma';
 import { PiBone } from 'react-icons/pi';
 import { DinoStats, GameCard, PriceButton } from '@/components/page/game';
-import { useCurrencyStore } from '@/state/providers';
+import { useCurrencyStore, useDinosaursStore } from '@/state/providers';
 
 export interface DinoIconProps {
     dino: Dinosaur;
@@ -31,9 +31,10 @@ export const DinoSystemCard = () => {
         success: false,
     });
 
+    const { dinosaurs } = useDinosaursStore((state) => state);
     const { bones, setBones } = useCurrencyStore((state) => state);
 
-    const dinoCost = getDinoCost(1); // TODO: <--
+    const dinoCost = getDinoCost(dinosaurs.length);
     const canAffordDino = bones >= dinoCost;
     // const hasDinoCapacity = maxDinos > dinos.length;
     const hasDinoCapacity = true;

@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "public"."DinoType" AS ENUM ('RAPTOR', 'TYRANNOSAURUS');
 
+-- AlterTable
+ALTER TABLE "public"."Upgrades" ADD COLUMN     "dinosaurCapacity" INTEGER NOT NULL DEFAULT 0;
+
 -- CreateTable
 CREATE TABLE "public"."Dinosaur" (
     "id" TEXT NOT NULL,

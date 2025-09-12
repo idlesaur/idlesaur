@@ -6,7 +6,7 @@ import DinosaurCreateInput = Prisma.DinosaurCreateInput;
 
 const DEFAULT_NEXT_LEVEL_EXP: number = 10;
 const DEFAULT_ATTRIBUTE_POINTS: number = 5;
-const DEFAULT_HEALTH: number = 15;
+const DEFAULT_HEALTH: number = 10;
 
 const prefixes = [
     'Mighty',
