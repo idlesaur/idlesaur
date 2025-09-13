@@ -4,6 +4,7 @@ import { render } from '@/test/util';
 import { AttributeRow, DinoStats } from './DinoStats';
 import { formatNumber } from '@/util';
 import { createDino } from '@/app/lib/util';
+import { $Enums } from '@/generated/prisma';
 
 vi.mock('@/util', async () => {
     const originalModule = await vi.importActual('@/util');
@@ -23,42 +24,48 @@ describe('AttributeRow', () => {
 });
 
 describe('DinoStats', () => {
-    const mockDino = createDino({
-        name: 'Chompy',
-        health: 50,
-        maxHealth: 100,
-        level: 3,
-        experience: 120,
-        nextLevelExperience: 200,
-        attack: 10,
-        defense: 5,
-        speed: 8,
-    });
+    const mockDino = {
+        ...createDino({
+            name: 'Chompy',
+            health: 50,
+            maxHealth: 100,
+            level: 3,
+            experience: 120,
+            nextLevelExperience: 200,
+            attack: 10,
+            defense: 5,
+            speed: 8,
+        }),
+        userId: 'test',
+        type: $Enums.DinoType.RAPTOR,
+        id: 'test123',
+        alive: true,
+    };
 
     it('renders heading with dino name', () => {
-        render(<DinoStats dino={mockDino} />);
+        render(<DinoStats dinosaur={mockDino} />);
         expect(
             screen.getByRole('heading', { level: 4, name: 'Chompy' }),
         ).toBeInTheDocument();
     });
 
     it('renders health correctly', () => {
-        render(<DinoStats dino={mockDino} />);
+        render(<DinoStats dinosaur={mockDino} />);
         expect(screen.getByText(/Health 50 \/ 100/)).toBeInTheDocument();
     });
 
     it('renders level correctly', () => {
-        render(<DinoStats dino={mockDino} />);
+        render(<DinoStats dinosaur={mockDino} />);
         expect(screen.getByText('Level 3')).toBeInTheDocument();
     });
 
     it('renders experience correctly', () => {
-        render(<DinoStats dino={mockDino} />);
+        render(<DinoStats dinosaur={mockDino} />);
         expect(screen.getByText(/Exp 120 \/ 200/)).toBeInTheDocument();
     });
 
     it('renders all attributes', () => {
-        render(<DinoStats dino={mockDino} />);
+        render(<DinoStats dinosaur={mockDino} />);
         expect(screen.getByText('Attack')).toBeInTheDocument();
         expect(screen.getByText('Defense')).toBeInTheDocument();
         expect(screen.getByText('Speed')).toBeInTheDocument();
