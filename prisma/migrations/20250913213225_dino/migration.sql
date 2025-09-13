@@ -25,8 +25,5 @@ CREATE TABLE "public"."Dinosaur" (
     CONSTRAINT "Dinosaur_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "Dinosaur_userId_key" ON "public"."Dinosaur"("userId");
-
 -- AddForeignKey
 ALTER TABLE "public"."Dinosaur" ADD CONSTRAINT "Dinosaur_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -27,7 +27,7 @@ model Upgrades {
 model Dinosaur {
   id                  String   @id @default(cuid())
   user                User     @relation(fields: [userId], references: [id])
-  userId              String   @unique
+  userId              String
   alive               Boolean  @default(true)
   name                String
   level               Int      @default(1)

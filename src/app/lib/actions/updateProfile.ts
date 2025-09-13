@@ -2,7 +2,6 @@
 
 import { Profile, ProfileType } from '@/schema';
 import { auth } from '@/auth';
-import { getProfileByUserId, getUserData } from '@/app/lib/data';
 import {
     flattenZodError,
     mergeZodErrors,
