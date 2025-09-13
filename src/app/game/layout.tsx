@@ -33,7 +33,6 @@ export default async function GameLayout({
         goHome();
     }
     const { bones } = response!;
-    console.log('getAndUpdateBones response ', response);
 
     const userId = session!.user.id;
     const upgrades = await getPlayerUpgrades({ userId });

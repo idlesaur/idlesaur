@@ -2,6 +2,7 @@ import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
 import {
     BASE_BONE_COST_BONE_DIGGER,
     BASE_BONE_COST_DINOSAUR,
+    BASE_BONE_COST_DINOSAUR_CAPACITY,
     BASE_BONES_PER_SECOND_PER_DIGGER,
 } from '@/constants';
 import { UpgradesState } from '@/state/stores';
@@ -10,6 +11,12 @@ import { BaseServerActionResponse } from '@/app/lib/types';
 
 export const getDinoCost = (currentDinos: number) => {
     return Math.floor((currentDinos + 1) * BASE_BONE_COST_DINOSAUR * 1.25);
+};
+
+export const getDinoCapacityIncreaseCost = (currentCapacity: number) => {
+    return Math.floor(
+        (currentCapacity + 1) * BASE_BONE_COST_DINOSAUR_CAPACITY * 1.25,
+    );
 };
 
 export const getBoneDiggerCost = (

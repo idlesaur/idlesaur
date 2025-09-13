@@ -19,21 +19,21 @@ export const AttributeRow = ({
 };
 
 export interface DinoStatsProps {
-    dino: Dinosaur;
+    dinosaur: Dinosaur;
 }
 
-export const DinoStats = ({ dino }: DinoStatsProps) => (
+export const DinoStats = ({ dinosaur }: DinoStatsProps) => (
     <div className="flex w-64 flex-col space-y-1">
-        <Heading level={4}>{dino.name}</Heading>
+        <Heading level={4}>{dinosaur.name}</Heading>
         <div>
-            Health {dino.health} {' / '} {dino.maxHealth}
+            Health {dinosaur.health} {' / '} {dinosaur.maxHealth}
         </div>
-        <div>Level {dino.level}</div>
+        <div>Level {dinosaur.level}</div>
         <div>
-            Exp {dino.experience} {' / '} {dino.nextLevelExperience}
+            Exp {dinosaur.experience} {' / '} {dinosaur.nextLevelExperience}
         </div>
-        <AttributeRow name="Attack" value={dino.attack} />
-        <AttributeRow name="Defense" value={dino.defense} />
-        <AttributeRow name="Speed" value={dino.speed} />
+        <AttributeRow name="Attack" value={dinosaur.attack} />
+        <AttributeRow name="Defense" value={dinosaur.defense} />
+        <AttributeRow name="Speed" value={dinosaur.speed} />
     </div>
 );

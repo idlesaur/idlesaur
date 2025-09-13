@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { InputHTMLAttributes, ReactNode } from 'react';
 import { getButtonClass } from '@/components/ui/util';
 import { LoadingIndicator } from '@/components';
 
 export type ButtonVariant = 'primary' | 'secondary';
 
-export interface ButtonProps {
+export interface ButtonProps extends InputHTMLAttributes<HTMLButtonElement> {
     children?: ReactNode;
     disabled?: boolean;
     variant?: ButtonVariant;
@@ -22,6 +22,7 @@ export const Button = ({
     className,
     type = 'button',
     loading = false,
+    ...rest
 }: ButtonProps) => {
     return (
         <button
@@ -29,6 +30,7 @@ export const Button = ({
             className={getButtonClass(variant, className)}
             onClick={onClick}
             type={type}
+            {...rest}
         >
             {loading ? <LoadingIndicator /> : children}
         </button>

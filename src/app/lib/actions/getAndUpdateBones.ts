@@ -11,7 +11,6 @@ import { prisma } from '@/prisma';
 
 export async function getAndUpdateBones() {
     const session = await auth();
-    console.log('getAndUpdateBones ', session);
     if (!session?.user?.id) return null;
 
     return prisma.$transaction(async (tx) => {
@@ -26,7 +25,6 @@ export async function getAndUpdateBones() {
         }
 
         const currency = await getUserCurrency({ userId, tx });
-        console.log('currency ', currency);
         if (!currency) {
             return {
                 success: false,
@@ -39,7 +37,6 @@ export async function getAndUpdateBones() {
         );
 
         const upgrades = await getPlayerUpgrades({ userId, tx });
-        console.log('upgrades ', upgrades);
         if (!upgrades) {
             return {
                 success: false,

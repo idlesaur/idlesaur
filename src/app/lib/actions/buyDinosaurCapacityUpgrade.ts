@@ -1,16 +1,16 @@
 'use server';
 
 import { auth } from '@/auth';
-import { getDinoCost } from '@/util';
+import { getDinoCapacityIncreaseCost } from '@/util';
 import { prisma } from '@/prisma';
 import { getAndUpdateBones } from '@/app/lib/actions';
-import { BuyDinoState } from '@/app/lib/types';
-import { createDino } from '@/app/lib/util';
+import { BuyDinosaurCapacityUpgradeState } from '@/app/lib/types';
 
-export async function buyDino(
-    _previousState: BuyDinoState | null,
+export async function buyDinosaurCapacityUpgrade(
+    _previousState: BuyDinosaurCapacityUpgradeState | null,
     _formData: FormData,
-): Promise<BuyDinoState> {
+): Promise<BuyDinosaurCapacityUpgradeState> {
+    console.log('buyDinosaurCapacityUpgrade start');
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
@@ -20,10 +20,12 @@ export async function buyDino(
         await getAndUpdateBones();
 
         return await prisma.$transaction(async (tx) => {
-            const dinoCount = await tx.dinosaur.count({
+            const result = await tx.upgrades.findUnique({
                 where: { userId: session.user.id },
             });
-            const cost = getDinoCost(dinoCount);
+            const cost = getDinoCapacityIncreaseCost(
+                result?.dinosaurCapacity ?? 0,
+            );
 
             const currency = await tx.currency.update({
                 data: {
@@ -35,16 +37,16 @@ export async function buyDino(
             if (currency.bones < 0) {
                 throw new Error(`Not enough bones to purchase bone digger`);
             }
-            const dino = await tx.dinosaur.create({
-                data: createDino({
-                    user: { connect: { id: session.user.id } },
-                }),
+
+            const upgrades = await tx.upgrades.update({
+                data: { dinosaurCapacity: { increment: 1 } },
+                where: { userId: session?.user?.id },
             });
 
             return {
                 success: true,
-                dino,
                 bones: currency.bones,
+                dinosaurCapacity: upgrades.dinosaurCapacity,
             };
         });
     } catch (error) {

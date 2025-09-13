@@ -7,6 +7,7 @@ export type UpgradesState = {
 
 export type UpgradesActions = {
     setBoneDiggers: (value: number) => void;
+    setDinosaurCapacity: (value: number) => void;
 };
 
 export type UpgradesStore = UpgradesState & UpgradesActions;
@@ -27,5 +28,7 @@ export const createUpgradesStore = (
         ...initState,
         setBoneDiggers: (newBoneDiggers: number) =>
             set({ boneDiggers: newBoneDiggers }),
+        setDinosaurCapacity: (newDinosaurCapacity: number) =>
+            set({ dinosaurCapacity: newDinosaurCapacity }),
     }));
 };
