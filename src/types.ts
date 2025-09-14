@@ -4,6 +4,7 @@ export type RequireOnly<T, K extends keyof T> = Pick<T, K> &
 export type SessionUser = {
     id: string;
     name?: string | null;
+    userName?: string | null;
     email?: string | null;
     image?: string | null;
 };

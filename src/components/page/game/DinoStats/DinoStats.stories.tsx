@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import { DinoStats } from '@/components/page/game';
-import { createDino } from '@/state/util';
+import { mockDinosaur } from '@/test/mockFactory';
 
 const meta = {
     component: DinoStats,
     title: 'Components/Page/Game/DinoStats',
     args: {
-        dino: createDino({ name: 'Storybook Dino' }),
+        dinosaur: mockDinosaur({ name: 'Storybook Dino' }),
     },
 } satisfies Meta<typeof DinoStats>;
 

@@ -3,8 +3,7 @@ import { screen } from '@testing-library/react';
 import { render } from '@/test/util';
 import { AttributeRow, DinoStats } from './DinoStats';
 import { formatNumber } from '@/util';
-import { createDino } from '@/app/lib/util';
-import { $Enums, Dinosaur } from '@/generated/prisma';
+import { mockDinosaur } from '@/test/mockFactory';
 
 vi.mock('@/util', async () => {
     const originalModule = await vi.importActual('@/util');
@@ -24,22 +23,17 @@ describe('AttributeRow', () => {
 });
 
 describe('DinoStats', () => {
-    const mockDino: Dinosaur = {
-        ...createDino({
-            name: 'Chompy',
-            health: 50,
-            maxHealth: 100,
-            level: 3,
-            experience: 120,
-            nextLevelExperience: 200,
-            attack: 10,
-            defense: 5,
-            speed: 8,
-        }),
-        userId: 'test',
-        type: $Enums.DinoType.RAPTOR,
-        id: 'test123',
-    } as Dinosaur;
+    const mockDino = mockDinosaur({
+        name: 'Chompy',
+        health: 50,
+        maxHealth: 100,
+        level: 3,
+        experience: 120,
+        nextLevelExperience: 200,
+        attack: 10,
+        defense: 5,
+        speed: 8,
+    });
 
     it('renders heading with dino name', () => {
         render(<DinoStats dinosaur={mockDino} />);

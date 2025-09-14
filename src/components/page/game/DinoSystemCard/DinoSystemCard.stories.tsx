@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { DinoSystemCard } from '@/components';
-import { withGameState } from '../../../../.storybook/decorators/GameStateDecorator';
-import { createDino } from '@/state/util/createDino';
+import { DinoSystemCard } from '@/components/page/game';
+import { withDinosaursState } from '@/../.storybook/decorators';
+import { mockDinosaur } from '@/test/mockFactory';
 
 const meta = {
     component: DinoSystemCard,
@@ -16,9 +16,8 @@ export const Default: Story = {};
 
 export const WithDinos: Story = {
     decorators: [
-        withGameState({
-            dinos: [createDino(), createDino()],
-            maxDinos: 42,
+        withDinosaursState({
+            dinosaurs: [mockDinosaur(), mockDinosaur()],
         }),
     ],
 };

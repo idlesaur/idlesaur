@@ -1,4 +1,4 @@
-import { Profile } from '@/generated/prisma';
+import { $Enums, Dinosaur, Profile } from '@/generated/prisma';
 import { mockedDate } from '@/test/util';
 
 export const mockProfile = (overrides?: Partial<Profile>): Profile => ({
@@ -8,5 +8,24 @@ export const mockProfile = (overrides?: Partial<Profile>): Profile => ({
     bio: 'I test things.',
     id: 'profile123',
     lastActive: mockedDate,
+    ...overrides,
+});
+
+export const mockDinosaur = (overrides?: Partial<Dinosaur>): Dinosaur => ({
+    userId: 'test123',
+    id: 'dino123',
+    type: $Enums.DinoType.RAPTOR,
+    alive: true,
+    attack: 5,
+    health: 5,
+    defense: 5,
+    experience: 0,
+    nextLevelExperience: 100,
+    level: 1,
+    name: 'Test Dino',
+    maxHealth: 5,
+    special: 5,
+    specialDefense: 5,
+    speed: 5,
     ...overrides,
 });
