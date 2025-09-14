@@ -1,0 +1,47 @@
+-- CreateEnum
+DO $$
+BEGIN
+    IF NOT EXISTS (
+            SELECT 1 FROM pg_type t
+            JOIN pg_namespace n ON n.oid = t.typnamespace
+            WHERE t.typname = 'DinoType' AND n.nspname = 'public'
+        ) THEN
+        CREATE TYPE "public"."DinoType" AS ENUM ('RAPTOR', 'TYRANNOSAURUS');
+    END IF;
+END $$;
+
+-- AlterTable
+ALTER TABLE "public"."Upgrades" ADD COLUMN IF NOT EXISTS "dinosaurCapacity" INTEGER NOT NULL DEFAULT 0;
+
+-- CreateTable
+CREATE TABLE IF NOT EXISTS "public"."Dinosaur" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "alive" BOOLEAN NOT NULL DEFAULT true,
+    "name" TEXT NOT NULL,
+    "level" INTEGER NOT NULL DEFAULT 1,
+    "experience" INTEGER NOT NULL DEFAULT 0,
+    "nextLevelExperience" INTEGER NOT NULL DEFAULT 10,
+    "health" INTEGER NOT NULL DEFAULT 10,
+    "maxHealth" INTEGER NOT NULL DEFAULT 10,
+    "attack" INTEGER NOT NULL DEFAULT 5,
+    "defense" INTEGER NOT NULL DEFAULT 5,
+    "speed" INTEGER NOT NULL DEFAULT 5,
+    "special" INTEGER NOT NULL DEFAULT 5,
+    "specialDefense" INTEGER NOT NULL DEFAULT 5,
+    "type" "public"."DinoType" NOT NULL DEFAULT 'RAPTOR',
+
+    CONSTRAINT "Dinosaur_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+
+DO $$
+    BEGIN
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_constraint WHERE conname = 'Dinosaur_userId_fkey'
+        ) THEN
+            ALTER TABLE "public"."Dinosaur" ADD CONSTRAINT "Dinosaur_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+        END IF;
+    END;
+$$;

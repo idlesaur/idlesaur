@@ -12,6 +12,7 @@ model User {
   profile       Profile?
   currency      Currency?
   upgrades      Upgrades?
+  dinos         Dinosaur[]
 }
 
 model Account {

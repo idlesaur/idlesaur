@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getUserData } from '@/app/lib/data';
 import { prisma } from '@/prisma';
-import { Profile } from '@/generated/prisma';
 
 // Mock prisma
 vi.mock('@/prisma', () => ({
@@ -22,26 +21,15 @@ describe('getUserData', () => {
     it('calls prisma.user.findUnique with correct args', async () => {
         mockFindUnique.mockResolvedValue({
             id: '123',
-            profile: {} as Profile,
-            currency: {},
-            upgrades: {},
         } as never);
 
         const result = await getUserData({ userId: '123' });
 
         expect(mockFindUnique).toHaveBeenCalledWith({
             where: { id: '123' },
-            include: {
-                profile: true,
-                currency: true,
-                upgrades: true,
-            },
         });
         expect(result).toEqual({
             id: '123',
-            profile: {},
-            currency: {},
-            upgrades: {},
         });
     });
 
@@ -53,11 +41,6 @@ describe('getUserData', () => {
         expect(result).toBeNull();
         expect(mockFindUnique).toHaveBeenCalledWith({
             where: { id: '456' },
-            include: {
-                profile: true,
-                currency: true,
-                upgrades: true,
-            },
         });
     });
 });

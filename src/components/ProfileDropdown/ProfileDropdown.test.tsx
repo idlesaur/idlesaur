@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { render, getRender, mockedDate } from '@/test/util';
+import { render, getRender } from '@/test/util';
 import {
     ProfileDropdown,
     ProfileDropdownContent,
@@ -39,16 +39,7 @@ describe('ProfileDropdownContent', () => {
             user: {
                 id: '',
                 image: '/test-image.jpg',
-                profile: {
-                    userName: 'TestUser',
-                    id: '',
-                    public: false,
-                    bio: '',
-                    userId: '',
-                    lastActive: mockedDate,
-                },
-                currency: null,
-                upgrades: null,
+                userName: 'TestUser',
             },
             expires: '',
         },
@@ -77,16 +68,7 @@ describe('ProfileDropdownContent', () => {
                 user: {
                     id: '',
                     image: null,
-                    profile: {
-                        userName: '   ',
-                        id: '',
-                        public: false,
-                        bio: '',
-                        userId: '',
-                        lastActive: mockedDate,
-                    },
-                    currency: null,
-                    upgrades: null,
+                    userName: '   ',
                 },
                 expires: '',
             },
@@ -110,9 +92,6 @@ describe('ProfileDropdown', () => {
             user: {
                 image: '/test-image.jpg',
                 id: '',
-                profile: null,
-                currency: null,
-                upgrades: null,
             },
             expires: '',
         },

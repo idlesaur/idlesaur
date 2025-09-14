@@ -1,51 +1,49 @@
 'use server';
 
 import { auth } from '@/auth';
-import { getBoneDiggerCost } from '@/util';
+import { getDinoCost } from '@/util';
 import { prisma } from '@/prisma';
 import { getAndUpdateBones } from '@/app/lib/actions';
-import { BuyBoneDiggerState } from '@/app/lib/types';
-import { getPlayerUpgrades } from '@/app/lib/data';
+import { BuyDinoState } from '@/app/lib/types';
+import { createDino } from '@/app/lib/util';
 
-export async function buyBoneDiggers(
-    _previousState: BuyBoneDiggerState | null,
-    formData: FormData,
-): Promise<BuyBoneDiggerState> {
+export async function buyDino(
+    _previousState: BuyDinoState | null,
+    _formData: FormData,
+): Promise<BuyDinoState> {
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
     }
 
-    const userId = session.user.id;
-    const upgrades = await getPlayerUpgrades({ userId });
-
-    const currentDiggers = upgrades?.boneDiggers ?? 0;
-    const quantity = Number(formData.get('diggersToBuy')) ?? 1;
-    const cost = getBoneDiggerCost(currentDiggers, quantity);
-
     try {
         await getAndUpdateBones();
 
         return await prisma.$transaction(async (tx) => {
+            const dinoCount = await tx.dinosaur.count({
+                where: { userId: session.user.id },
+            });
+            const cost = getDinoCost(dinoCount);
+
             const currency = await tx.currency.update({
                 data: {
                     bones: { decrement: cost },
                 },
-                where: { userId: session?.user?.id },
+                where: { userId: session.user.id },
             });
 
             if (currency.bones < 0) {
                 throw new Error(`Not enough bones to purchase bone digger`);
             }
-
-            const upgrades = await tx.upgrades.update({
-                data: { boneDiggers: { increment: quantity } },
-                where: { userId: session?.user?.id },
+            const dino = await tx.dinosaur.create({
+                data: createDino({
+                    user: { connect: { id: session.user.id } },
+                }),
             });
 
             return {
                 success: true,
-                boneDiggers: upgrades.boneDiggers,
+                dino,
                 bones: currency.bones,
             };
         });

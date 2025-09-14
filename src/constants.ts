@@ -1,6 +1,8 @@
 // game
 export const TICKS_PER_SECOND: number = 15;
 export const BASE_BONE_COST_BONE_DIGGER: number = 15;
+export const BASE_BONE_COST_DINOSAUR: number = 100000;
+export const BASE_BONE_COST_DINOSAUR_CAPACITY: number = 50000;
 export const BASE_BONES_PER_SECOND_PER_DIGGER: number = 1.0;
 
 // save settings

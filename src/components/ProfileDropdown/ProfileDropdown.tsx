@@ -11,7 +11,7 @@ import { Routes } from '@/constants';
 
 export const ProfileDropdownContent = () => {
     const session = useSession();
-    const userName = session?.data?.user?.profile?.userName ?? undefined;
+    const userName = session?.data?.user?.userName ?? undefined;
     const profileImage = session?.data?.user?.image ?? undefined;
 
     return (

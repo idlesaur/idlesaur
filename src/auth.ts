@@ -3,7 +3,11 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/prisma';
-import { getUserData, updateProfileLastActive } from '@/app/lib/data';
+import {
+    getProfileByUserId,
+    getUserData,
+    updateProfileLastActive,
+} from '@/app/lib/data';
 
 export const { handlers, auth } = NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -13,23 +17,24 @@ export const { handlers, auth } = NextAuth({
             if (!user?.id) return session;
 
             const dbUser = await getUserData({ userId: user.id });
+            if (!dbUser) return session;
 
-            if (dbUser) {
-                session.user = {
-                    ...session.user,
-                    id: dbUser.id,
-                    profile: dbUser.profile,
-                    currency: dbUser.currency,
-                    upgrades: dbUser.upgrades,
-                };
-            }
+            const profile = await getProfileByUserId(user.id);
+            if (!profile) return session;
+
+            session.user = {
+                ...session.user,
+                id: dbUser.id,
+                userName: profile.userName,
+                image: dbUser?.image,
+            };
 
             return session;
         },
     },
     events: {
         session: async ({ session }) => {
-            updateProfileLastActive({ userId: session?.user?.id });
+            await updateProfileLastActive({ userId: session?.user?.id });
         },
         createUser: async ({ user }) => {
             await prisma.$transaction([

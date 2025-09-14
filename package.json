@@ -25,6 +25,7 @@
     "prisma:prod:seed": "dotenv -e .env.production -- tsx prisma/seed.ts",
     "prisma:prod:deploy": "dotenv -e .env.production -- prisma migrate deploy",
     "prisma:preview:deploy": "dotenv -e .env.preview -- prisma migrate deploy",
+    "prisma:preview:revert": "dotenv -e .env.preview -- prisma migrate resolve --rolled-back \"20250913213225_dino\"",
     "postinstall": "prisma generate"
   },
   "dependencies": {

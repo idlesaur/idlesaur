@@ -77,7 +77,7 @@ describe('<BoneSystemCard />', () => {
         render(<BoneSystemCard />);
 
         const btn = screen.getByRole('button', {
-            name: /50 Buy 0 Bone-digger/i,
+            name: /50 Buy 1 Bone-digger/i,
         });
         expect(btn).toBeDisabled();
     });

@@ -4,10 +4,20 @@ import { Routes } from '@/constants';
 import {
     CurrencyStoreProvider,
     UpgradesStoreProvider,
+    DinosaursStoreProvider,
 } from '@/state/providers';
 import { getAndUpdateBones } from '@/app/lib/actions';
 import { ReactNode } from 'react';
-import { createCurrencyState, createUpgradesState } from '@/state/stores';
+import {
+    createCurrencyState,
+    createUpgradesState,
+    createDinosaursState,
+} from '@/state/stores';
+import { getPlayerDinosaurs, getPlayerUpgrades } from '@/app/lib/data';
+
+const goHome = () => {
+    redirect(Routes.HOME, RedirectType.replace);
+};
 
 export default async function GameLayout({
     children,
@@ -16,24 +26,32 @@ export default async function GameLayout({
 }) {
     const session = await auth();
     if (!session?.user) {
-        redirect(Routes.HOME, RedirectType.replace);
+        goHome();
     }
     const response = await getAndUpdateBones();
-    if (!response) {
-        redirect(Routes.HOME, RedirectType.replace);
+    if (response === null) {
+        goHome();
+    }
+    const { bones } = response!;
+
+    const userId = session!.user.id;
+    const upgrades = await getPlayerUpgrades({ userId });
+    const dinosaurs = await getPlayerDinosaurs({ userId });
+
+    if (upgrades === null || dinosaurs === null) {
+        goHome();
     }
 
-    const { bones } = response;
-    const boneDiggers = session?.user?.upgrades?.boneDiggers ?? undefined;
-
     return (
-        <UpgradesStoreProvider
-            initialState={createUpgradesState({ boneDiggers })}
-        >
+        <UpgradesStoreProvider initialState={createUpgradesState(upgrades!)}>
             <CurrencyStoreProvider
                 initialState={createCurrencyState({ bones })}
             >
-                {children}
+                <DinosaursStoreProvider
+                    initialState={createDinosaursState({ dinosaurs })}
+                >
+                    {children}
+                </DinosaursStoreProvider>
             </CurrencyStoreProvider>
         </UpgradesStoreProvider>
     );
