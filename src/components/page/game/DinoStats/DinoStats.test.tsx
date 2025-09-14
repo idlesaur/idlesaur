@@ -4,7 +4,7 @@ import { render } from '@/test/util';
 import { AttributeRow, DinoStats } from './DinoStats';
 import { formatNumber } from '@/util';
 import { createDino } from '@/app/lib/util';
-import { $Enums } from '@/generated/prisma';
+import { $Enums, Dinosaur } from '@/generated/prisma';
 
 vi.mock('@/util', async () => {
     const originalModule = await vi.importActual('@/util');
@@ -24,7 +24,7 @@ describe('AttributeRow', () => {
 });
 
 describe('DinoStats', () => {
-    const mockDino = {
+    const mockDino: Dinosaur = {
         ...createDino({
             name: 'Chompy',
             health: 50,
@@ -39,8 +39,7 @@ describe('DinoStats', () => {
         userId: 'test',
         type: $Enums.DinoType.RAPTOR,
         id: 'test123',
-        alive: true,
-    };
+    } as Dinosaur;
 
     it('renders heading with dino name', () => {
         render(<DinoStats dinosaur={mockDino} />);

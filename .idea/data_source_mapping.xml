@@ -3,5 +3,6 @@
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/prisma/migrations/20250813165419_init/migration.sql" value="69d2b045-98a7-444c-b737-a0389b82fb42" />
     <file url="file://$PROJECT_DIR$/prisma/migrations/20250814004328_auth/migration.sql" value="69d2b045-98a7-444c-b737-a0389b82fb42" />
+    <file url="file://$PROJECT_DIR$/prisma/migrations/20250913213225_dino/migration.sql" value="69d2b045-98a7-444c-b737-a0389b82fb42" />
   </component>
 </project>

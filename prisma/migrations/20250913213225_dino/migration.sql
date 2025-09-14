@@ -1,5 +1,14 @@
 -- CreateEnum
-CREATE TYPE "public"."DinoType" AS ENUM ('RAPTOR', 'TYRANNOSAURUS');
+DO $$
+BEGIN
+    IF NOT EXISTS (
+            SELECT 1 FROM pg_type t
+            JOIN pg_namespace n ON n.oid = t.typnamespace
+            WHERE t.typname = 'DinoType' AND n.nspname = 'public'
+        ) THEN
+        CREATE TYPE "public"."DinoType" AS ENUM ('RAPTOR', 'TYRANNOSAURUS');
+    END IF;
+END $$;
 
 -- AlterTable
 ALTER TABLE "public"."Upgrades" ADD COLUMN     "dinosaurCapacity" INTEGER NOT NULL DEFAULT 0;
