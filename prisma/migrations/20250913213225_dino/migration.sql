@@ -11,10 +11,10 @@ BEGIN
 END $$;
 
 -- AlterTable
-ALTER TABLE "public"."Upgrades" ADD COLUMN     "dinosaurCapacity" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "public"."Upgrades" ADD COLUMN IF NOT EXISTS "dinosaurCapacity" INTEGER NOT NULL DEFAULT 0;
 
 -- CreateTable
-CREATE TABLE "public"."Dinosaur" (
+CREATE TABLE IF NOT EXISTS "public"."Dinosaur" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "alive" BOOLEAN NOT NULL DEFAULT true,
@@ -35,4 +35,13 @@ CREATE TABLE "public"."Dinosaur" (
 );
 
 -- AddForeignKey
-ALTER TABLE "public"."Dinosaur" ADD CONSTRAINT "Dinosaur_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+DO $$
+    BEGIN
+        IF NOT EXISTS (
+            SELECT 1 FROM pg_constraint WHERE conname = 'Dinosaur_userId_fkey'
+        ) THEN
+            ALTER TABLE "public"."Dinosaur" ADD CONSTRAINT "Dinosaur_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+        END IF;
+    END;
+$$;
