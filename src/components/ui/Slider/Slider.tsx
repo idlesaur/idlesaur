@@ -19,6 +19,7 @@ export const Slider = ({
     className,
     name,
     allowEdit = false,
+    ...rest
 }: SliderProps) => {
     const [internalValue, setInternalValue] = useState(controlledValue ?? min);
 
@@ -46,6 +47,7 @@ export const Slider = ({
                 className={twMerge(
                     `accent-primary-700 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-300`,
                 )}
+                {...rest}
             />
             <div className="mt-3 flex items-center justify-center text-sm">
                 {allowEdit ? (
