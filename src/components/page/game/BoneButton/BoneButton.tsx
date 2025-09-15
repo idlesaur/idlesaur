@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useActionState, startTransition, useEffect } from 'react';
-import { PiBone } from 'react-icons/pi';
-import { PriceButton } from '@/components/page/game';
 import { dig } from '@/app/lib/actions';
 import { useCurrencyStore } from '@/state/providers';
+import { BoneButtonUI } from '@/components/page/game/BoneButton/BoneButtonUI';
 
 export const BoneButton = () => {
     const [state, action, pending] = useActionState(dig, null);
@@ -18,11 +17,9 @@ export const BoneButton = () => {
     }, [setBones, state?.bones]);
 
     return (
-        <PriceButton
+        <BoneButtonUI
             onClick={() => startTransition(action)}
-            icon={<PiBone />}
-            text="Dig for bones"
-            disabled={pending}
+            isPending={pending}
         />
     );
 };
