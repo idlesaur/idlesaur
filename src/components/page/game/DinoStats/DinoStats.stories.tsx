@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { DinoStats } from '@/components/page/game';
 import { mockDinosaur } from '@/test/mockFactory';

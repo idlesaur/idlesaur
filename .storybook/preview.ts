@@ -1,7 +1,11 @@
 import '../src/app/globals.css';
 
-import type { Preview } from '@storybook/nextjs';
-import { withCurrencyState, withUpgradesState } from './decorators';
+import type { Preview } from '@storybook/nextjs-vite';
+import {
+    withCurrencyState,
+    withUpgradesState,
+    withSessionState,
+} from './decorators';
 
 const preview: Preview = {
     parameters: {
@@ -12,7 +16,7 @@ const preview: Preview = {
             },
         },
     },
-    decorators: [withCurrencyState(), withUpgradesState()],
+    decorators: [withSessionState(), withCurrencyState(), withUpgradesState()],
 };
 
 export default preview;
