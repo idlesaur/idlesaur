@@ -8,6 +8,9 @@ const config: StorybookConfig = {
         '@storybook/addon-a11y',
         '@storybook/addon-vitest',
     ],
+    features: {
+        experimentalRSC: true,
+    },
     framework: {
         name: '@storybook/nextjs-vite',
         options: {},
