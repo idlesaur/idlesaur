@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { DiCode } from 'react-icons/di';
 
-import { GameCard } from '@/components/page/game';
+import { GameCard } from './GameCard';
 
 const meta = {
     component: GameCard,
