@@ -13,18 +13,33 @@ import {
     getMaxBoneDiggersCanAfford,
 } from '@/util';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-// import { buyBoneDiggers } from '@/app/lib/actions';
 import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 import { FieldValues, useForm } from 'react-hook-form';
+import { BuyBoneDiggerState } from '@/app/lib/types';
+import { DigState } from '@/app/lib/actions/dig';
 
 export interface PurchaseBoneDiggersInputs extends FieldValues {
     diggersToBuy: number;
 }
 
-export const BoneSystemCard = () => {
-    // const [formState, formAction, isPending] = useActionState(buyBoneDiggers, {
-    //     success: false,
-    // });
+export interface BoneSystemCardProps {
+    buyBoneDiggersAction: (
+        previousState: BuyBoneDiggerState | null,
+        formData: FormData,
+    ) => Promise<BuyBoneDiggerState>;
+    digAction: () => Promise<DigState>;
+}
+
+export const BoneSystemCard = ({
+    buyBoneDiggersAction,
+    digAction,
+}: BoneSystemCardProps) => {
+    const [formState, formAction, isPending] = useActionState(
+        buyBoneDiggersAction,
+        {
+            success: false,
+        },
+    );
 
     const { bones, setBones } = useCurrencyStore((state) => state);
     const { boneDiggers, setBoneDiggers } = useUpgradesStore((state) => state);
@@ -42,27 +57,27 @@ export const BoneSystemCard = () => {
         },
     });
 
-    // useEffect(() => {
-    //     if (!formState.success) {
-    //         return;
-    //     }
-    //
-    //     if (formState.bones) {
-    //         setBones(formState.bones);
-    //     }
-    //
-    //     if (formState.boneDiggers) {
-    //         setBoneDiggers(formState.boneDiggers);
-    //     }
-    //     reset();
-    // }, [
-    //     formState.success,
-    //     formState.boneDiggers,
-    //     formState.bones,
-    //     setBones,
-    //     setBoneDiggers,
-    //     reset,
-    // ]);
+    useEffect(() => {
+        if (!formState?.success) {
+            return;
+        }
+
+        if (formState?.bones) {
+            setBones(formState.bones);
+        }
+
+        if (formState?.boneDiggers) {
+            setBoneDiggers(formState.boneDiggers);
+        }
+        reset();
+    }, [
+        formState?.success,
+        formState?.boneDiggers,
+        formState?.bones,
+        setBones,
+        setBoneDiggers,
+        reset,
+    ]);
 
     const amountBoneDiggersToBuy = watch('diggersToBuy');
 
@@ -85,36 +100,36 @@ export const BoneSystemCard = () => {
                 Bone-diggers: {boneDiggers} (
                 {formatNumber(bonesPerSecondFromDiggers)} bones/ sec)
             </div>
-            <BoneButton />
+            <BoneButton digAction={digAction} />
 
-            {/*<Form*/}
-            {/*    handleSubmit={handleSubmit}*/}
-            {/*    formAction={formAction}*/}
-            {/*    formState={formState}*/}
-            {/*    setError={setError}*/}
-            {/*    className="w-full"*/}
-            {/*>*/}
-            {/*    <FormSlider*/}
-            {/*        register={register}*/}
-            {/*        label="diggersToBuy"*/}
-            {/*        className="my-3"*/}
-            {/*        min={1}*/}
-            {/*        max={maxBoneDiggersCanAfford}*/}
-            {/*    />*/}
-            {/*    <PriceButton*/}
-            {/*        icon={<PiBone />}*/}
-            {/*        price={formatNumber(boneDiggerCost)}*/}
-            {/*        text={`Buy ${amountBoneDiggersToBuy} Bone-digger${amountBoneDiggersToBuy > 1 ? 's' : ''}`}*/}
-            {/*        type="submit"*/}
-            {/*        className="w-full"*/}
-            {/*        loading={isPending || isLoading}*/}
-            {/*        disabled={*/}
-            {/*            isPending ||*/}
-            {/*            !canAffordBoneDigger ||*/}
-            {/*            amountBoneDiggersToBuy <= 0*/}
-            {/*        }*/}
-            {/*    />*/}
-            {/*</Form>*/}
+            <Form
+                handleSubmit={handleSubmit}
+                formAction={formAction}
+                formState={formState}
+                setError={setError}
+                className="w-full"
+            >
+                <FormSlider
+                    register={register}
+                    label="diggersToBuy"
+                    className="my-3"
+                    min={1}
+                    max={maxBoneDiggersCanAfford}
+                />
+                <PriceButton
+                    icon={<PiBone />}
+                    price={formatNumber(boneDiggerCost)}
+                    text={`Buy ${amountBoneDiggersToBuy} Bone-digger${amountBoneDiggersToBuy > 1 ? 's' : ''}`}
+                    type="submit"
+                    className="w-full"
+                    loading={isPending || isLoading}
+                    disabled={
+                        isPending ||
+                        !canAffordBoneDigger ||
+                        amountBoneDiggersToBuy <= 0
+                    }
+                />
+            </Form>
         </GameCard>
     );
 };
