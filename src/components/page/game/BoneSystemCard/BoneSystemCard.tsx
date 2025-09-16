@@ -4,7 +4,9 @@ import React, { useActionState, useEffect } from 'react';
 import { PiBone } from 'react-icons/pi';
 
 import { Form, FormSlider } from '@/components/ui';
-import { BoneButton, GameCard, PriceButton } from '@/components/page/game';
+import { BoneButton } from '@/components/page/game/BoneButton';
+import { GameCard } from '@/components/page/game/GameCard';
+import { PriceButton } from '@/components/page/game/PriceButton';
 import {
     formatNumber,
     getBoneDiggerCost,
@@ -83,7 +85,7 @@ export const BoneSystemCard = () => {
                 Bone-diggers: {boneDiggers} (
                 {formatNumber(bonesPerSecondFromDiggers)} bones/ sec)
             </div>
-            <BoneButton />
+            {/*<BoneButton />*/}
 
             <Form
                 handleSubmit={handleSubmit}

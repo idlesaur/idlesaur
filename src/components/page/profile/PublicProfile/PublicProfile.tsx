@@ -1,5 +1,5 @@
 import React from 'react';
-import { Profile } from '@/generated/prisma';
+import { type Profile } from '@/generated/prisma';
 import { Card, CardHeading } from '@/components/ui';
 import { getPublicProfileName } from '@/util';
 import { CurrencyState } from '@/state/stores';

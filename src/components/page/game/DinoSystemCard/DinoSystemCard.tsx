@@ -4,9 +4,9 @@ import React, { useActionState, useEffect } from 'react';
 import { GiDinosaurRex } from 'react-icons/gi';
 
 import { Heading, Tooltip } from '@/components/ui';
-import { buyDino } from '@/app/lib/actions';
+import { buyDino, buyDinosaurCapacityUpgrade } from '@/app/lib/actions';
 import { formatNumber, getDinoCapacityIncreaseCost, getDinoCost } from '@/util';
-import { Dinosaur } from '@/generated/prisma';
+import { type Dinosaur } from '@/generated/prisma';
 import { PiBone } from 'react-icons/pi';
 import { DinoStats, GameCard, PriceButton } from '@/components/page/game';
 import {
@@ -14,7 +14,6 @@ import {
     useDinosaursStore,
     useUpgradesStore,
 } from '@/state/providers';
-import { buyDinosaurCapacityUpgrade } from '@/app/lib/actions/buyDinosaurCapacityUpgrade';
 
 export interface DinoIconProps {
     dinosaur: Dinosaur;

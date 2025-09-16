@@ -1,6 +1,6 @@
-export * from './buyBoneDiggers';
-export * from './buyDino';
-export * from './buyDinosaurCapacityUpgrade';
-export * from './dig';
-export * from './getAndUpdateBones';
-export * from './updateProfile';
+export { buyBoneDiggers } from './buyBoneDiggers';
+export { buyDino } from './buyDino';
+export { buyDinosaurCapacityUpgrade } from './buyDinosaurCapacityUpgrade';
+export { dig } from './dig';
+export { getAndUpdateBones } from './getAndUpdateBones';
+export { updateProfile } from './updateProfile';

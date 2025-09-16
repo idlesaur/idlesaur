@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading } from '@/components/ui';
 import { formatNumber } from '@/util';
-import { Dinosaur } from '@/generated/prisma';
+import { type Dinosaur } from '@/generated/prisma';
 
 export const AttributeRow = ({
     name,
