@@ -2,19 +2,18 @@
 
 import React, { useActionState, useEffect } from 'react';
 import { GiDinosaurRex } from 'react-icons/gi';
+import { PiBone } from 'react-icons/pi';
 
 import { Heading, Tooltip } from '@/components/ui';
-import { buyDino } from '@/app/lib/actions';
 import { formatNumber, getDinoCapacityIncreaseCost, getDinoCost } from '@/util';
-import { Dinosaur } from '@/generated/prisma';
-import { PiBone } from 'react-icons/pi';
+import { type Dinosaur } from '@/generated/prisma';
 import { DinoStats, GameCard, PriceButton } from '@/components/page/game';
 import {
     useCurrencyStore,
     useDinosaursStore,
     useUpgradesStore,
 } from '@/state/providers';
-import { buyDinosaurCapacityUpgrade } from '@/app/lib/actions/buyDinosaurCapacityUpgrade';
+import { BuyDinosaurCapacityUpgradeState, BuyDinoState } from '@/app/lib/types';
 
 export interface DinoIconProps {
     dinosaur: Dinosaur;
@@ -31,16 +30,30 @@ export const DinoIcon = ({ dinosaur }: DinoIconProps) => {
     );
 };
 
-export const DinoSystemCard = () => {
+export interface DinoSystemCardProps {
+    buyDinoAction: (
+        previousState: BuyDinoState | null,
+        formData: FormData,
+    ) => Promise<BuyDinoState>;
+    buyDinosaurCapacityUpgradeAction: (
+        previousState: BuyDinosaurCapacityUpgradeState | null,
+        formData: FormData,
+    ) => Promise<BuyDinosaurCapacityUpgradeState>;
+}
+
+export const DinoSystemCard = ({
+    buyDinoAction,
+    buyDinosaurCapacityUpgradeAction,
+}: DinoSystemCardProps) => {
     const [buyDinoFormState, buyDinoFormAction, buyDinoIsPending] =
-        useActionState(buyDino, {
+        useActionState(buyDinoAction, {
             success: false,
         });
     const [
         buyDinoCapacityFormState,
         buyDinoCapacityFormAction,
         buyDinoCapacityIsPending,
-    ] = useActionState(buyDinosaurCapacityUpgrade, {
+    ] = useActionState(buyDinosaurCapacityUpgradeAction, {
         success: false,
     });
 
@@ -59,41 +72,41 @@ export const DinoSystemCard = () => {
     const canBuyDinoCapacity = bones >= dinoCapacityIncreaseCost;
 
     useEffect(() => {
-        if (!buyDinoFormState.success) {
+        if (!buyDinoFormState?.success) {
             return;
         }
 
-        if (buyDinoFormState.bones) {
+        if (buyDinoFormState?.bones) {
             setBones(buyDinoFormState.bones);
         }
 
-        if (buyDinoFormState.dino) {
+        if (buyDinoFormState?.dino) {
             addDinosaur(buyDinoFormState.dino);
         }
     }, [
-        buyDinoFormState.success,
-        buyDinoFormState.dino,
-        buyDinoFormState.bones,
+        buyDinoFormState?.success,
+        buyDinoFormState?.dino,
+        buyDinoFormState?.bones,
         setBones,
         addDinosaur,
     ]);
 
     useEffect(() => {
-        if (!buyDinoCapacityFormState.success) {
+        if (!buyDinoCapacityFormState?.success) {
             return;
         }
 
-        if (buyDinoCapacityFormState.bones) {
+        if (buyDinoCapacityFormState?.bones) {
             setBones(buyDinoCapacityFormState.bones);
         }
 
-        if (buyDinoCapacityFormState.dinosaurCapacity) {
+        if (buyDinoCapacityFormState?.dinosaurCapacity) {
             setDinosaurCapacity(buyDinoCapacityFormState.dinosaurCapacity);
         }
     }, [
-        buyDinoCapacityFormState.success,
-        buyDinoCapacityFormState.dinosaurCapacity,
-        buyDinoCapacityFormState.bones,
+        buyDinoCapacityFormState?.success,
+        buyDinoCapacityFormState?.dinosaurCapacity,
+        buyDinoCapacityFormState?.bones,
         setDinosaurCapacity,
         setBones,
     ]);

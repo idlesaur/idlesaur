@@ -1,7 +1,7 @@
 import { GiDinosaurRex } from 'react-icons/gi';
 
 import { Routes } from '@/constants';
-import { Post } from '@/generated/prisma';
+import { type Post } from '@/generated/prisma';
 import { LinkButton, CardHeading, Card } from '@/components/ui';
 
 export interface PostPreviewProps {

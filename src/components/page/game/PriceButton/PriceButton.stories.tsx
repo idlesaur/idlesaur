@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
 import { DiCode } from 'react-icons/di';
 
-import { PriceButton } from '@/components/page/game';
+import { PriceButton } from './PriceButton';
 
 const meta = {
     component: PriceButton,

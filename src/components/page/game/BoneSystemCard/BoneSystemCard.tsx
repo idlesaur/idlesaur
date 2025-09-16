@@ -4,25 +4,42 @@ import React, { useActionState, useEffect } from 'react';
 import { PiBone } from 'react-icons/pi';
 
 import { Form, FormSlider } from '@/components/ui';
-import { BoneButton, GameCard, PriceButton } from '@/components/page/game';
+import { BoneButton } from '@/components/page/game/BoneButton';
+import { GameCard } from '@/components/page/game/GameCard';
+import { PriceButton } from '@/components/page/game/PriceButton';
 import {
     formatNumber,
     getBoneDiggerCost,
     getMaxBoneDiggersCanAfford,
 } from '@/util';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-import { buyBoneDiggers } from '@/app/lib/actions';
 import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 import { FieldValues, useForm } from 'react-hook-form';
+import { BuyBoneDiggerState } from '@/app/lib/types';
+import { DigState } from '@/app/lib/actions/dig';
 
 export interface PurchaseBoneDiggersInputs extends FieldValues {
     diggersToBuy: number;
 }
 
-export const BoneSystemCard = () => {
-    const [formState, formAction, isPending] = useActionState(buyBoneDiggers, {
-        success: false,
-    });
+export interface BoneSystemCardProps {
+    buyBoneDiggersAction: (
+        previousState: BuyBoneDiggerState | null,
+        formData: FormData,
+    ) => Promise<BuyBoneDiggerState>;
+    digAction: () => Promise<DigState>;
+}
+
+export const BoneSystemCard = ({
+    buyBoneDiggersAction,
+    digAction,
+}: BoneSystemCardProps) => {
+    const [formState, formAction, isPending] = useActionState(
+        buyBoneDiggersAction,
+        {
+            success: false,
+        },
+    );
 
     const { bones, setBones } = useCurrencyStore((state) => state);
     const { boneDiggers, setBoneDiggers } = useUpgradesStore((state) => state);
@@ -41,22 +58,22 @@ export const BoneSystemCard = () => {
     });
 
     useEffect(() => {
-        if (!formState.success) {
+        if (!formState?.success) {
             return;
         }
 
-        if (formState.bones) {
+        if (formState?.bones) {
             setBones(formState.bones);
         }
 
-        if (formState.boneDiggers) {
+        if (formState?.boneDiggers) {
             setBoneDiggers(formState.boneDiggers);
         }
         reset();
     }, [
-        formState.success,
-        formState.boneDiggers,
-        formState.bones,
+        formState?.success,
+        formState?.boneDiggers,
+        formState?.bones,
         setBones,
         setBoneDiggers,
         reset,
@@ -83,7 +100,7 @@ export const BoneSystemCard = () => {
                 Bone-diggers: {boneDiggers} (
                 {formatNumber(bonesPerSecondFromDiggers)} bones/ sec)
             </div>
-            <BoneButton />
+            <BoneButton digAction={digAction} />
 
             <Form
                 handleSubmit={handleSubmit}

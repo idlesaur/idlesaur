@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { Dinosaur } from '@/generated/prisma';
+import { type Dinosaur } from '@/generated/prisma';
 
 export type ZodError<T = unknown> = z.core.$ZodError<T>;
 

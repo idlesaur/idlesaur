@@ -1,13 +1,24 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { BoneButton } from '@/components/page/game';
+import { BoneButtonUI } from './BoneButtonUI';
+import { fn } from 'storybook/test';
 
 const meta = {
-    component: BoneButton,
+    component: BoneButtonUI,
     title: 'Components/Page/Game/BoneButton',
-} satisfies Meta<typeof BoneButton>;
+    args: {
+        onClick: fn(),
+        isPending: false,
+    },
+} satisfies Meta<typeof BoneButtonUI>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
+export const Pending: Story = {
+    args: {
+        isPending: true,
+    },
+};

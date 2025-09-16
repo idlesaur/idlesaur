@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { randomItem } from '@/util';
-import { Prisma, DinoType } from '@/generated/prisma';
-import DinosaurCreateInput = Prisma.DinosaurCreateInput;
+import { type Prisma } from '@/generated/prisma';
 
 const DEFAULT_NEXT_LEVEL_EXP: number = 10;
 const DEFAULT_ATTRIBUTE_POINTS: number = 5;
@@ -66,15 +65,15 @@ export const generateName = (): string => {
 };
 
 export const createDino = (
-    defaultOverrides: Partial<DinosaurCreateInput> = {},
-): DinosaurCreateInput =>
+    defaultOverrides: Partial<Prisma.DinosaurCreateInput> = {},
+): Prisma.DinosaurCreateInput =>
     ({
         id: uuidv4(),
         name: generateName(),
         level: 1,
         experience: 0,
         nextLevelExperience: DEFAULT_NEXT_LEVEL_EXP,
-        type: DinoType.RAPTOR,
+        type: 'RAPTOR',
         alive: true,
         attack: DEFAULT_ATTRIBUTE_POINTS,
         defense: DEFAULT_ATTRIBUTE_POINTS,
@@ -82,4 +81,4 @@ export const createDino = (
         health: DEFAULT_HEALTH,
         maxHealth: DEFAULT_HEALTH,
         ...defaultOverrides,
-    }) as DinosaurCreateInput;
+    }) as Prisma.DinosaurCreateInput;

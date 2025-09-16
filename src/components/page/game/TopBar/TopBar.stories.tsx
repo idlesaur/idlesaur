@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
 import { TopBar } from './TopBar';
-import { withCurrencyState } from '@/../.storybook/decorators';
+import { withCurrencyState } from '../../../../../.storybook/decorators';
 
 const meta = {
     component: TopBar,
