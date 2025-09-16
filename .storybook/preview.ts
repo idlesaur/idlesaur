@@ -1,5 +1,6 @@
 import '../src/app/globals.css';
 
+import { http, HttpResponse } from 'msw';
 import type { Preview } from '@storybook/nextjs-vite';
 import { initialize, mswLoader } from 'msw-storybook-addon';
 
@@ -20,6 +21,16 @@ const preview: Preview = {
                 color: /(background|color)$/i,
                 date: /Date$/i,
             },
+        },
+        msw: {
+            handlers: [
+                http.get('/api/auth/session', () => {
+                    return HttpResponse.json({
+                        firstName: 'Neil',
+                        lastName: 'Maverick',
+                    });
+                }),
+            ],
         },
         nextjs: {
             appDirectory: true,
