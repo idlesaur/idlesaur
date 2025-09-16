@@ -2,12 +2,12 @@
 
 import React, { useActionState, useEffect } from 'react';
 import { GiDinosaurRex } from 'react-icons/gi';
+import { PiBone } from 'react-icons/pi';
 
 import { Heading, Tooltip } from '@/components/ui';
 import { buyDino, buyDinosaurCapacityUpgrade } from '@/app/lib/actions';
 import { formatNumber, getDinoCapacityIncreaseCost, getDinoCost } from '@/util';
 import { type Dinosaur } from '@/generated/prisma';
-import { PiBone } from 'react-icons/pi';
 import { DinoStats, GameCard, PriceButton } from '@/components/page/game';
 import {
     useCurrencyStore,

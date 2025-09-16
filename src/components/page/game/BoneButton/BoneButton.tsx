@@ -9,17 +9,12 @@ export const BoneButton = () => {
     const [state, action, pending] = useActionState(dig, null);
     const { setBones } = useCurrencyStore((state) => state);
 
-    useEffect(() => {
-        if (!state?.bones) {
-            return;
-        }
-        setBones(state.bones);
-    }, [setBones, state?.bones]);
+    // useEffect(() => {
+    //     if (!state?.bones) {
+    //         return;
+    //     }
+    //     setBones(state.bones);
+    // }, [setBones, state?.bones]);
 
-    return (
-        <BoneButtonUI
-            onClick={() => startTransition(action)}
-            isPending={pending}
-        />
-    );
+    return <BoneButtonUI onClick={() => {}} isPending={false} />;
 };

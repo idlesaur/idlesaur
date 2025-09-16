@@ -77,6 +77,8 @@
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "lint-staged": "^16.1.6",
+    "msw": "^2.11.2",
+    "msw-storybook-addon": "^2.0.5",
     "playwright": "^1.55.0",
     "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "0.6.14",
@@ -90,5 +92,10 @@
     "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,css,md}": "prettier --write"
   },
-  "type": "module"
+  "type": "module",
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
 }
