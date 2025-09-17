@@ -15,7 +15,7 @@ const ICON_SIZE = 20;
 
 export type NotificationVariant = 'success' | 'error' | 'info' | 'warning';
 
-export interface ToastNotificationProps extends ToastState {
+export interface ToastNotificationProps extends Omit<ToastState, 'id'> {
     onClose: () => void;
 }
 

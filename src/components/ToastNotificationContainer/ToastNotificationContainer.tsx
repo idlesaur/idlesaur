@@ -8,7 +8,6 @@ export const ToastNotificationContainer = () => {
         <div className="fixed bottom-4 left-4 z-5 flex flex-col gap-2">
             {toasts.map((toast) => (
                 <ToastNotification
-                    id={toast.id}
                     key={toast.id}
                     title={toast.title}
                     variant={toast.variant}
