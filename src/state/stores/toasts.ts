@@ -1,9 +1,13 @@
+import { v4 as uuidv4 } from 'uuid';
 import { createStore } from 'zustand';
-import { ToastNotificationProps } from '@/components';
-import { TOAST_NOTIFICATION_TIME } from '@/constants';
+import { NotificationVariant } from '@/components';
+import React from 'react';
 
-export interface ToastState extends ToastNotificationProps {
-    timeLeft: number;
+export interface ToastState {
+    id: string;
+    title: string;
+    content?: React.ReactNode | string;
+    variant: NotificationVariant;
 }
 
 export type ToastsState = {
@@ -11,7 +15,11 @@ export type ToastsState = {
 };
 
 export type ToastsActions = {
+    removeToast: (id: string) => void;
     addSuccessToast: (title: string, content: string) => void;
+    addErrorToast: (title: string, content: string) => void;
+    addInfoToast: (title: string, content: string) => void;
+    addWarningToast: (title: string, content: string) => void;
 };
 
 export type ToastsStore = ToastsState & ToastsActions;
@@ -34,12 +42,52 @@ export const createToastsStore = (
                 toasts: [
                     ...state.toasts,
                     {
+                        id: uuidv4(),
                         title,
                         content,
                         variant: 'success',
-                        timeLeft: TOAST_NOTIFICATION_TIME,
                     },
                 ],
+            })),
+        addErrorToast: (title: string, content?: string) =>
+            set((state) => ({
+                toasts: [
+                    ...state.toasts,
+                    {
+                        id: uuidv4(),
+                        title,
+                        content,
+                        variant: 'error',
+                    },
+                ],
+            })),
+        addInfoToast: (title: string, content?: string) =>
+            set((state) => ({
+                toasts: [
+                    ...state.toasts,
+                    {
+                        id: uuidv4(),
+                        title,
+                        content,
+                        variant: 'info',
+                    },
+                ],
+            })),
+        addWarningToast: (title: string, content?: string) =>
+            set((state) => ({
+                toasts: [
+                    ...state.toasts,
+                    {
+                        id: uuidv4(),
+                        title,
+                        content,
+                        variant: 'warning',
+                    },
+                ],
+            })),
+        removeToast: (id: string) =>
+            set((state) => ({
+                toasts: state.toasts.filter((toast) => toast.id !== id),
             })),
     }));
 };

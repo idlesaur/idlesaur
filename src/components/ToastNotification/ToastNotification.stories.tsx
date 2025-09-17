@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { fn } from 'storybook/test';
 
 import { ToastNotification } from '@/components';
 
@@ -8,6 +9,8 @@ const meta = {
     args: {
         title: 'Toast title',
         variant: 'success',
+        onClose: fn(),
+        id: 'id',
     },
 } satisfies Meta<typeof ToastNotification>;
 

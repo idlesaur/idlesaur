@@ -19,4 +19,4 @@ export const Routes = {
     POST_PAGE: (slug: string) => `/post/${slug}`,
 };
 
-export const TOAST_NOTIFICATION_TIME: number = 5000;
+export const TOAST_NOTIFICATION_TIME: number = 3000;
