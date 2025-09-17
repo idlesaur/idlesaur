@@ -14,7 +14,7 @@ export type NotificationVariant = 'success' | 'error' | 'info' | 'warning';
 
 export interface ToastNotificationProps {
     title: string;
-    content: React.ReactNode | string;
+    content?: React.ReactNode | string;
     variant: NotificationVariant;
 }
 

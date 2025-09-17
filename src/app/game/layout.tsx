@@ -3,8 +3,9 @@ import { auth } from '@/auth';
 import { Routes } from '@/constants';
 import {
     CurrencyStoreProvider,
-    UpgradesStoreProvider,
     DinosaursStoreProvider,
+    ToastsStoreProvider,
+    UpgradesStoreProvider,
 } from '@/state/providers';
 import { getAndUpdateBones } from '@/app/lib/actions';
 import { ReactNode } from 'react';
@@ -50,7 +51,7 @@ export default async function GameLayout({
                 <DinosaursStoreProvider
                     initialState={createDinosaursState({ dinosaurs })}
                 >
-                    {children}
+                    <ToastsStoreProvider>{children}</ToastsStoreProvider>
                 </DinosaursStoreProvider>
             </CurrencyStoreProvider>
         </UpgradesStoreProvider>

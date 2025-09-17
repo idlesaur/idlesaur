@@ -7,7 +7,6 @@ const meta = {
     title: 'Components/ToastNotification',
     args: {
         title: 'Toast title',
-        content: 'This is a toast notification',
         variant: 'success',
     },
 } satisfies Meta<typeof ToastNotification>;
@@ -20,6 +19,12 @@ export const LongText: Story = {
         title: 'Long Text',
         content:
             'This is a really long toast notification that just goes on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on and on',
+    },
+};
+
+export const TitleOnly: Story = {
+    args: {
+        title: 'Title Only',
     },
 };
 

@@ -18,3 +18,5 @@ export const Routes = {
     SCORES: '/scores',
     POST_PAGE: (slug: string) => `/post/${slug}`,
 };
+
+export const TOAST_NOTIFICATION_TIME: number = 5000;

@@ -9,6 +9,7 @@ import {
     withDinosaursState,
     withUpgradesState,
     withSessionState,
+    withToastsState,
 } from './decorators';
 
 // Initialize MSW
@@ -41,6 +42,8 @@ const preview: Preview = {
         withDinosaursState(),
         withCurrencyState(),
         withUpgradesState(),
+        withUpgradesState(),
+        withToastsState(),
     ],
     loaders: [mswLoader],
 };
