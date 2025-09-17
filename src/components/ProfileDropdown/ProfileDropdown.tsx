@@ -82,13 +82,14 @@ export const ProfileDropdown = () => {
     const handleMenuClick = (e: React.MouseEvent) => {
         const target = e.target as HTMLElement;
         if (target.closest('a, button')) {
+            e.stopPropagation();
             setIsDropdownOpen(false);
         }
     };
 
     return (
         <div
-            className="cursor-pointer p-1"
+            className="cursor-pointer"
             ref={dropdownRef}
             onClick={() => setIsDropdownOpen((prev) => !prev)}
         >

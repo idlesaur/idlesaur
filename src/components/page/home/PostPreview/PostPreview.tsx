@@ -12,7 +12,7 @@ export const PostPreview = ({ post }: PostPreviewProps) => {
     const link = Routes.POST_PAGE(post.slug);
     return (
         <LinkButton href={link} className="w-80 p-1">
-            <Card>
+            <Card className="flex-auto">
                 <div className="bg-background-800 flex w-full justify-center p-3">
                     <GiDinosaurRex size={64} />
                 </div>
