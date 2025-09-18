@@ -3,20 +3,13 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi, describe, it, beforeEach, expect } from 'vitest';
 import { render } from '@/test/util';
+import { useToastsStore } from '@/state/providers';
 
 import { EditProfile } from './EditProfile';
 import { ProfileType } from '@/schema';
 
-const mockFormAction = vi.fn();
-const mockFormState = { success: false };
-
-vi.mock('react', async () => {
-    const originalModule = await vi.importActual('react');
-    return {
-        ...originalModule,
-        useActionState: vi.fn(() => [mockFormState, mockFormAction, false]),
-    };
-});
+vi.mock('@/state/providers', { spy: true });
+vi.mock('react', { spy: true });
 
 describe('EditProfile', () => {
     const defaultProfile: ProfileType = {
@@ -25,8 +18,16 @@ describe('EditProfile', () => {
         bio: 'Hello world',
     };
 
+    const mockFormAction = vi.fn();
+    const mockFormState = { success: false };
+
     beforeEach(() => {
         vi.clearAllMocks();
+        vi.mocked(useActionState).mockReturnValue([
+            mockFormState,
+            mockFormAction,
+            false,
+        ]);
     });
 
     it('renders form fields with default values', () => {
@@ -48,5 +49,61 @@ describe('EditProfile', () => {
 
         expect(useActionState).toHaveBeenCalled();
         expect(mockFormAction).toHaveBeenCalled();
+    });
+
+    it('addSuccessToast with successful formstate', async () => {
+        const mockAddErrorToast = vi.fn();
+        const mockAddSuccessToast = vi.fn();
+
+        vi.mocked(useActionState).mockReturnValue([
+            { success: true, message: 'hi' },
+            mockFormAction,
+            false,
+        ]);
+
+        vi.mocked(useToastsStore).mockReturnValue({
+            addSuccessToast: mockAddSuccessToast,
+            addErrorToast: mockAddErrorToast,
+        });
+        render(<EditProfile profile={defaultProfile} />);
+
+        await userEvent.type(screen.getByLabelText(/username/i), 'NewUser');
+
+        await userEvent.click(
+            screen.getByRole('button', { name: /update profile/i }),
+        );
+
+        expect(useActionState).toHaveBeenCalled();
+        expect(mockFormAction).toHaveBeenCalled();
+        expect(mockAddErrorToast).not.toHaveBeenCalled();
+        expect(mockAddSuccessToast).toHaveBeenCalled();
+    });
+
+    it('addErrorToast with successful formstate', async () => {
+        const mockAddErrorToast = vi.fn();
+        const mockAddSuccessToast = vi.fn();
+
+        vi.mocked(useActionState).mockReturnValue([
+            { success: false, message: 'hi' },
+            mockFormAction,
+            false,
+        ]);
+
+        vi.mocked(useToastsStore).mockReturnValue({
+            addSuccessToast: mockAddSuccessToast,
+            addErrorToast: mockAddErrorToast,
+        });
+        render(<EditProfile profile={defaultProfile} />);
+
+        await userEvent.type(screen.getByLabelText(/username/i), 'NewUser');
+
+        await userEvent.click(
+            screen.getByRole('button', { name: /update profile/i }),
+        );
+
+        expect(useActionState).toHaveBeenCalled();
+        expect(mockFormAction).toHaveBeenCalled();
+        expect(mockAddErrorToast).toHaveBeenCalled();
+        expect(mockAddSuccessToast).not.toHaveBeenCalled();
     });
 });
