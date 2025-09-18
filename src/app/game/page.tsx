@@ -1,5 +1,6 @@
 import {
     BoneSystemCard,
+    BuildADinoSystemCard,
     DinoSystemCard,
     GameTick,
     TopBar,
@@ -21,12 +22,13 @@ export default async function Game() {
                     buyBoneDiggersAction={buyBoneDiggers}
                     digAction={dig}
                 />
-                <DinoSystemCard
+                <BuildADinoSystemCard
                     buyDinoAction={buyDino}
                     buyDinosaurCapacityUpgradeAction={
                         buyDinosaurCapacityUpgrade
                     }
                 />
+                <DinoSystemCard />
             </main>
         </div>
     );

@@ -1,5 +1,6 @@
 export * from './BoneButton';
 export * from './BoneSystemCard';
+export * from './BuildADinoSystemCard';
 export * from './DinoStats';
 export * from './DinoSystemCard';
 export * from './GameCard';

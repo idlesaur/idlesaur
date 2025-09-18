@@ -3,7 +3,6 @@ import { fn } from 'storybook/test';
 
 import { DinoSystemCard } from '@/components/page/game';
 import {
-    withCurrencyState,
     withDinosaursState,
     withUpgradesState,
 } from '../../../../../.storybook/decorators';
@@ -21,14 +20,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-
-export const CanAfford: Story = {
-    decorators: [
-        withCurrencyState({ bones: 6000000 }),
-        withUpgradesState({ dinosaurCapacity: 2 }),
-    ],
-};
+export const NoDinosNoCard: Story = {};
 
 export const WithDinos: Story = {
     decorators: [
