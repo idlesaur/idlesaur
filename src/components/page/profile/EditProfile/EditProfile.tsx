@@ -48,39 +48,41 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
     ]);
 
     return (
-        <Card>
-            <CardHeading>Your Profile</CardHeading>
-            <Form
-                handleSubmit={handleSubmit}
-                formAction={formAction}
-                formState={formState}
-                setError={setError}
-            >
-                <FormField
-                    type="checkbox"
-                    label="public"
-                    register={register}
-                    error={errors.public?.message}
-                />
-                <FormField
-                    label="userName"
-                    register={register}
-                    required={true}
-                    error={errors.userName?.message}
-                />
-                <FormField
-                    label="bio"
-                    register={register}
-                    error={errors.bio?.message}
-                />
-                <Button
-                    type="submit"
-                    loading={isPending || isLoading}
-                    className="mt-2 w-full"
+        <div className="w-screen p-3 sm:w-xl">
+            <Card>
+                <CardHeading>Your Profile</CardHeading>
+                <Form
+                    handleSubmit={handleSubmit}
+                    formAction={formAction}
+                    formState={formState}
+                    setError={setError}
                 >
-                    Update Profile
-                </Button>
-            </Form>
-        </Card>
+                    <FormField
+                        type="checkbox"
+                        label="public"
+                        register={register}
+                        error={errors.public?.message}
+                    />
+                    <FormField
+                        label="userName"
+                        register={register}
+                        required={true}
+                        error={errors.userName?.message}
+                    />
+                    <FormField
+                        label="bio"
+                        register={register}
+                        error={errors.bio?.message}
+                    />
+                    <Button
+                        type="submit"
+                        loading={isPending || isLoading}
+                        className="mt-2 w-full"
+                    >
+                        Update Profile
+                    </Button>
+                </Form>
+            </Card>
+        </div>
     );
 };

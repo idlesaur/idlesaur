@@ -102,7 +102,7 @@ export const ProfileDropdown = () => {
                     height={32}
                 />
             ) : (
-                <FaCircleUser />
+                <FaCircleUser width={32} height={32} />
             )}
             <div onClick={handleMenuClick}>
                 {isDropdownOpen && <ProfileDropdownContent />}

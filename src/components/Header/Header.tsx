@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
 
     return (
         <>
-            <header className="border-background-900 bg-background-800 mb-auto flex w-full flex-col border-b py-4">
+            <header className="border-background-900 bg-background-800 sticky top-0 mb-auto flex w-full flex-col border-b py-4">
                 <div className="flex flex-row gap-x-4">
                     <div
                         className="hover:bg-background-700 cursor-pointer p-2 hover:rounded-2xl"

@@ -23,10 +23,9 @@ export const DinoIcon = ({ dinosaur }: DinoIconProps) => {
     );
 };
 
-// export interface DinoSystemCardProps {}
-
 export const DinoSystemCard = () => {
     const dinosaurs = useDinosaursStore((state) => state.dinosaurs);
+    // const
 
     if (!dinosaurs?.length) {
         return null;
@@ -34,7 +33,7 @@ export const DinoSystemCard = () => {
 
     return (
         <GameCard icon={<GiDinosaurRex />} title="Dinos">
-            <div className="bg-background-800 flex w-11/12 flex-col items-center gap-y-2 rounded-xl p-2">
+            <div className="bg-background-800 flex w-full flex-col items-center gap-y-2 rounded-xl p-2">
                 <div className="flex flex-row flex-wrap gap-2">
                     {dinosaurs.map((dino) => (
                         <DinoIcon dinosaur={dino} key={dino.id} />

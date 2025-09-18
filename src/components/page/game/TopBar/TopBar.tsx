@@ -10,7 +10,7 @@ export const TopBar = () => {
 
     return (
         <div
-            className="bg-background-900 sticky top-0 flex h-8 w-full flex-row items-center gap-3 p-1"
+            className="bg-background-900 top-16 flex h-8 w-full flex-row items-center gap-3 p-1"
             data-testid="top-bar"
         >
             <ResourceDisplay value={bones} type={ResourceType.BONES} />
