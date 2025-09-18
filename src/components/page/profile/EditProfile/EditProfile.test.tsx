@@ -1,7 +1,8 @@
 import React, { useActionState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi, describe, it, beforeEach, expect } from 'vitest';
+import { render } from '@/test/util';
 
 import { EditProfile } from './EditProfile';
 import { ProfileType } from '@/schema';
