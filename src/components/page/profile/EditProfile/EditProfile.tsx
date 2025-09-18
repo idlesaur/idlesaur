@@ -1,18 +1,20 @@
 'use client';
 
-import React, { useActionState } from 'react';
+import React, { useActionState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { ProfileType, Profile } from '@/schema';
 import { Card, CardHeading, Form, FormField, Button } from '@/components/ui';
 import { updateProfile } from '@/app/lib/actions';
+import { useToastsStore } from '@/state/providers';
 
 export interface EditProfileProps {
     profile: ProfileType;
 }
 
 export const EditProfile = ({ profile }: EditProfileProps) => {
+    const { addSuccessToast, addErrorToast } = useToastsStore((state) => state);
     const [formState, formAction, isPending] = useActionState(updateProfile, {
         success: false,
     });
@@ -25,6 +27,25 @@ export const EditProfile = ({ profile }: EditProfileProps) => {
         defaultValues: profile,
         resolver: zodResolver(Profile),
     });
+
+    useEffect(() => {
+        if (isPending) {
+            return;
+        }
+
+        if (formState?.success === false && formState?.message) {
+            addErrorToast('Update Profile Failed', formState.message);
+        }
+        if (formState?.success === true && formState?.message) {
+            addSuccessToast('Update Profile Success', formState.message);
+        }
+    }, [
+        formState?.success,
+        formState?.message,
+        addErrorToast,
+        addSuccessToast,
+        isPending,
+    ]);
 
     return (
         <Card>

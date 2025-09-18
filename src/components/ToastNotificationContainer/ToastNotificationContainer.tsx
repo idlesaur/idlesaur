@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useToastsStore } from '@/state/providers';
 import { ToastNotification } from '@/components';
