@@ -1,5 +1,6 @@
 import '../src/app/globals.css';
 
+import { http, HttpResponse } from 'msw';
 import type { Preview } from '@storybook/nextjs-vite';
 import { initialize, mswLoader } from 'msw-storybook-addon';
 
@@ -8,6 +9,7 @@ import {
     withDinosaursState,
     withUpgradesState,
     withSessionState,
+    withToastsState,
 } from './decorators';
 
 // Initialize MSW
@@ -21,6 +23,16 @@ const preview: Preview = {
                 date: /Date$/i,
             },
         },
+        msw: {
+            handlers: [
+                http.get('/api/auth/session', () => {
+                    return HttpResponse.json({
+                        firstName: 'Neil',
+                        lastName: 'Maverick',
+                    });
+                }),
+            ],
+        },
         nextjs: {
             appDirectory: true,
         },
@@ -30,6 +42,8 @@ const preview: Preview = {
         withDinosaursState(),
         withCurrencyState(),
         withUpgradesState(),
+        withUpgradesState(),
+        withToastsState(),
     ],
     loaders: [mswLoader],
 };

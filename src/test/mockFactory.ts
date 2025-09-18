@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { type Dinosaur, type Profile } from '@/generated/prisma';
 import { mockedDate } from '@/test/util';
 
@@ -13,7 +14,7 @@ export const mockProfile = (overrides?: Partial<Profile>): Profile => ({
 
 export const mockDinosaur = (overrides?: Partial<Dinosaur>): Dinosaur => ({
     userId: 'test123',
-    id: 'dino123',
+    id: uuidv4(),
     type: 'RAPTOR',
     alive: true,
     attack: 5,

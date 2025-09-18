@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { screen, within } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { render, getRender } from '@/test/util';
 import {
@@ -127,11 +127,10 @@ describe('ProfileDropdown', () => {
         customRender(<ProfileDropdown />);
 
         await user.click(screen.getByAltText('Profile Image'));
-        const dropdown = screen.getByText('Edit Profile').closest('div');
-        await user.click(
-            within(dropdown!).getByRole('link', { name: 'Edit Profile' }),
-        );
+        await user.click(screen.getByText('Edit Profile'));
 
-        expect(screen.queryByText('Edit Profile')).not.toBeInTheDocument();
+        await expect
+            .poll(() => screen.queryByText('Edit Profile'), { timeout: 2000 })
+            .not.toBeInTheDocument();
     });
 });

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { FaCircleUser } from 'react-icons/fa6';
 
 import { isNullOrWhitespace } from '@/util';
 import { SignOutButton } from '@/components';
@@ -81,21 +82,27 @@ export const ProfileDropdown = () => {
     const handleMenuClick = (e: React.MouseEvent) => {
         const target = e.target as HTMLElement;
         if (target.closest('a, button')) {
+            e.stopPropagation();
             setIsDropdownOpen(false);
         }
     };
 
     return (
-        <div className="" ref={dropdownRef}>
-            {!isNullOrWhitespace(profileImage) && (
+        <div
+            className="cursor-pointer"
+            ref={dropdownRef}
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
+        >
+            {!isNullOrWhitespace(profileImage) ? (
                 <Image
                     src={profileImage!}
-                    className="cursor-pointer rounded-2xl"
+                    className="rounded-2xl"
                     alt="Profile Image"
                     width={32}
                     height={32}
-                    onClick={() => setIsDropdownOpen((prev) => !prev)}
                 />
+            ) : (
+                <FaCircleUser />
             )}
             <div onClick={handleMenuClick}>
                 {isDropdownOpen && <ProfileDropdownContent />}

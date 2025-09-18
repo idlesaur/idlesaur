@@ -18,9 +18,6 @@ describe('SideNav', () => {
             user: {
                 name: 'test',
                 id: 'f',
-                profile: null,
-                currency: null,
-                upgrades: null,
             },
         } as Session,
     });

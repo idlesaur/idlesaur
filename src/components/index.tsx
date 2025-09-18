@@ -8,3 +8,5 @@ export * from './SideNav';
 export * from './StyledHeading';
 export * from './SignInButton';
 export * from './SignOutButton';
+export * from './ToastNotification';
+export * from './ToastNotificationContainer';

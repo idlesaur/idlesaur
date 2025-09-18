@@ -8,6 +8,7 @@ import { Session } from 'next-auth';
 
 import {
     CurrencyStoreProvider,
+    ToastsStoreProvider,
     UpgradesStoreProvider,
 } from '@/state/providers';
 
@@ -38,7 +39,7 @@ const createWrapper = ({
                 <CurrencyStoreProvider
                     initialState={createCurrencyState(currencyState)}
                 >
-                    {children}
+                    <ToastsStoreProvider>{children}</ToastsStoreProvider>
                 </CurrencyStoreProvider>
             </UpgradesStoreProvider>
         </SessionProvider>
