@@ -10,7 +10,6 @@ const meta = {
         title: 'Toast title',
         variant: 'success',
         onClose: fn(),
-        id: 'id',
     },
 } satisfies Meta<typeof ToastNotification>;
 
