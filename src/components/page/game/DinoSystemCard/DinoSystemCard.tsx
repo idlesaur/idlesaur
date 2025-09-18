@@ -28,7 +28,7 @@ export const DinoIcon = ({ dinosaur }: DinoIconProps) => {
 export const DinoSystemCard = () => {
     const dinosaurs = useDinosaursStore((state) => state.dinosaurs);
 
-    if (dinosaurs.length === 0) {
+    if (!dinosaurs?.length) {
         return null;
     }
 

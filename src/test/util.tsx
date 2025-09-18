@@ -8,14 +8,17 @@ import { Session } from 'next-auth';
 
 import {
     CurrencyStoreProvider,
+    DinosaursStoreProvider,
     ToastsStoreProvider,
     UpgradesStoreProvider,
 } from '@/state/providers';
 
 import {
     createCurrencyState,
+    createDinosaursState,
     createUpgradesState,
     CurrencyState,
+    DinosaursState,
     UpgradesState,
 } from '@/state/stores';
 
@@ -23,25 +26,31 @@ export interface WrapperOptions {
     session?: Session;
     upgradesState?: Partial<UpgradesState>;
     currencyState?: Partial<CurrencyState>;
+    dinosaurState?: Partial<DinosaursState>;
 }
 
 const createWrapper = ({
     session,
     upgradesState,
     currencyState,
+    dinosaurState,
 }: WrapperOptions) => {
     // eslint-disable-next-line react/display-name
     return ({ children }: { children: React.ReactNode }): ReactNode => (
         <SessionProvider session={session ?? null}>
-            <UpgradesStoreProvider
-                initialState={createUpgradesState(upgradesState)}
+            <DinosaursStoreProvider
+                initialState={createDinosaursState(dinosaurState)}
             >
-                <CurrencyStoreProvider
-                    initialState={createCurrencyState(currencyState)}
+                <UpgradesStoreProvider
+                    initialState={createUpgradesState(upgradesState)}
                 >
-                    <ToastsStoreProvider>{children}</ToastsStoreProvider>
-                </CurrencyStoreProvider>
-            </UpgradesStoreProvider>
+                    <CurrencyStoreProvider
+                        initialState={createCurrencyState(currencyState)}
+                    >
+                        <ToastsStoreProvider>{children}</ToastsStoreProvider>
+                    </CurrencyStoreProvider>
+                </UpgradesStoreProvider>
+            </DinosaursStoreProvider>
         </SessionProvider>
     );
 };

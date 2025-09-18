@@ -20,8 +20,6 @@ vi.mock('@/util', async () => {
 
 vi.mock('@/state/actions', { spy: true });
 
-vi.mock('@/app/actions', { spy: true });
-
 vi.mock('react', async () => {
     const actualReact = await vi.importActual<typeof import('react')>('react');
     return {
@@ -32,10 +30,20 @@ vi.mock('react', async () => {
 
 describe('<BoneSystemCard />', () => {
     const mockUseActionState = vi.mocked(useActionState);
+    const mockBuyBoneDiggersAction = vi.fn();
+    const mockDigAction = vi.fn();
 
     beforeEach(() => {
         vi.clearAllMocks();
     });
+
+    const doRender = () =>
+        render(
+            <BoneSystemCard
+                buyBoneDiggersAction={mockBuyBoneDiggersAction}
+                digAction={mockDigAction}
+            />,
+        );
 
     it('renders bone stats correctly', () => {
         vi.mocked(useCurrencyStore).mockReturnValue(
@@ -51,7 +59,7 @@ describe('<BoneSystemCard />', () => {
             false,
         ]);
 
-        render(<BoneSystemCard />);
+        doRender();
 
         expect(screen.getByText(/Bones:/)).toHaveTextContent('Bones: 100');
         expect(screen.getByText(/Bone-diggers:/)).toHaveTextContent(
@@ -74,7 +82,7 @@ describe('<BoneSystemCard />', () => {
             false,
         ]);
 
-        render(<BoneSystemCard />);
+        doRender();
 
         const btn = screen.getByRole('button', {
             name: /50 Buy 1 Bone-digger/i,
@@ -92,7 +100,7 @@ describe('<BoneSystemCard />', () => {
         vi.mocked(getBoneDiggerCost).mockReturnValue(50);
         mockUseActionState.mockReturnValue([{ success: false }, vi.fn(), true]);
 
-        render(<BoneSystemCard />);
+        doRender();
 
         const btn = screen.getByRole('button', { name: /Loading.../i });
         expect(btn).toBeDisabled();
@@ -115,7 +123,7 @@ describe('<BoneSystemCard />', () => {
         const newState = { bones: 150, boneDiggers: 5 };
         mockUseActionState.mockReturnValue([newState, vi.fn(), false]);
 
-        render(<BoneSystemCard />);
+        doRender();
 
         expect(mockSetBones).toHaveBeenCalledWith(newState.bones);
     });
@@ -135,7 +143,7 @@ describe('<BoneSystemCard />', () => {
             false,
         ]);
 
-        render(<BoneSystemCard />);
+        doRender();
 
         const slider = screen.getByRole('slider');
         fireEvent.change(slider, { target: { value: '5' } });
