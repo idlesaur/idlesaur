@@ -13,17 +13,19 @@ export interface PublicProfileProps {
 
 export const PublicProfile = ({ profile, currency }: PublicProfileProps) => {
     return (
-        <Card className="w-xl">
-            <CardHeading>
-                {getPublicProfileName(profile?.userName, true)}
-            </CardHeading>
-            <div className="text-sm">
-                Last active: {profile?.lastActive?.toLocaleDateString()}
-            </div>
-            <ResourceDisplay
-                value={currency?.bones ?? 0}
-                type={ResourceType.BONES}
-            />
-        </Card>
+        <div className="w-screen sm:w-xl">
+            <Card className="m-2">
+                <CardHeading>
+                    {getPublicProfileName(profile?.userName, true)}
+                </CardHeading>
+                <div className="text-sm">
+                    Last active: {profile?.lastActive?.toLocaleDateString()}
+                </div>
+                <ResourceDisplay
+                    value={currency?.bones ?? 0}
+                    type={ResourceType.BONES}
+                />
+            </Card>
+        </div>
     );
 };

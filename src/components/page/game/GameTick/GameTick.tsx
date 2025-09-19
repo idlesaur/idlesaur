@@ -6,8 +6,9 @@ import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 import { getBonesPerSecond } from '@/util';
 
 export const GameTick = () => {
-    const { boneDiggers } = useUpgradesStore((state) => state);
-    const { bones, setBones } = useCurrencyStore((state) => state);
+    const boneDiggers = useUpgradesStore((state) => state.boneDiggers);
+    const bones = useCurrencyStore((state) => state.bones);
+    const setBones = useCurrencyStore((state) => state.setBones);
 
     useInterval((dt: number) => {
         const deltaSeconds = dt / 1000.0;

@@ -11,7 +11,7 @@ vi.mock('@/state/providers', { spy: true });
 describe('TopBar', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.mocked(useCurrencyStore).mockReturnValue({ bones: 42 });
+        vi.mocked(useCurrencyStore).mockReturnValue(42);
     });
 
     it('renders with bones value', () => {

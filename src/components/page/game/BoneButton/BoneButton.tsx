@@ -11,7 +11,7 @@ export interface BoneButtonProps {
 
 export const BoneButton = ({ digAction }: BoneButtonProps) => {
     const [state, action, pending] = useActionState(digAction, null);
-    const { setBones } = useCurrencyStore((state) => state);
+    const setBones = useCurrencyStore((state) => state.setBones);
 
     useEffect(() => {
         if (!state?.bones) {

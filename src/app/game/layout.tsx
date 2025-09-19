@@ -4,7 +4,6 @@ import { Routes } from '@/constants';
 import {
     CurrencyStoreProvider,
     DinosaursStoreProvider,
-    ToastsStoreProvider,
     UpgradesStoreProvider,
 } from '@/state/providers';
 import { getAndUpdateBones } from '@/app/lib/actions';
@@ -51,7 +50,7 @@ export default async function GameLayout({
                 <DinosaursStoreProvider
                     initialState={createDinosaursState({ dinosaurs })}
                 >
-                    <ToastsStoreProvider>{children}</ToastsStoreProvider>
+                    {children}
                 </DinosaursStoreProvider>
             </CurrencyStoreProvider>
         </UpgradesStoreProvider>

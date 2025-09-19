@@ -16,7 +16,7 @@ export const ProfileDropdownContent = () => {
     const profileImage = session?.data?.user?.image ?? undefined;
 
     return (
-        <div className="bg-background-800 absolute right-0 z-20 mt-1 w-40 rounded-lg shadow-lg">
+        <div className="bg-background-800 border-background-700 absolute right-0 z-20 mt-1 w-40 rounded-lg border-1 shadow-lg">
             <div className="flex flex-1 flex-col text-sm">
                 {!isNullOrWhitespace(userName) && (
                     <div className="flex flex-row gap-2 px-4 py-2">
@@ -102,7 +102,7 @@ export const ProfileDropdown = () => {
                     height={32}
                 />
             ) : (
-                <FaCircleUser />
+                <FaCircleUser size={32} />
             )}
             <div onClick={handleMenuClick}>
                 {isDropdownOpen && <ProfileDropdownContent />}

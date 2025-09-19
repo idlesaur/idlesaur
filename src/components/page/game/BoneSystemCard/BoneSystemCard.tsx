@@ -41,8 +41,10 @@ export const BoneSystemCard = ({
         },
     );
 
-    const { bones, setBones } = useCurrencyStore((state) => state);
-    const { boneDiggers, setBoneDiggers } = useUpgradesStore((state) => state);
+    const bones = useCurrencyStore((state) => state.bones);
+    const setBones = useCurrencyStore((state) => state.setBones);
+    const boneDiggers = useUpgradesStore((state) => state.boneDiggers);
+    const setBoneDiggers = useUpgradesStore((state) => state.setBoneDiggers);
 
     const {
         register,
