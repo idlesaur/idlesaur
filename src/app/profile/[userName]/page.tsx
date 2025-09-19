@@ -36,21 +36,19 @@ export default async function Page({ params }: Props) {
     const currency = profile?.user?.currency ?? undefined;
 
     return (
-        <div>
-            <main>
-                {!profile || isOwnProfile || (profile && profile.public) ? (
-                    <PublicProfile
-                        profile={profile!}
-                        currency={currency}
-                        isOwnProfile={isOwnProfile}
-                    />
-                ) : (
-                    <div className="flex flex-col items-center">
-                        <TbFileSad size={64} />
-                        <div>Profile not found.</div>
-                    </div>
-                )}
-            </main>
-        </div>
+        <main className="flex flex-1 flex-col">
+            {!profile || isOwnProfile || (profile && profile.public) ? (
+                <PublicProfile
+                    profile={profile!}
+                    currency={currency}
+                    isOwnProfile={isOwnProfile}
+                />
+            ) : (
+                <div className="flex flex-col items-center">
+                    <TbFileSad size={64} />
+                    <div>Profile not found.</div>
+                </div>
+            )}
+        </main>
     );
 }
