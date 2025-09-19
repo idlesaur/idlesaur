@@ -6,19 +6,18 @@ import { BoneSystemCard } from '@/components/page/game';
 import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 import { getBoneDiggerCost } from '@/util';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
-import { createCurrencyState, createUpgradesState } from '@/state/stores';
+import {
+    mockSetBones,
+    mockUseCurrencyStore,
+    mockUseUpgradesStore,
+} from '@/test/mockFactory';
 
-vi.mock('@/state/providers', () => ({
-    useCurrencyStore: vi.fn(),
-    useUpgradesStore: vi.fn(),
-}));
+vi.mock('@/state/providers', { spy: true });
 
 vi.mock('@/util', async () => {
     const originalModule = await vi.importActual('@/util');
     return { ...originalModule, getBoneDiggerCost: vi.fn() };
 });
-
-vi.mock('@/state/actions', { spy: true });
 
 vi.mock('react', async () => {
     const actualReact = await vi.importActual<typeof import('react')>('react');
@@ -29,12 +28,18 @@ vi.mock('react', async () => {
 });
 
 describe('<BoneSystemCard />', () => {
+    const mockUseCurrencyStoreInstance = vi.mocked(useCurrencyStore);
+    const mockUseUpgradesStoreInstance = vi.mocked(useUpgradesStore);
+
     const mockUseActionState = vi.mocked(useActionState);
     const mockBuyBoneDiggersAction = vi.fn();
     const mockDigAction = vi.fn();
 
     beforeEach(() => {
         vi.clearAllMocks();
+        mockUseCurrencyStore(mockUseCurrencyStoreInstance, { bones: 1000 });
+        mockUseUpgradesStore(mockUseUpgradesStoreInstance, { boneDiggers: 2 });
+        vi.mocked(getBoneDiggerCost).mockReturnValue(50);
     });
 
     const doRender = () =>
@@ -46,13 +51,6 @@ describe('<BoneSystemCard />', () => {
         );
 
     it('renders bone stats correctly', () => {
-        vi.mocked(useCurrencyStore).mockReturnValue(
-            createCurrencyState({ bones: 100 }),
-        );
-        vi.mocked(useUpgradesStore).mockReturnValue(
-            createUpgradesState({ boneDiggers: 2 }),
-        );
-        vi.mocked(getBoneDiggerCost).mockReturnValue(50);
         mockUseActionState.mockReturnValue([
             { success: false },
             vi.fn(),
@@ -61,7 +59,7 @@ describe('<BoneSystemCard />', () => {
 
         doRender();
 
-        expect(screen.getByText(/Bones:/)).toHaveTextContent('Bones: 100');
+        expect(screen.getByText(/Bones:/)).toHaveTextContent('Bones: 1,000');
         expect(screen.getByText(/Bone-diggers:/)).toHaveTextContent(
             `Bone-diggers: 2 (${2 * BASE_BONES_PER_SECOND_PER_DIGGER} bones/ sec)`,
         );
@@ -69,13 +67,7 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('disables buy button when not affordable', () => {
-        vi.mocked(useCurrencyStore).mockReturnValue(
-            createCurrencyState({ bones: 10 }),
-        );
-        vi.mocked(useUpgradesStore).mockReturnValue(
-            createUpgradesState({ boneDiggers: 2 }),
-        );
-        vi.mocked(getBoneDiggerCost).mockReturnValue(50);
+        mockUseCurrencyStore(mockUseCurrencyStoreInstance, { bones: 0 });
         mockUseActionState.mockReturnValue([
             { success: false },
             vi.fn(),
@@ -91,13 +83,6 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('disables buy button when pending', () => {
-        vi.mocked(useCurrencyStore).mockReturnValue(
-            createCurrencyState({ bones: 100 }),
-        );
-        vi.mocked(useUpgradesStore).mockReturnValue(
-            createUpgradesState({ boneDiggers: 2 }),
-        );
-        vi.mocked(getBoneDiggerCost).mockReturnValue(50);
         mockUseActionState.mockReturnValue([{ success: false }, vi.fn(), true]);
 
         doRender();
@@ -107,19 +92,6 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('dispatches updated bones and diggers when state changes', () => {
-        const mockSetBones = vi.fn();
-        const mockSetBoneDiggers = vi.fn();
-
-        vi.mocked(useCurrencyStore).mockReturnValue({
-            ...createCurrencyState({ bones: 100 }),
-            setBones: mockSetBones,
-        });
-        vi.mocked(useUpgradesStore).mockReturnValue({
-            ...createUpgradesState({ boneDiggers: 2 }),
-            setBoneDiggers: mockSetBoneDiggers,
-        });
-        vi.mocked(getBoneDiggerCost).mockReturnValue(50);
-
         const newState = { bones: 150, boneDiggers: 5 };
         mockUseActionState.mockReturnValue([newState, vi.fn(), false]);
 
@@ -129,14 +101,6 @@ describe('<BoneSystemCard />', () => {
     });
 
     it('updates buy amount when slider changes', () => {
-        vi.mocked(useCurrencyStore).mockReturnValue(
-            createCurrencyState({ bones: 1000 }),
-        );
-        vi.mocked(useUpgradesStore).mockReturnValue(
-            createUpgradesState({ boneDiggers: 2 }),
-        );
-
-        vi.mocked(getBoneDiggerCost).mockReturnValue(100);
         mockUseActionState.mockReturnValue([
             { success: false },
             vi.fn(),

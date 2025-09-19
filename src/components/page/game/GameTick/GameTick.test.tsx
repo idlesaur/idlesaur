@@ -14,6 +14,7 @@ import { useInterval } from '@/hooks';
 import { render, getRender } from '@/test/util';
 import { GameTick } from '@/components/page/game';
 import { useCurrencyStore } from '@/state/providers';
+import { CurrencyStore } from '@/state/stores';
 
 vi.mock('@/hooks/useInterval', { spy: true });
 vi.mock('@/state/hooks/useGameStateDispatch', { spy: true });
@@ -21,16 +22,19 @@ vi.mock('@/state/providers', { spy: true });
 
 describe('GameTick', () => {
     const mockSetBones = vi.fn();
+    const mockCurrencyStore: Partial<CurrencyStore> = {
+        bones: 42,
+        setBones: mockSetBones,
+    };
 
     beforeAll(() => {
         vi.useFakeTimers();
     });
 
     beforeEach(() => {
-        vi.mocked(useCurrencyStore).mockReturnValue({
-            bones: 42,
-            setBones: mockSetBones,
-        });
+        vi.mocked(useCurrencyStore).mockImplementation((selectorFn) =>
+            selectorFn(mockCurrencyStore as CurrencyStore),
+        );
     });
 
     afterEach(() => {

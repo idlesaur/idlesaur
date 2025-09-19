@@ -16,9 +16,11 @@ import {
 import {
     createCurrencyState,
     createDinosaursState,
+    createToastsState,
     createUpgradesState,
     CurrencyState,
     DinosaursState,
+    ToastsState,
     UpgradesState,
 } from '@/state/stores';
 
@@ -27,6 +29,7 @@ export interface WrapperOptions {
     upgradesState?: Partial<UpgradesState>;
     currencyState?: Partial<CurrencyState>;
     dinosaurState?: Partial<DinosaursState>;
+    toastsState?: Partial<ToastsState>;
 }
 
 const createWrapper = ({
@@ -34,6 +37,7 @@ const createWrapper = ({
     upgradesState,
     currencyState,
     dinosaurState,
+    toastsState,
 }: WrapperOptions) => {
     // eslint-disable-next-line react/display-name
     return ({ children }: { children: React.ReactNode }): ReactNode => (
@@ -47,7 +51,11 @@ const createWrapper = ({
                     <CurrencyStoreProvider
                         initialState={createCurrencyState(currencyState)}
                     >
-                        <ToastsStoreProvider>{children}</ToastsStoreProvider>
+                        <ToastsStoreProvider
+                            initialState={createToastsState(toastsState)}
+                        >
+                            {children}
+                        </ToastsStoreProvider>
                     </CurrencyStoreProvider>
                 </UpgradesStoreProvider>
             </DinosaursStoreProvider>

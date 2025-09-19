@@ -1,40 +1,80 @@
-import { render, screen } from '@testing-library/react';
-import { describe, it, vi, expect, beforeEach } from 'vitest';
+import { act, render, screen } from '@testing-library/react';
+import {
+    describe,
+    it,
+    vi,
+    expect,
+    beforeEach,
+    beforeAll,
+    afterAll,
+} from 'vitest';
 import { useToastsStore } from '@/state/providers';
 
 import { ToastNotificationContainer } from '@/components';
+import { mockUseToastsStore, mockRemoveToast } from '@/test/mockFactory';
 
-vi.mock('@/state/providers', () => ({
-    useToastsStore: vi.fn(),
-}));
+vi.mock('@/state/providers', { spy: true });
 
 describe('ToastNotificationContainer', () => {
-    let removeToast: ReturnType<typeof vi.fn>;
+    const mockUseToastsStoreInstance = vi.mocked(useToastsStore);
+
+    beforeAll(() => {
+        vi.useFakeTimers();
+    });
+
+    afterAll(() => {
+        vi.useRealTimers();
+    });
 
     beforeEach(() => {
-        removeToast = vi.fn();
+        vi.clearAllMocks();
     });
 
     it('renders no toasts when store is empty', () => {
-        vi.mocked(useToastsStore).mockImplementation(() => ({
-            toasts: [],
-            removeToast,
-        }));
-
+        mockUseToastsStore(mockUseToastsStoreInstance);
         render(<ToastNotificationContainer />);
         expect(screen.queryByTestId('toast')).toBeNull();
     });
 
     it('renders a toast when store has one', () => {
-        vi.mocked(useToastsStore).mockImplementation(() => ({
+        mockUseToastsStore(mockUseToastsStoreInstance, {
             toasts: [
-                { id: '1', title: 'Hello', content: 'World', variant: 'info' },
+                {
+                    id: '1',
+                    title: 'Hello',
+                    content: 'World',
+                    variant: 'info',
+                },
             ],
-            removeToast,
-        }));
+        });
 
         render(<ToastNotificationContainer />);
         expect(screen.getByText('Hello')).toBeInTheDocument();
         expect(screen.getByText('World')).toBeInTheDocument();
+    });
+
+    it('Removes a toast during onClose', () => {
+        mockUseToastsStore(mockUseToastsStoreInstance, {
+            toasts: [
+                {
+                    id: '1',
+                    title: 'Hello',
+                    content: 'World',
+                    variant: 'info',
+                },
+            ],
+        });
+
+        render(<ToastNotificationContainer />);
+        expect(screen.getByText('Hello')).toBeInTheDocument();
+        expect(screen.getByText('World')).toBeInTheDocument();
+
+        act(() => {
+            // toast display
+            vi.advanceTimersToNextTimer();
+            // timeout before onclose to show animation
+            vi.advanceTimersToNextTimer();
+        });
+        expect(mockRemoveToast).toHaveBeenCalled();
     });
 });

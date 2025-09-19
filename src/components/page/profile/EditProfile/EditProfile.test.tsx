@@ -7,6 +7,7 @@ import { useToastsStore } from '@/state/providers';
 
 import { EditProfile } from './EditProfile';
 import { ProfileType } from '@/schema';
+import { ToastsStore } from '@/state/stores';
 
 vi.mock('@/state/providers', { spy: true });
 vi.mock('react', { spy: true });
@@ -19,7 +20,13 @@ describe('EditProfile', () => {
     };
 
     const mockFormAction = vi.fn();
+    const mockAddSuccessToast = vi.fn();
+    const mockAddErrorToast = vi.fn();
     const mockFormState = { success: false };
+    const mockToastStore: Partial<ToastsStore> = {
+        addSuccessToast: mockAddSuccessToast,
+        addErrorToast: mockAddErrorToast,
+    };
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -28,6 +35,9 @@ describe('EditProfile', () => {
             mockFormAction,
             false,
         ]);
+        vi.mocked(useToastsStore).mockImplementation((selectorFn) =>
+            selectorFn(mockToastStore as ToastsStore),
+        );
     });
 
     it('renders form fields with default values', () => {
@@ -52,19 +62,12 @@ describe('EditProfile', () => {
     });
 
     it('addSuccessToast with successful formstate', async () => {
-        const mockAddErrorToast = vi.fn();
-        const mockAddSuccessToast = vi.fn();
-
         vi.mocked(useActionState).mockReturnValue([
             { success: true, message: 'hi' },
             mockFormAction,
             false,
         ]);
 
-        vi.mocked(useToastsStore).mockReturnValue({
-            addSuccessToast: mockAddSuccessToast,
-            addErrorToast: mockAddErrorToast,
-        });
         render(<EditProfile profile={defaultProfile} />);
 
         await userEvent.type(screen.getByLabelText(/username/i), 'NewUser');
@@ -80,19 +83,12 @@ describe('EditProfile', () => {
     });
 
     it('addErrorToast with successful formstate', async () => {
-        const mockAddErrorToast = vi.fn();
-        const mockAddSuccessToast = vi.fn();
-
         vi.mocked(useActionState).mockReturnValue([
             { success: false, message: 'hi' },
             mockFormAction,
             false,
         ]);
 
-        vi.mocked(useToastsStore).mockReturnValue({
-            addSuccessToast: mockAddSuccessToast,
-            addErrorToast: mockAddErrorToast,
-        });
         render(<EditProfile profile={defaultProfile} />);
 
         await userEvent.type(screen.getByLabelText(/username/i), 'NewUser');
