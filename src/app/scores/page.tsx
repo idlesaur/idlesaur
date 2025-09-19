@@ -15,10 +15,8 @@ export default async function Page({}: Props) {
     const scores = await getHighScores();
 
     return (
-        <div>
-            <main>
-                <Scores scores={scores} />
-            </main>
-        </div>
+        <main className="flex flex-1 flex-col">
+            <Scores scores={scores} />
+        </main>
     );
 }

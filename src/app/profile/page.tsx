@@ -16,10 +16,8 @@ export default async function Page({}: Props) {
     const profile = await getProfileByUserId(session.user.id);
 
     return (
-        <div>
-            <main>
-                <EditProfile profile={profile as ProfileType} />
-            </main>
-        </div>
+        <main className="flex flex-1 flex-col">
+            <EditProfile profile={profile as ProfileType} />
+        </main>
     );
 }
