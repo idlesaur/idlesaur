@@ -14,10 +14,13 @@ export interface EditProfileProps {
 }
 
 export const EditProfile = ({ profile }: EditProfileProps) => {
-    const { addSuccessToast, addErrorToast } = useToastsStore((state) => state);
+    const addSuccessToast = useToastsStore((state) => state.addSuccessToast);
+    const addErrorToast = useToastsStore((state) => state.addErrorToast);
+
     const [formState, formAction, isPending] = useActionState(updateProfile, {
         success: false,
     });
+
     const {
         register,
         handleSubmit,

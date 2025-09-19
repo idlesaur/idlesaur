@@ -6,7 +6,7 @@ import { useCurrencyStore } from '@/state/providers';
 import { ResourceDisplay, ResourceType } from '@/components';
 
 export const TopBar = () => {
-    const { bones } = useCurrencyStore((state) => state);
+    const bones = useCurrencyStore((state) => state.bones);
 
     return (
         <div

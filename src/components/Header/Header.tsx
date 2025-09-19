@@ -12,14 +12,14 @@ export const Header: React.FC = () => {
             <header className="border-background-900 bg-background-800 sticky top-0 mb-auto flex w-full flex-col border-b py-4">
                 <div className="flex flex-row gap-x-4">
                     <div
-                        className="hover:bg-background-700 cursor-pointer p-2 hover:rounded-2xl"
+                        className="hover:bg-background-700 ml-3 cursor-pointer p-2 hover:rounded-2xl"
                         onClick={() => setIsSideNavOpen(true)}
                     >
                         <GiHamburgerMenu data-testid="side-nav-toggle" />
                     </div>
 
                     <Logo level={4} />
-                    <div className="relative mr-2 ml-auto flex flex-row gap-2">
+                    <div className="relative mr-5 ml-auto flex flex-row gap-2">
                         <ProfileDropdown />
                     </div>
                 </div>

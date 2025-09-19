@@ -40,10 +40,17 @@ export const BuildADinoSystemCard = ({
         success: false,
     });
 
-    const { dinosaurs, addDinosaur } = useDinosaursStore((state) => state);
-    const { bones, setBones } = useCurrencyStore((state) => state);
-    const { dinosaurCapacity, setDinosaurCapacity } = useUpgradesStore(
-        (state) => state,
+    const dinosaurs = useDinosaursStore((state) => state.dinosaurs);
+    const addDinosaur = useDinosaursStore((state) => state.addDinosaur);
+
+    const bones = useCurrencyStore((state) => state.bones);
+    const setBones = useCurrencyStore((state) => state.setBones);
+
+    const dinosaurCapacity = useUpgradesStore(
+        (state) => state.dinosaurCapacity,
+    );
+    const setDinosaurCapacity = useUpgradesStore(
+        (state) => state.setDinosaurCapacity,
     );
 
     const dinoCost = getDinoCost(dinosaurs.length);
