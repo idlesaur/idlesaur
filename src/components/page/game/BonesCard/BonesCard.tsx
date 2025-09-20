@@ -30,7 +30,7 @@ export interface BoneSystemCardProps {
     digAction: () => Promise<DigState>;
 }
 
-export const BoneSystemCard = ({
+export const BonesCard = ({
     buyBoneDiggersAction,
     digAction,
 }: BoneSystemCardProps) => {

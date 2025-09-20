@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
 
-import { DinoSystemCard } from '@/components/page/game';
+import { DinosCard } from '@/components/page/game';
 import {
     withDinosaursState,
     withUpgradesState,
@@ -9,13 +9,13 @@ import {
 import { mockDinosaur } from '@/test/mockFactory';
 
 const meta = {
-    component: DinoSystemCard,
-    title: 'Components/Page/Game/DinoSystemCard',
+    component: DinosCard,
+    title: 'Components/Page/Game/DinosCard',
     args: {
         buyDinoAction: fn(),
         buyDinosaurCapacityUpgradeAction: fn(),
     },
-} satisfies Meta<typeof DinoSystemCard>;
+} satisfies Meta<typeof DinosCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

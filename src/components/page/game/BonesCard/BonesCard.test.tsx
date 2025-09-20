@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import React, { useActionState } from 'react';
 
-import { BoneSystemCard } from '@/components/page/game';
+import { BonesCard } from '@/components/page/game';
 import { useCurrencyStore, useUpgradesStore } from '@/state/providers';
 import { getBoneDiggerCost } from '@/util';
 import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
@@ -27,7 +27,7 @@ vi.mock('react', async () => {
     };
 });
 
-describe('<BoneSystemCard />', () => {
+describe('<BonesCard />', () => {
     const mockUseCurrencyStoreInstance = vi.mocked(useCurrencyStore);
     const mockUseUpgradesStoreInstance = vi.mocked(useUpgradesStore);
 
@@ -44,7 +44,7 @@ describe('<BoneSystemCard />', () => {
 
     const doRender = () =>
         render(
-            <BoneSystemCard
+            <BonesCard
                 buyBoneDiggersAction={mockBuyBoneDiggersAction}
                 digAction={mockDigAction}
             />,

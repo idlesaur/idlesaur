@@ -3,6 +3,7 @@ import { fn } from 'storybook/test';
 
 import { SideNav } from '@/components';
 import { withMockedSessionState } from '../../../.storybook/decorators';
+import { http, HttpResponse } from 'msw';
 
 const meta = {
     component: SideNav,
@@ -16,7 +17,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const SignedOut: Story = {};
+export const SignedOut: Story = {
+    parameters: {
+        msw: {
+            handlers: [
+                http.get('/api/auth/session', () => {
+                    return HttpResponse.error();
+                }),
+            ],
+        },
+    },
+};
 
 export const SignedIn: Story = {
     decorators: [withMockedSessionState()],

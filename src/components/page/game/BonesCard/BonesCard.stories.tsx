@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 
-import { BoneSystemCard } from './BoneSystemCard';
+import { BonesCard } from './BonesCard';
 import { fn } from 'storybook/test';
 import { withCurrencyState } from '../../../../../.storybook/decorators';
 
 const meta = {
-    component: BoneSystemCard,
-    title: 'Components/Page/Game/BoneSystemCard',
+    component: BonesCard,
+    title: 'Components/Page/Game/BonesCard',
     args: {
         buyBoneDiggersAction: fn(),
         digAction: fn(),
     },
-} satisfies Meta<typeof BoneSystemCard>;
+} satisfies Meta<typeof BonesCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

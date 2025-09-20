@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { fn } from 'storybook/test';
 
-import { BuildADinoSystemCard } from '@/components/page/game';
+import { BuildADinoCard } from '@/components/page/game';
 import {
     withCurrencyState,
     withUpgradesState,
 } from '../../../../../.storybook/decorators';
 
 const meta = {
-    component: BuildADinoSystemCard,
-    title: 'Components/Page/Game/BuildADinoSystemCard',
+    component: BuildADinoCard,
+    title: 'Components/Page/Game/BuildADinoCard',
     args: {
         buyDinoAction: fn(),
         buyDinosaurCapacityUpgradeAction: fn(),
     },
-} satisfies Meta<typeof BuildADinoSystemCard>;
+} satisfies Meta<typeof BuildADinoCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

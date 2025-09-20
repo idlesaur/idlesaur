@@ -1,7 +1,7 @@
 import {
-    BoneSystemCard,
-    BuildADinoSystemCard,
-    DinoSystemCard,
+    BonesCard,
+    BuildADinoCard,
+    DinosCard,
     GameTick,
     TopBar,
 } from '@/components/page/game';
@@ -18,17 +18,17 @@ export default async function Game() {
             <GameTick />
             <TopBar />
             <main className="my-3 flex w-full flex-1 flex-col items-start justify-center gap-3 px-3 sm:flex-row">
-                <BoneSystemCard
+                <BonesCard
                     buyBoneDiggersAction={buyBoneDiggers}
                     digAction={dig}
                 />
-                <BuildADinoSystemCard
+                <BuildADinoCard
                     buyDinoAction={buyDino}
                     buyDinosaurCapacityUpgradeAction={
                         buyDinosaurCapacityUpgrade
                     }
                 />
-                <DinoSystemCard />
+                <DinosCard />
             </main>
         </div>
     );

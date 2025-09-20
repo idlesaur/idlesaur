@@ -42,7 +42,6 @@ const preview: Preview = {
         withDinosaursState(),
         withCurrencyState(),
         withUpgradesState(),
-        withUpgradesState(),
         withToastsState(),
     ],
     loaders: [mswLoader],
