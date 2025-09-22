@@ -1,18 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { type Dinosaur, type Profile } from '@/generated/prisma';
 import { mockedDate } from '@/test/util';
-import {
-    ToastsState,
-    ToastsStore,
-    CurrencyState,
-    CurrencyStore,
-    UpgradesState,
-    UpgradesStore,
-    createToastsState,
-    createCurrencyState,
-    createUpgradesState,
-} from '@/state/stores';
-import { MockInstance, vi } from 'vitest';
 
 export const mockProfile = (overrides?: Partial<Profile>): Profile => ({
     userName: 'tester',
@@ -42,52 +30,3 @@ export const mockDinosaur = (overrides?: Partial<Dinosaur>): Dinosaur => ({
     speed: 5,
     ...overrides,
 });
-
-export const mockRemoveToast = vi.fn();
-export const mockAddSuccessToast = vi.fn();
-export const mockAddErrorToast = vi.fn();
-export const mockAddWarningToast = vi.fn();
-export const mockAddInfoToast = vi.fn();
-export const mockUseToastsStore = (
-    mockUseToastsStoreInstance: MockInstance,
-    state?: Partial<ToastsState>,
-) => {
-    mockUseToastsStoreInstance.mockImplementation((selectorFn) =>
-        selectorFn({
-            ...createToastsState(state),
-            removeToast: mockRemoveToast,
-            addSuccessToast: mockAddSuccessToast,
-            addErrorToast: mockAddErrorToast,
-            addWarningToast: mockAddWarningToast,
-            addInfoToast: mockAddInfoToast,
-        } as ToastsStore),
-    );
-};
-
-export const mockSetBones = vi.fn();
-export const mockUseCurrencyStore = (
-    mockUseCurrencyStoreInstance: MockInstance,
-    state?: Partial<CurrencyState>,
-) => {
-    mockUseCurrencyStoreInstance.mockImplementation((selectorFn) =>
-        selectorFn({
-            ...createCurrencyState(state),
-            setBones: mockSetBones,
-        } as CurrencyStore),
-    );
-};
-
-export const mockSetDinosaurCapacity = vi.fn();
-export const mockSetBoneDiggers = vi.fn();
-export const mockUseUpgradesStore = (
-    mockUseUpgradesStoreInstance: MockInstance,
-    state?: Partial<UpgradesState>,
-) => {
-    mockUseUpgradesStoreInstance.mockImplementation((selectorFn) =>
-        selectorFn({
-            ...createUpgradesState(state),
-            setDinosaurCapacity: mockSetDinosaurCapacity,
-            setBoneDiggers: mockSetBoneDiggers,
-        } as UpgradesStore),
-    );
-};

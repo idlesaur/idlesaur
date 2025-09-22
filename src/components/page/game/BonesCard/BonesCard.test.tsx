@@ -9,8 +9,8 @@ import { BASE_BONES_PER_SECOND_PER_DIGGER } from '@/constants';
 import {
     mockSetBones,
     mockUseCurrencyStore,
-    mockUseUpgradesStore,
-} from '@/test/mockFactory';
+} from '@/test/mockUseCurrencyStore';
+import { mockUseUpgradesStore } from '@/test/mockUseUpgradesStore';
 
 vi.mock('@/state/providers', { spy: true });
 
