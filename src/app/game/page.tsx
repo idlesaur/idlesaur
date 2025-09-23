@@ -4,6 +4,7 @@ import {
     buyDinosaurCapacityUpgrade,
     buyBoneDiggers,
     dig,
+    renameDino,
 } from '@/app/lib/actions';
 
 export default async function Game() {
@@ -14,6 +15,7 @@ export default async function Game() {
                 buyDinosaurCapacityUpgradeAction={buyDinosaurCapacityUpgrade}
                 buyBoneDiggersAction={buyBoneDiggers}
                 digAction={dig}
+                renameDinosaurAction={renameDino}
             />
         </div>
     );

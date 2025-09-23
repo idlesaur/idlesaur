@@ -12,6 +12,7 @@ import {
     BuyBoneDiggerState,
     BuyDinosaurCapacityUpgradeState,
     BuyDinoState,
+    RenameDinoState,
 } from '@/app/lib/types';
 import { DigState } from '@/app/lib/actions/dig';
 import { useDinosaursStore } from '@/state/providers';
@@ -30,6 +31,10 @@ export interface PageProps {
         formData: FormData,
     ) => Promise<BuyDinosaurCapacityUpgradeState>;
     digAction: () => Promise<DigState>;
+    renameDinosaurAction: (
+        previousState: RenameDinoState | null,
+        formData: FormData,
+    ) => Promise<RenameDinoState>;
 }
 
 export const Page = ({
@@ -37,6 +42,7 @@ export const Page = ({
     digAction,
     buyDinoAction,
     buyDinosaurCapacityUpgradeAction,
+    renameDinosaurAction,
 }: PageProps) => {
     const dinosaurs = useDinosaursStore((state) => state.dinosaurs);
     const selectedDinosaur = useDinosaursStore(
@@ -60,7 +66,9 @@ export const Page = ({
                 />
                 {dinosaurs.length > 0 && <DinosCard />}
                 {selectedDinosaur && (
-                    <ManageDinoCard dinosaur={selectedDinosaur} />
+                    <ManageDinoCard
+                        renameDinosaurAction={renameDinosaurAction}
+                    />
                 )}
             </main>
         </>

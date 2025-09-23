@@ -4,15 +4,26 @@ import React from 'react';
 import { GiDinosaurRex } from 'react-icons/gi';
 
 import { Button } from '@/components/ui';
-import { type Dinosaur } from '@/generated/prisma';
 import { GameCard, RenameDinoModal } from '@/components/page/game';
+import { useDinosaursStore } from '@/state/providers';
+import { RenameDinoState } from '@/app/lib/types';
 
 export interface ManageDinoCardProps {
-    dinosaur: Dinosaur;
+    renameDinosaurAction: (
+        previousState: RenameDinoState | null,
+        formData: FormData,
+    ) => Promise<RenameDinoState>;
 }
 
-export const ManageDinoCard = ({ dinosaur }: ManageDinoCardProps) => {
+export const ManageDinoCard = ({
+    renameDinosaurAction,
+}: ManageDinoCardProps) => {
     const [isRenameModalOpen, setIsRenameModalOpen] = React.useState(false);
+    const dinosaur = useDinosaursStore((state) => state.selectedDinosaur);
+
+    if (!dinosaur) {
+        return null;
+    }
 
     return (
         <GameCard icon={<GiDinosaurRex />} title={dinosaur.name}>
@@ -21,6 +32,7 @@ export const ManageDinoCard = ({ dinosaur }: ManageDinoCardProps) => {
                 <RenameDinoModal
                     open={isRenameModalOpen}
                     onClose={() => setIsRenameModalOpen(false)}
+                    renameDinosaurAction={renameDinosaurAction}
                 />
             )}
         </GameCard>

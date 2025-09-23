@@ -4,3 +4,4 @@ export { buyDinosaurCapacityUpgrade } from './buyDinosaurCapacityUpgrade';
 export { dig } from './dig';
 export { getAndUpdateBones } from './getAndUpdateBones';
 export { updateProfile } from './updateProfile';
+export { renameDino } from './renameDino';
