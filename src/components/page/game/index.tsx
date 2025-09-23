@@ -6,5 +6,6 @@ export * from './DinosCard';
 export * from './GameCard';
 export * from './GameTick';
 export * from './ManageDinoCard';
+export * from './Page';
 export * from './PriceButton';
 export * from './TopBar';
