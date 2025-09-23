@@ -7,5 +7,6 @@ export * from './FormSlider';
 export * from './Heading';
 export * from './Input';
 export * from './LinkButton';
+export * from './Modal';
 export * from './Slider';
 export * from './Tooltip';
