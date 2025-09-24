@@ -10,7 +10,6 @@ export async function buyDinosaurCapacityUpgrade(
     _previousState: BuyDinosaurCapacityUpgradeState | null,
     _formData: FormData,
 ): Promise<BuyDinosaurCapacityUpgradeState> {
-    console.log('buyDinosaurCapacityUpgrade start');
     const session = await auth();
     if (!session?.user?.id) {
         return { success: false, message: 'Unauthorized' };
