@@ -29,6 +29,11 @@ export const RenameDinoModal = ({
     const addErrorToast = useToastsStore((state) => state.addErrorToast);
 
     const dinosaur = useDinosaursStore((state) => state.selectedDinosaur);
+    const updateDinosaur = useDinosaursStore((state) => state.updateDinosaur);
+    const setSelectedDinosaur = useDinosaursStore(
+        (state) => state.setSelectedDinosaur,
+    );
+
     const [formState, formAction, isPending] = useActionState(
         renameDinosaurAction,
         {
@@ -61,14 +66,24 @@ export const RenameDinoModal = ({
         if (formState?.success === true && formState?.message) {
             onClose();
             addSuccessToast('Rename Dino Success', formState.message);
+            if (formState?.dino) {
+                updateDinosaur(formState.dino);
+            }
+            if (dinosaur && formState?.dino?.id === dinosaur.id) {
+                setSelectedDinosaur(formState.dino);
+            }
         }
     }, [
         formState?.success,
-        formState?.message,
+        formState.message,
+        formState.dino,
         addErrorToast,
         addSuccessToast,
         isPending,
         onClose,
+        updateDinosaur,
+        dinosaur,
+        setSelectedDinosaur,
     ]);
 
     if (!dinosaur) {
