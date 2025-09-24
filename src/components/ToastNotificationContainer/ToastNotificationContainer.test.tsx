@@ -11,7 +11,7 @@ import {
 import { useToastsStore } from '@/state/providers';
 
 import { ToastNotificationContainer } from '@/components';
-import { mockUseToastsStore, mockRemoveToast } from '@/test/mockFactory';
+import { mockUseToastsStore, mockRemoveToast } from '@/test/mockUseToastsStore';
 
 vi.mock('@/state/providers', { spy: true });
 

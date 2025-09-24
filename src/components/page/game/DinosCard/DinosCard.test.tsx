@@ -1,17 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { getRender } from '@/test/util';
-import { DinoSystemCard } from '@/components/page/game';
+import { DinosCard } from '@/components/page/game';
 import { mockDinosaur } from '@/test/mockFactory';
 
-describe('<DinoSystemCard />', () => {
+describe('<DinosCard />', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
 
     it('renders null with 0 dinosaurs', () => {
         const render = getRender();
-        const { container } = render(<DinoSystemCard />);
+        const { container } = render(<DinosCard />);
         expect(container.firstChild).toBeNull();
     });
 
@@ -19,7 +19,7 @@ describe('<DinoSystemCard />', () => {
         const render = getRender({
             dinosaurState: { dinosaurs: [mockDinosaur(), mockDinosaur()] },
         });
-        const { container } = render(<DinoSystemCard />);
+        const { container } = render(<DinosCard />);
         expect(container.firstChild).not.toBeNull();
     });
 });

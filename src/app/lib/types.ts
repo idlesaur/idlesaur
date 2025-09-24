@@ -26,3 +26,7 @@ export interface BuyDinosaurCapacityUpgradeState
     bones?: number;
     dinosaurCapacity?: number;
 }
+
+export interface RenameDinoState extends BaseServerActionResponse<never> {
+    dino?: Dinosaur;
+}

@@ -1,35 +1,22 @@
-import {
-    BoneSystemCard,
-    BuildADinoSystemCard,
-    DinoSystemCard,
-    GameTick,
-    TopBar,
-} from '@/components/page/game';
+import { Page } from '@/components/page/game';
 import {
     buyDino,
     buyDinosaurCapacityUpgrade,
     buyBoneDiggers,
     dig,
+    renameDino,
 } from '@/app/lib/actions';
 
 export default async function Game() {
     return (
         <div className="flex w-full flex-1 flex-col">
-            <GameTick />
-            <TopBar />
-            <main className="my-3 flex w-full flex-1 flex-col items-start justify-center gap-3 px-3 sm:flex-row">
-                <BoneSystemCard
-                    buyBoneDiggersAction={buyBoneDiggers}
-                    digAction={dig}
-                />
-                <BuildADinoSystemCard
-                    buyDinoAction={buyDino}
-                    buyDinosaurCapacityUpgradeAction={
-                        buyDinosaurCapacityUpgrade
-                    }
-                />
-                <DinoSystemCard />
-            </main>
+            <Page
+                buyDinoAction={buyDino}
+                buyDinosaurCapacityUpgradeAction={buyDinosaurCapacityUpgrade}
+                buyBoneDiggersAction={buyBoneDiggers}
+                digAction={dig}
+                renameDinosaurAction={renameDino}
+            />
         </div>
     );
 }

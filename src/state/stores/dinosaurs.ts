@@ -9,6 +9,7 @@ export type DinosaursState = {
 export type DinosaursActions = {
     addDinosaur: (dinosaur: Dinosaur) => void;
     setSelectedDinosaur: (selectedDinosaur: Dinosaur) => void;
+    updateDinosaur: (dinosaur: Dinosaur) => void;
 };
 
 export type DinosaursStore = DinosaursState & DinosaursActions;
@@ -30,5 +31,16 @@ export const createDinosaursStore = (
             set((state) => ({ dinosaurs: [...state.dinosaurs, dinosaur] })),
         setSelectedDinosaur: (dinosaur: Dinosaur) =>
             set(() => ({ selectedDinosaur: dinosaur })),
+        updateDinosaur: (dinosaur: Dinosaur) =>
+            set((state) => {
+                const dinosaurs = [...state.dinosaurs];
+                const index = dinosaurs.findIndex(
+                    (dino) => dino.id === dinosaur.id,
+                );
+                if (index !== -1) {
+                    dinosaurs[index] = dinosaur;
+                }
+                return { dinosaurs };
+            }),
     }));
 };

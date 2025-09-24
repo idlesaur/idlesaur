@@ -27,7 +27,7 @@ export const DinoIcon = ({ dinosaur, onClick }: DinoIconProps) => {
     );
 };
 
-export const DinoSystemCard = () => {
+export const DinosCard = () => {
     const dinosaurs = useDinosaursStore((state) => state.dinosaurs);
     const setSelectedDinosaur = useDinosaursStore(
         (state) => state.setSelectedDinosaur,

@@ -13,7 +13,7 @@ import { Routes } from '@/constants';
 import { BaseServerActionResponse, ServerErrors } from '@/app/lib/types';
 
 export const updateProfile = async (
-    _prevState: BaseServerActionResponse<ProfileType>,
+    _previousState: BaseServerActionResponse<ProfileType>,
     formData: FormData,
 ): Promise<BaseServerActionResponse<ProfileType>> => {
     const session = await auth();
@@ -47,7 +47,7 @@ export const updateProfile = async (
     try {
         await prisma.profile.update({
             data: parsedProfile.data,
-            where: { userId: session?.user?.id },
+            where: { userId },
         });
 
         revalidatePath(Routes.PROFILE);

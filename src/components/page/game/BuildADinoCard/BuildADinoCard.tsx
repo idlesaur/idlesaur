@@ -24,7 +24,7 @@ export interface DinoSystemCardProps {
     ) => Promise<BuyDinosaurCapacityUpgradeState>;
 }
 
-export const BuildADinoSystemCard = ({
+export const BuildADinoCard = ({
     buyDinoAction,
     buyDinosaurCapacityUpgradeAction,
 }: DinoSystemCardProps) => {

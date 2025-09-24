@@ -14,15 +14,17 @@ export const FormField = <T extends FieldValues>({
     label,
     register,
     required = false,
+    type,
     ...rest
 }: FormFieldProps<T>) => {
     return (
         <>
-            <label>{camelCaseToWords(label)}</label>
+            {type !== 'hidden' && <label>{camelCaseToWords(label)}</label>}
             <Input
                 {...register(label, { required })}
                 aria-invalid={!!error}
                 aria-label={label}
+                type={type}
                 {...rest}
             />
             {error && <span className="text-red-600">{error}</span>}

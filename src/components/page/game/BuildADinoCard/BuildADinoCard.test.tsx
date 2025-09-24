@@ -4,9 +4,9 @@ import { screen } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
 import { getRender, WrapperOptions } from '@/test/util';
-import { BuildADinoSystemCard } from '@/components/page/game';
+import { BuildADinoCard } from '@/components/page/game';
 
-describe('<BuildADinoSystemCard />', () => {
+describe('<BuildADinoCard />', () => {
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -17,7 +17,7 @@ describe('<BuildADinoSystemCard />', () => {
     const doRender = (wrapperOptions: WrapperOptions = {}) => {
         const render = getRender(wrapperOptions);
         return render(
-            <BuildADinoSystemCard
+            <BuildADinoCard
                 buyDinoAction={mockBuyDinoAction}
                 buyDinosaurCapacityUpgradeAction={
                     mockBuyDinosaurCapacityUpgradeAction

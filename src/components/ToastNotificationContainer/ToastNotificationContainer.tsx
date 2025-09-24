@@ -8,7 +8,6 @@ export const ToastNotificationContainer = () => {
     const toasts = useToastsStore((state) => state.toasts);
     const removeToast = useToastsStore((state) => state.removeToast);
     const handleOnClose = (toastId: string) => {
-        console.log('close - ', toastId);
         removeToast(toastId);
     };
     return (
