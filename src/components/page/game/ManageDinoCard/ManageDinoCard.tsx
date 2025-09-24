@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { GiDinosaurRex } from 'react-icons/gi';
 
 import { Button } from '@/components/ui';
@@ -18,7 +18,7 @@ export interface ManageDinoCardProps {
 export const ManageDinoCard = ({
     renameDinosaurAction,
 }: ManageDinoCardProps) => {
-    const [isRenameModalOpen, setIsRenameModalOpen] = React.useState(false);
+    const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
     const dinosaur = useDinosaursStore((state) => state.selectedDinosaur);
 
     if (!dinosaur) {
